@@ -90,6 +90,10 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 /* PhD railway */
 .hurdle-label{font:700 11.5px system-ui,sans-serif;fill:var(--navy);paint-order:stroke;stroke:#fffdf4;stroke-width:5px;stroke-linejoin:round;opacity:0;transition:opacity .25s;pointer-events:none}
 .city text.sub{font:600 11px system-ui,sans-serif;fill:var(--muted)}
+.city text.life{font:700 11.5px system-ui,sans-serif;fill:#a0436f}
+.double{max-width:680px;margin:16px auto 4px;display:grid;grid-template-columns:1fr auto 1fr;gap:6px 12px;text-align:left;font-size:.95rem}
+.double .h{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--green)}
+.double .phd{color:var(--navy);font-weight:700;text-align:right}.double .life{color:#a0436f;font-weight:700}.double .dot{color:var(--muted)}
 .leg{margin:10px 0 0;color:var(--muted)}
 .cleared{background:#f3f7fa;border-radius:10px;padding:8px 12px;margin:0 0 12px;color:var(--muted);font-size:.95rem}
 .cleared strong{color:var(--navy)}
@@ -173,7 +177,7 @@ C.stations.forEach((st,i)=>{
   const id="s"+i, n=C.stations.length;
   const x=Math.round(75+(838-75)*i/(n-1));
   const y=i===0?235:(i%2?140:285);
-  CITIES[id]={n:st.name,sub:st.sub||"",x,y}; LINE.push(id);
+  CITIES[id]={n:st.name,sub:st.sub||"",life:st.life||"",x,y,last:i===n-1}; LINE.push(id);
 });
 const START=LINE[0];
 // Each leg in content.js: { ideal:{name,story}, real:{name,story} }
@@ -222,8 +226,13 @@ Object.entries(CITIES).forEach(([id,c])=>{
   const g=el("g",{class:"city","data-city":id},citiesG);
   el("circle",{class:"ring",cx:c.x,cy:c.y,r:14},g); el("circle",{cx:c.x,cy:c.y,r:12},g);
   const below=c.y>200;
-  el("text",{x:c.x,y:below?c.y+36:c.y-40,"text-anchor":"middle"},g).textContent=c.n;
-  el("text",{class:"sub",x:c.x,y:below?c.y+51:c.y-24,"text-anchor":"middle"},g).textContent=c.sub;
+  // Stacked labels: name, PhD subtitle, life milestone (above or below the dot)
+  const rows=[["",c.n],["sub",c.sub],["life",c.life]].filter(r=>r[1]);
+  rows.forEach(([cls,txt],r)=>{
+    const y=below?c.y+36+r*15:c.y-24-(rows.length-1-r)*15-(r===0?4:0);
+    const lifeEnd=cls==="life"&&c.last;   // keep the last life label inside the map
+    el("text",{class:cls,x:lifeEnd?c.x+42:c.x,y,"text-anchor":lifeEnd?"end":"middle"},g).textContent=txt;
+  });
   c.g=g;
 });
 
@@ -322,7 +331,7 @@ function renderStage(){
   const stage=document.getElementById("stage"), n=state.history.length;
   if(n>=STOPS.length){
     const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
-    stage.innerHTML=`${stubs()}<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>
+    stage.innerHTML=`${stubs()}<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>${C.stations.some(x=>x.life)?`<div class="counter" style="margin-top:14px">${FINALE.doubleRouteTitle||"Your double route"}</div><div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
       <div class="ticket fresh" style="text-align:left;max-width:680px;margin:16px auto"><div class="icon" aria-hidden="true">🏝️</div><div class="counter">After the game</div><h2>${FINALE.title}</h2><p class="prompt">${state.alt?FINALE.altPrompt:FINALE.prompt}</p><button class="link" id="alt">${state.alt?FINALE.mainLabel:FINALE.altLabel}</button>
       <div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div></div>
       <p class="recap">Your route: ${path}</p><div class="controls" style="justify-content:center"><button class="button secondary" id="back">← Last stop</button><button class="button secondary" id="restart">Ride again</button></div></div>`;

@@ -27,14 +27,15 @@ window.TICKET_CONTENT = {
   subtitle: "Five milestones from Augsburg to today’s defense. Ideal path or what really happened? Ride the train, answer what waits at the station.",
   railwayName: "THE PhD RAILWAY · LINE K-AXFLUX-H2",
 
-  /* ---- Stations along the line (name + small subtitle) ---- */
+  /* ---- Stations: each PhD milestone (name + sub) shares a stop with a
+     life milestone (life). Keep "life" short — it is shown on the map. */
   stations: [
-    { name:"Augsburg", sub:"Day 0" },
-    { name:"Initial Days", sub:"Joining 404 Not Found" },
-    { name:"Results & Rings", sub:"Midway: first data + a wedding" },
-    { name:"Firenze", sub:"COMSOL 2024" },
-    { name:"Publication", sub:"Peer-reviewed!" },
-    { name:"Defense", sub:"Today" }
+    { name:"Augsburg",        sub:"Day 0",                 life:"Arrived single" },
+    { name:"Initial Days",    sub:"Joining 404 Not Found", life:"♟️ The chess stream" },
+    { name:"Results & Rings", sub:"First data",            life:"💍 The wedding" },
+    { name:"Firenze",         sub:"COMSOL 2024",           life:"🎙️ The Kamath Talks" },
+    { name:"Publication",     sub:"Peer-reviewed!",        life:"👶 The baby" },
+    { name:"Defense",         sub:"Today",                 life:"✈️ Parents’ first trip abroad" }
   ],
 
   /* ---- Tracks between consecutive stations ----
@@ -70,14 +71,14 @@ window.TICKET_CONTENT = {
   /* ---- One stop per arrival: question (prompt), hint, dares ---- */
   stops: [
   { phase:"Initial Days · The opening", title:"Chess Club: Your Opening Move", icon:"♞",
-    prompt:"You’ve organised and moderated enough chess tournaments — today you’re the one on the board. Which chess piece were you when you first joined the <em>404 Not Found</em> group, and which piece are you now, as Dr. Kiran? Give your new piece a dramatic entrance line.",
+    prompt:"Your initial days came with a second opening: the chess stream. You’ve organised, moderated and streamed enough chess — today you’re the one on the board. Which chess piece were you when you first joined the <em>404 Not Found</em> group, and which piece are you now, as Dr. Kiran? Give your new piece a dramatic entrance line.",
     hint:"The pawn who crossed the whole board and got promoted? The knight who never once went in a straight line?",
     dares:[
       "Cross the room the way your piece moves. Knights: the L-shape is mandatory.",
       "Name your PhD like a real chess opening — “The Cryogenic Gambit”? “The Axial Flux Defense”? — and demonstrate its first move.",
       "Moderator mode: announce tonight’s headline match, “Experiment vs. Simulation”, like a tournament director with a microphone.",
       "Pick a professor, look them in the eye and say “Check… mate.” Movie-villain voice, please.",
-      "Strike your piece’s pose and hold it while everyone takes a photo."
+      "Stream mode: give 15 seconds of live chess-stream commentary on this party. Don’t forget to greet the chat."
     ]},
   { phase:"Results & Rings · The middlegame", title:"Two Results, One Year", icon:"💍",
     prompt:"Midway through the PhD, two big results came in: the first data that finally made sense… and a wedding. Time for a mash-up! Which needed more planning: the test campaign or the wedding? Which had stricter boundary conditions? And which converged first: the simulation, or the guest list?",
@@ -90,7 +91,7 @@ window.TICKET_CONTENT = {
       "Pick someone as Reviewer 2. They ask: “But did you validate the results?” You have 10 seconds."
     ]},
   { phase:"Firenze · On tour", title:"The Kamath Talks", icon:"🎙️",
-    prompt:"Benvenuto a Firenze! From the COMSOL Conference here to SAMPE in Long Beach, you took your motor on tour. Now it’s your show. Welcome to <em>The Kamath Talks</em>! Pick one of the professors here as today’s guest, give the episode a title, and introduce them in 20 seconds, full podcast voice.",
+    prompt:"Benvenuto a Firenze! While your motor went on tour — COMSOL here, SAMPE in Long Beach — a second show went on air. Welcome to <em>The Kamath Talks</em>! Pick one of the professors here as today’s guest, give the episode a title, and introduce them in 20 seconds, full podcast voice.",
     hint:"Affectionate roasting only. Think late-night show, not peer review.",
     dares:[
       "Hum or beatbox the theme tune of <em>The Kamath Talks</em>. Minimum five seconds, maximum confidence.",
@@ -99,25 +100,24 @@ window.TICKET_CONTENT = {
       "Answer the classic conference question: “This is more of a comment than a question, but…” Ten seconds, straight face.",
       "Hand the mic to your guest: they get 10 seconds to introduce <em>you</em>."
     ]},
-  { phase:"Publication · The other big releases", title:"The Three-Stage Life Route", icon:"💍",
-    prompt:"Published! <em>Case Studies in Thermal Engineering</em>, SAMPE, COMSOL — well done. But these years had three even bigger “releases”, and none of them was peer-reviewed. Name the three big life milestones of your PhD journey, in the right order.",
-    hint:"Hint: you already gave one of them away at Results &amp; Rings. No expectations, no disappointments — but some very nice surprises.",
-    stations:["Came single","Left married","Got a child"],
+  { phase:"Publication · Two big releases", title:"Paper or Baby?", icon:"👶",
+    prompt:"The publication and the baby arrived on the same track — talk about a collision! Quick-fire comparison: Which had the longer review process? Which kept you up more at night: Reviewer 2 or the baby? And which one has the better chance of being cited by your parents?",
+    hint:"Both were peer-reviewed. One of them by grandparents.",
     dares:[
-      "Mime all three stations, no words. The room has to guess each one.",
-      "Describe each stage in exactly three words.",
-      "Give one piece of advice to a first-year PhD student — one sentence from each stage of you.",
+      "Read the first line of your paper’s abstract as a bedtime story. Soothing voice, please.",
       "Sing one line of a lullaby about axial flux motors.",
-      "Do your best “just got married” face, then “first night with a newborn” face."
+      "Impersonate Reviewer 2 and the baby complaining about the same figure.",
+      "Do your best “paper accepted” face, then your best “3 a.m. feeding” face.",
+      "Describe fatherhood in the style of a paper abstract: background, method, results — 20 seconds."
     ]},
-  { phase:"Defense · The endgame (today!)", title:"Doctoral Seminar Schedule", icon:"🗓️",
-    prompt:"Final station: today’s defense. And who better to schedule it than the official keeper of the seminar schedule and master of seminar-room setup? One last time, Mr. Coordinator: put these three talks into a running order, and tell us why.",
+  { phase:"Defense · Parents’ first trip abroad", title:"Doctoral Seminar Schedule", icon:"🗓️",
+    prompt:"Final station: today’s defense — and the trip that brought your parents abroad for the very first time. So, Mr. Seminar Coordinator, one last schedule: your parents are in the audience. In which order do you put these three talks to impress them most, and why?",
     talks:["The 8 a.m. Talk","The Talk With 47 Slides","The Talk That Needs Just Five More Minutes"],
-    hint:"Bonus: which of these have you actually had to schedule? (No names. Probably.)",
+    hint:"Bonus: how did you explain to your parents what a PhD actually is?",
     dares:[
-      "Seminar-room speedrun: in 20 seconds, fix something in this room as if the talk starts now.",
+      "Explain your PhD to your parents in 20 seconds. No jargon allowed — not even “flux”.",
+      "Say a 10-second thank-you to your parents in the language you speak at home.",
       "Pitch “The Talk With 47 Slides” in a single breath. Go!",
-      "Give the first 15 seconds of “The 8 a.m. Talk” as if you haven’t had coffee yet.",
       "Ask for “just five more minutes” in three languages. German counts.",
       "Give the next speaker a 10-second pep talk based on your motto: “No expectations → no disappointments.”"
     ]}
@@ -128,6 +128,7 @@ window.TICKET_CONTENT = {
     heading: "Dr. Kiran Kamath wins the game!",
     message: "All aboard for the next adventure. Herzlichen Glückwunsch!",
     title: "Game Night: Island Edition",
+    doubleRouteTitle: "Your double route",
   prompt:"Shipwrecked! The rescue boat is three days away and you’re on an island with the professors. You saved exactly one tabletop game. Which one — and why does it keep everyone friends until the boat arrives?",
   altPrompt:"Shipwrecked! The rescue boat is three days away and you’re on an island with everyone in this room. You saved exactly one tabletop game. Which one — and why does it keep everyone friends until the boat arrives?",
   altLabel:"Make it the whole group instead", mainLabel:"Back to the professors version",

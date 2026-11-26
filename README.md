@@ -18,7 +18,7 @@ What you can change:
 | Section | What it is |
 |---|---|
 | `title`, `subtitle`, `railwayName` | Header texts and the label on the map |
-| `stations` | Milestone stations (name + small subtitle). Always **one more** than `stops`. |
+| `stations` | Milestone stations: `name` + small `sub` (PhD side) and `life` (the personal milestone at the same stop). Always **one more** than `stops`. |
 | `hurdles` | One entry per leg: an `ideal` path (the straight track) and a `real` path (the tangled track: what actually happened), each with `name` + `story` |
 | `stops` | One per arrival: `phase`, `title`, `icon`, `prompt`, `hint`, `dares`. Optional: `talks`, `stations` (reveal answer), `altPrompt`/`altLabel`/`mainLabel` |
 | `finale` | The last screen: heading, message, Game Night question and final dare |
