@@ -12,7 +12,7 @@
    • STATIONS has one more entry than STOPS: the train starts at the
      first station and each stop is the arrival at the next one.
    • HURDLES has one entry per leg (same count as STOPS): one "ideal"
-     path (straight track) and two "real" paths (curved tracks). The
+     path (straight track) and one "real" path (tangled track). The
      chosen track only changes the route and the little story line,
      never the question.
    • Optional fields in a stop: talks, stations (with reveal button),
@@ -38,45 +38,32 @@ window.TICKET_CONTENT = {
   ],
 
   /* ---- Tracks between consecutive stations ----
-     Each leg has ONE ideal path (drawn as the straight middle track:
-     how it should have gone) and TWO real paths (the curved tracks:
-     what actually happened). If Kiran picks the ideal path, the room
-     gets a fact check — and if they don't buy it, he draws a dare. */
+     Each leg has TWO tracks:
+       ideal → the straight track: how it should have gone
+       real  → the tangled, loopy track: what actually happened
+     If Kiran picks the ideal path, the room gets a fact check — and if
+     they don't buy it, he draws a penalty dare.
+     Lines marked ✏️ are placeholders: replace them with your own text. */
   hurdles: [
     { // Augsburg → Initial Days
-      ideal: { name:"Knew It All From Day 1", story:"Everything was clear from the first morning: how the chair works, whom to ask, where things are. Smooth as a well-meshed model." },
-      real: [
-        { name:"The Digging Detour", story:"Lots of digging: old theses, shared drives, folders named “new_new_final”. Answers were somewhere — just never where you looked." },
-        { name:"Cluelessness Loop", story:"Nodded confidently in meetings, figured out what everyone meant afterwards. Asked three people, got four answers." }
-      ]
+      ideal: { name:"Knew It All From Day 1", story:"He knew exactly what to do. Everything was clear from day one: how the chair works, whom to ask." },
+      real:  { name:"The Digging Detour", story:"A lot of digging, a lot of asking around, and a healthy dose of cluelessness." }
     },
     { // Initial Days → First Results
-      ideal: { name:"First-Try Results", story:"Experiment and simulation agreed on the very first run. Nobody has seen this happen since." },
-      real: [
-        { name:"Mesh Won’t Converge", story:"Refine. Re-run. Refine again. Sacrifice a coffee." },
-        { name:"Leaky Test Rig", story:"Cryogenic hydrogen does not like to stay where you put it." }
-      ]
+      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
+      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
     },
     { // First Results → Firenze
-      ideal: { name:"Abstract Done Early", story:"Abstract submitted weeks ahead, slides final at version 1, travel approved instantly." },
-      real: [
-        { name:"Abstract at 23:59", story:"Submitted at 23:58. Calm, professional, totally planned." },
-        { name:"final_v7_REALLY.pptx", story:"There is always one more version. And one more after that." }
-      ]
+      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
+      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
     },
     { // Firenze → Publication
-      ideal: { name:"Accepted As Is", story:"No revisions. The reviewers simply wrote: “Perfect.”" },
-      real: [
-        { name:"Reviewer 2", story:"“Please also consider…” everything." },
-        { name:"Major Revision", story:"Not rejected! That counts as a win." }
-      ]
+      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
+      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
     },
     { // Publication → Defense
-      ideal: { name:"The Thesis Wrote Itself", story:"Chapters flowed, every professor was free on the same date, and the talk ran exactly on time." },
-      real: [
-        { name:"Writer’s Block", story:"Chapter 4. Blank page. Day 3." },
-        { name:"Committee Calendar", story:"Finding one date that works for every professor." }
-      ]
+      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
+      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
     }
   ],
 

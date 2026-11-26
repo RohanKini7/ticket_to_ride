@@ -132,7 +132,7 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 <div class="map-caption">
   <span id="journeyStatus"></span>
   <span class="key">
-    <span>straight = ✨ ideal · curved = 🚧 what really happened</span>
+    <span>straight = ✨ ideal · tangled = 🚧 what really happened</span>
     <span><span class="sw" style="background:var(--red)"></span>routes from here</span>
     <span><span class="sw" style="background:var(--gold)"></span>chosen</span>
     <span><span class="sw" style="background:var(--blue)"></span>travelled</span>
@@ -156,8 +156,7 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
     if(C.stations.length!==C.stops.length+1)errs.push(`There are ${C.stations.length} stations but ${C.stops.length} stops — stations must be exactly one more than stops.`);
     if(C.hurdles.length!==C.stops.length)errs.push(`There are ${C.hurdles.length} hurdle legs but ${C.stops.length} stops — they must be equal.`);
     C.hurdles.forEach((h,i)=>{
-      if(Array.isArray(h)){if(!h.length||h.length>3)errs.push(`Hurdle leg ${i+1} has ${h.length} hurdles — use 1 to 3.`)}
-      else if(!h||!h.ideal||!Array.isArray(h.real)||h.real.length!==2)errs.push(`Hurdle leg ${i+1} needs one "ideal" path and exactly two "real" paths.`);
+      if(!h||!h.ideal||!h.real||Array.isArray(h))errs.push(`Leg ${i+1} needs an "ideal" path and a "real" path, each with a name and a story.`);
     });
     C.stops.forEach((st,i)=>{if(!st.title||!st.prompt)errs.push(`Stop ${i+1} needs a title and a prompt.`);if(!st.dares||!st.dares.length)errs.push(`Stop ${i+1} needs at least one dare.`)});
   }
@@ -177,19 +176,33 @@ C.stations.forEach((st,i)=>{
   CITIES[id]={n:st.name,sub:st.sub||"",x,y}; LINE.push(id);
 });
 const START=LINE[0];
-// Each leg: { ideal:{…}, real:[{…},{…}] } → curve, straight (ideal), curve.
-// A plain list of 1–3 hurdles also still works (all treated as "real").
-const HURDLES=C.hurdles.map(h=>Array.isArray(h)?h.map(x=>({...x,ideal:false})):[{...h.real[0],ideal:false},{...h.ideal,ideal:true},{...h.real[1],ideal:false}]);
+// Each leg in content.js: { ideal:{name,story}, real:{name,story} }
+//   ideal → the straight track (how it should have gone)
+//   real  → the tangled track (what actually happened)
 const TRACKS=[];
+const SAMPLES=240, LOOPS=4, LOOP_R=17, BULGE=52;
+function tangledPath(A,B,side){
+  // A prolate trochoid along the line A→B: it bulges out and ties itself into loops.
+  const dx=B.x-A.x, dy=B.y-A.y, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L, nx=-uy*side, ny=ux*side;
+  const pts=[];
+  for(let i=0;i<=SAMPLES;i++){
+    const t=i/SAMPLES, w=Math.sin(Math.PI*t);             // loops fade out near the stations
+    const u=L*t - w*LOOP_R*Math.sin(2*Math.PI*LOOPS*t);
+    const v=BULGE*w + w*LOOP_R*(1-Math.cos(2*Math.PI*LOOPS*t));
+    pts.push([A.x+ux*u+nx*v, A.y+uy*u+ny*v]);
+  }
+  const mid=pts[SAMPLES/2];
+  return {d:"M"+pts.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join("L"), lx:mid[0]+nx*26, ly:mid[1]+ny*26};
+}
 LINE.slice(0,-1).forEach((a,k)=>{
-  const b=LINE[k+1], A=CITIES[a], B=CITIES[b], dx=B.x-A.x, dy=B.y-A.y, len=Math.hypot(dx,dy), nx=-dy/len, ny=dx/len;
-  const leg=HURDLES[k], sides=leg.length===1?[0]:leg.length===2?[-1,1]:[-1,0,1];
-  sides.forEach((side,i)=>{
-    const off=side*62, cx=(A.x+B.x)/2+nx*off*2, cy=(A.y+B.y)/2+ny*off*2;
-    const mx=(A.x+B.x)/2+nx*off, my=(A.y+B.y)/2+ny*off;   // midpoint of the curve
-    const {name,story,ideal}=leg[i];
-    TRACKS.push({id:`${a}-${b}-${i}`,a,b,name,story,ideal,d:`M${A.x} ${A.y}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${B.x} ${B.y}`,lx:mx,ly:my});
-  });
+  const b=LINE[k+1], A=CITIES[a], B=CITIES[b], h=C.hurdles[k];
+  const real=Array.isArray(h.real)?h.real[0]:h.real;          // older content with two real paths still works
+  // Tangle on the outer side of the zig-zag so neighbouring legs don't collide.
+  const side=(B.y<A.y)?-1:1;
+  const dx=B.x-A.x, dy=B.y-A.y, L=Math.hypot(dx,dy);
+  TRACKS.push({id:`${a}-${b}-ideal`,a,b,...h.ideal,ideal:true,d:`M${A.x} ${A.y}L${B.x} ${B.y}`,
+               lx:(A.x+B.x)/2+(dy/L)*14*side, ly:(A.y+B.y)/2-(dx/L)*14*side});
+  TRACKS.push({id:`${a}-${b}-real`,a,b,...real,ideal:false,...tangledPath(A,B,side)});
 });
 
 /* ---------- Build SVG ---------- */
@@ -329,7 +342,7 @@ function renderStage(){
   else if(state.pending) ticket=`<div class="ticket mystery">${byId(state.pending).ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${byId(state.pending).name}” on the way to ${to}…`}</div>`;
   else ticket=`<div class="ticket mystery">🎟️ The ${to} ticket is face down. Pick a track to ride there and reveal it.</div>`;
   stage.innerHTML=`${stubs()}<div class="counter">Stop ${n+1} of ${STOPS.length}${state.revealed?` · ${s.phase}`:""}</div>
-    <p class="leg"><strong>${from}</strong> → <strong>${to}</strong>: the straight <span class="ideal-txt">✨ ideal path</span>, or one of the 🚧 curves of what really happened?</p><div class="route-choices" role="group" aria-label="Hurdle tracks from ${from} to ${to}">${choices}</div>
+    <p class="leg"><strong>${from}</strong> → <strong>${to}</strong>: the straight <span class="ideal-txt">✨ ideal path</span>, or the 🚧 tangled track of what really happened?</p><div class="route-choices" role="group" aria-label="Hurdle tracks from ${from} to ${to}">${choices}</div>
     ${ticket}
     <div class="controls">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
   stage.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>chooseTrack(b.dataset.choice));
