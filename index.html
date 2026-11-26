@@ -160,7 +160,7 @@ body{padding:10px}
 <header>
   <div class="eyebrow">A celebratory mini-journey</div>
   <h1 id="title">Ticket to Kiran</h1>
-  <p class="subtitle" id="subtitle">Five milestones from Augsburg to today’s defense. Pick your hurdle, ride the train, answer what waits at the station.</p>
+  <p class="subtitle" id="subtitle"></p>
 </header>
 
 <div class="route-wrap"><div class="map">
@@ -197,7 +197,7 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
   }
   if(errs.length){document.body.insertAdjacentHTML("afterbegin",`<div style="background:#fde8e6;border:2px solid #c95045;padding:14px 18px;border-radius:12px;margin:10px;font:15px system-ui;max-width:900px"><b>content.js needs a fix:</b><ul>${errs.map(e=>`<li>${e}</li>`).join("")}</ul></div>`);throw new Error(errs.join(" | "))}
   document.title=C.title; document.getElementById("title").textContent=C.title;
-  document.getElementById("subtitle").textContent=C.subtitle||"";
+  const sub=document.getElementById("subtitle"); sub.textContent=C.subtitle||""; sub.hidden=!C.subtitle;
   document.getElementById("railwayName").textContent=C.railwayName||"";
   document.getElementById("lineFooter").textContent=C.stations.map(x=>x.name).join(" → ");
 })();
