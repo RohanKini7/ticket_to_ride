@@ -11,9 +11,10 @@
    • Simple HTML works inside text: <em>italic</em>, <strong>bold</strong>.
    • STATIONS has one more entry than STOPS: the train starts at the
      first station and each stop is the arrival at the next one.
-   • HURDLES has one list per leg (same count as STOPS), with 1–3
-     hurdle tracks each. Hurdles only change the route and the little
-     "Hurdle cleared" line, never the question.
+   • HURDLES has one entry per leg (same count as STOPS): one "ideal"
+     path (straight track) and two "real" paths (curved tracks). The
+     chosen track only changes the route and the little story line,
+     never the question.
    • Optional fields in a stop: talks, stations (with reveal button),
      altPrompt + altLabel + mainLabel (a switchable second version).
    • After editing, open index.html in a browser. If something is
@@ -23,7 +24,7 @@
 window.TICKET_CONTENT = {
 
   title: "Ticket to Kiran",
-  subtitle: "Five milestones from Augsburg to today’s defense. Pick your hurdle, ride the train, answer what waits at the station.",
+  subtitle: "Five milestones from Augsburg to today’s defense. Ideal path or what really happened? Ride the train, answer what waits at the station.",
   railwayName: "THE PhD RAILWAY · LINE K-AXFLUX-H2",
 
   /* ---- Stations along the line (name + small subtitle) ---- */
@@ -36,33 +37,47 @@ window.TICKET_CONTENT = {
     { name:"Defense", sub:"Today" }
   ],
 
-  /* ---- Hurdle tracks between consecutive stations ---- */
+  /* ---- Tracks between consecutive stations ----
+     Each leg has ONE ideal path (drawn as the straight middle track:
+     how it should have gone) and TWO real paths (the curved tracks:
+     what actually happened). If Kiran picks the ideal path, the room
+     gets a fact check — and if they don't buy it, he draws a dare. */
   hurdles: [
-    [ // Augsburg → Initial Days
-      { name:"Paperwork Pass", story:"Forms, stamps, and a form to request the form." },
-      { name:"Literature Jungle", story:"200 PDFs downloaded. 12 read. 3 understood." },
-      { name:"Coffee Machine Quest", story:"Found it. Learned its moods. Became friends." }
-    ],
-    [ // Initial Days → First Results
-      { name:"Mesh Won’t Converge", story:"Refine. Re-run. Refine again. Sacrifice a coffee." },
-      { name:"Leaky Test Rig", story:"Cryogenic hydrogen does not like to stay where you put it." },
-      { name:"License Server Down", story:"All COMSOL licenses in use. Again." }
-    ],
-    [ // First Results → Firenze
-      { name:"Abstract at 23:59", story:"Submitted at 23:58. Calm, professional, totally planned." },
-      { name:"final_v7_REALLY.pptx", story:"There is always one more version." },
-      { name:"Travel Approval Maze", story:"Approved — the day before departure." }
-    ],
-    [ // Firenze → Publication
-      { name:"Reviewer 2", story:"“Please also consider…” everything." },
-      { name:"Major Revision", story:"Not rejected! That counts as a win." },
-      { name:"Template Hell", story:"The figure is 1 mm too wide. Of course it is." }
-    ],
-    [ // Publication → Defense
-      { name:"Writer’s Block", story:"Chapter 4. Blank page. Day 3." },
-      { name:"Committee Calendar", story:"Finding one date that works for every professor." },
-      { name:"Rehearsal Marathon", story:"Same talk, eleventh time, still five minutes too long." }
-    ]
+    { // Augsburg → Initial Days
+      ideal: { name:"Knew It All From Day 1", story:"Everything was clear from the first morning: how the chair works, whom to ask, where things are. Smooth as a well-meshed model." },
+      real: [
+        { name:"The Digging Detour", story:"Lots of digging: old theses, shared drives, folders named “new_new_final”. Answers were somewhere — just never where you looked." },
+        { name:"Cluelessness Loop", story:"Nodded confidently in meetings, figured out what everyone meant afterwards. Asked three people, got four answers." }
+      ]
+    },
+    { // Initial Days → First Results
+      ideal: { name:"First-Try Results", story:"Experiment and simulation agreed on the very first run. Nobody has seen this happen since." },
+      real: [
+        { name:"Mesh Won’t Converge", story:"Refine. Re-run. Refine again. Sacrifice a coffee." },
+        { name:"Leaky Test Rig", story:"Cryogenic hydrogen does not like to stay where you put it." }
+      ]
+    },
+    { // First Results → Firenze
+      ideal: { name:"Abstract Done Early", story:"Abstract submitted weeks ahead, slides final at version 1, travel approved instantly." },
+      real: [
+        { name:"Abstract at 23:59", story:"Submitted at 23:58. Calm, professional, totally planned." },
+        { name:"final_v7_REALLY.pptx", story:"There is always one more version. And one more after that." }
+      ]
+    },
+    { // Firenze → Publication
+      ideal: { name:"Accepted As Is", story:"No revisions. The reviewers simply wrote: “Perfect.”" },
+      real: [
+        { name:"Reviewer 2", story:"“Please also consider…” everything." },
+        { name:"Major Revision", story:"Not rejected! That counts as a win." }
+      ]
+    },
+    { // Publication → Defense
+      ideal: { name:"The Thesis Wrote Itself", story:"Chapters flowed, every professor was free on the same date, and the talk ran exactly on time." },
+      real: [
+        { name:"Writer’s Block", story:"Chapter 4. Blank page. Day 3." },
+        { name:"Committee Calendar", story:"Finding one date that works for every professor." }
+      ]
+    }
   ],
 
   /* ---- One stop per arrival: question (prompt), hint, dares ---- */

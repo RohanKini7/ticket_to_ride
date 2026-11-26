@@ -19,7 +19,7 @@ What you can change:
 |---|---|
 | `title`, `subtitle`, `railwayName` | Header texts and the label on the map |
 | `stations` | Milestone stations (name + small subtitle). Always **one more** than `stops`. |
-| `hurdles` | One list per leg, with 1–3 hurdle tracks each (`name` + `story`) |
+| `hurdles` | One entry per leg: an `ideal` path (the straight track) and two `real` paths (the curved tracks: what actually happened), each with `name` + `story` |
 | `stops` | One per arrival: `phase`, `title`, `icon`, `prompt`, `hint`, `dares`. Optional: `talks`, `stations` (reveal answer), `altPrompt`/`altLabel`/`mainLabel` |
 | `finale` | The last screen: heading, message, Game Night question and final dare |
 
