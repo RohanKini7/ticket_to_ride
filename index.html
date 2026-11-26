@@ -462,11 +462,7 @@ function renderStage(){
     msg=`🎓 Terminus reached — welcome to <strong>${CITIES[state.city].n}</strong>!`;
     btns=`<button class="button secondary" id="back">← Last stop</button>${state.cardOpen?"":`<button class="button primary" id="open">🎓 Open the finale</button>`}<button class="button secondary" id="restart2">Ride again</button>`;
   }else{
-    const fact=!p||!p.ideal||!state.revealed?"":state.fact===null
-      ?` <span class="fact">🕵️ Fact check! <button class="button small" id="factYes">Believable ✅</button> <button class="button small" id="factNo">Nice try! ❌</button></span>`
-      :state.fact?` <span class="fact">🕵️ The room believes you.</span>`:` <span class="fact no">🕵️ Nice try, Dr. Kiran!</span>`;
-    msg=!p?"":!state.revealed?(p.ideal?`📢 The train takes the straight line to ${to}… suspiciously smooth.`:`📢 Delays expected: “${p.name}”…`)
-      :`📢 ${p.ideal?"✨":"🚧"} <strong>${p.name}</strong> — ${p.story}${fact}`;
+    msg="";
     btns=`${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show your ticket":"Draw your ticket"}</button>`:""}`;
   }
   stage.innerHTML=board+`<div class="announce"><span class="msg">${msg}</span><span class="bar-btns">${btns}</span></div>`;
