@@ -385,8 +385,7 @@ function ticketBody(s){
 function finaleHTML(){
   const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
   return `<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>${C.stations.some(x=>x.life)?`<div class="counter" style="margin-top:14px">${FINALE.doubleRouteTitle||"Your double route"}</div><div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
-    <div class="ticket" style="text-align:left;margin:16px 0"><div class="icon" aria-hidden="true">🏝️</div><div class="counter">After the game</div><h2>${FINALE.title}</h2><p class="prompt">${state.alt?FINALE.altPrompt:FINALE.prompt}</p><button class="link" id="alt">${state.alt?FINALE.mainLabel:FINALE.altLabel}</button>
-    ${FINALE.dare?`<div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div>`:""}</div>
+    ${FINALE.dare?`<div class="dare-card" style="text-align:left;margin:16px 0"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div>`:""}
     <p class="recap">Your route: ${path}</p><div class="controls" style="justify-content:center"><button class="button secondary" id="restart">Ride again</button></div></div>`;
 }
 
