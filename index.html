@@ -125,6 +125,11 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 #cardBody{overflow:auto;padding:24px 26px 22px}
 .close{position:absolute;top:8px;right:10px;border:0;background:#e8eef0;color:var(--navy);width:34px;height:34px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:1}
 .card .cleared{margin-right:30px}
+.milestone{display:inline-block;font-size:1.5rem;font-weight:800;color:#a0436f;background:#fbe9f1;border-radius:16px;padding:8px 18px;margin:8px 0 4px}
+.tasks{font-size:1.15rem;line-height:1.55;padding-left:1.3em;margin:6px 0 4px}
+.tasks li{margin-bottom:10px}
+.fact{white-space:nowrap}
+.fact.no{color:var(--red)}
 /* Dares */
 .dare-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #e0d5b8}
 .dare-btn{background:var(--gold);color:var(--navy)}.dare-btn:hover{background:#eab83f}
@@ -177,7 +182,7 @@ body{padding:10px}
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
-<div class="footer"><span>Pick a path → the ticket opens at the station → reveal the personal milestone → next stop.</span><span id="lineFooter"></span></div>
+<div class="footer"><span>Pick a path → the train rides to the station → draw the card → next stop.</span><span id="lineFooter"></span></div>
 </main>
 <div class="overlay" id="overlay" hidden><div class="card" role="dialog" aria-modal="true" aria-label="Ticket"><button class="close" id="closeCard" aria-label="Close the ticket and look at the map">×</button><div id="cardBody"></div></div></div>
 
@@ -305,7 +310,7 @@ function rideTrain(track,fromCity,done){
 function chooseTrack(id){
   if(!options().some(t=>t.id===id)||state.pending===id)return;
   state.pending=id; state.fact=null; state.cardOpen=false; renderMap(); renderStage();
-  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;state.cardOpen=true;renderStage()}});
+  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;state.cardOpen=true;render()}});
 }
 function nextStop(){
   const t=byId(state.pending);
@@ -355,7 +360,7 @@ function renderMap(){
 
 function stubs(){return `<div class="stubs" aria-hidden="true">${STOPS.map((_,i)=>`<span class="stub ${i<state.history.length?"done":i===state.history.length?"now":""}"></span>`).join("")}</div>`}
 
-const lifeShown=()=>state.life||!(STOPS[state.history.length]||{}).memory;
+const lifeShown=()=>true;
 function ticketBody(s){
   const st=CITIES[LINE[state.history.length+1]];
   let h="";
@@ -384,13 +389,14 @@ function finaleHTML(){
 }
 
 function stopCardHTML(s,n){
-  const h=byId(state.pending);
-  const fc=!h.ideal?"":state.fact===null
-    ?`<div class="factcheck">🕵️ <strong>Fact check!</strong> Does the room believe it really went like this? <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></div>`
-    :state.fact?`<div class="factcheck">🕵️ The room believes you. Respect.</div>`:`<div class="factcheck no">🕵️ The room isn’t buying it. Nice try, Dr. Kiran!</div>`;
-  return `<div class="counter">Stop ${n+1} of ${STOPS.length} · ${s.phase||CITIES[LINE[n+1]].n}</div>
-    <div class="cleared${h.ideal?" ideal":""}">${h.ideal?"✨ The ideal path":"🚧 What actually happened"}: <strong>${h.name}</strong> — ${h.story}</div>${fc}${ticketBody(s)}
-    <div class="controls">${lifeShown()?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
+  const st=CITIES[LINE[n+1]];
+  const tasks=[s.memory,state.alt&&s.altPrompt?s.altPrompt:s.prompt].filter(Boolean);
+  return `<div class="counter">Stop ${n+1} of ${STOPS.length} · ${st.n}</div>
+    ${st.life?`<div class="milestone">${st.life}</div>`:""}
+    <h2>${s.title}</h2>
+    ${tasks.length>1?`<ol class="tasks">${tasks.map(t=>`<li>${t}</li>`).join("")}</ol>`:`<p class="prompt">${tasks[0]}</p>`}
+    ${s.altPrompt?`<button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`:""}
+    <div class="controls"><button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button></div>`;
 }
 
 function renderStage(){
@@ -402,11 +408,15 @@ function renderStage(){
   }else{
     const opts=options(), from=CITIES[state.city].n, to=CITIES[LINE[n+1]].n;
     const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">${t.ideal?"✨ ":"🚧 "}${t.name}</button>`).join("");
-    const status=state.pending&&!state.revealed
-      ?(byId(state.pending).ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${byId(state.pending).name}”…`)
-      :`<strong>${from}</strong> → <strong>${to}</strong>: straight <span class="ideal-txt">✨ ideal path</span> or 🚧 what really happened?`;
+    const p=state.pending&&byId(state.pending);
+    const fact=!p||!p.ideal||!state.revealed?"":state.fact===null
+      ?` <span class="fact">🕵️ Fact check! <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></span>`
+      :state.fact?` <span class="fact">🕵️ The room believes you.</span>`:` <span class="fact no">🕵️ Nice try, Dr. Kiran!</span>`;
+    const status=!p?`<strong>${from}</strong> → <strong>${to}</strong>: straight <span class="ideal-txt">✨ ideal path</span> or 🚧 what really happened?`
+      :!state.revealed?(p.ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${p.name}”…`)
+      :`${p.ideal?"✨":"🚧"} <strong>${p.name}</strong> — ${p.story}${fact}`;
     bar+=`<div class="bar"><span class="counter" style="margin:0">Stop ${n+1} of ${STOPS.length}</span><span class="leg">${status}</span></div>
-      <div class="bar"><span class="route-choices" role="group" aria-label="Tracks from ${from} to ${to}">${choices}</span><span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary" id="open">🎟️ Open ticket</button>`:""}</span></div>`;
+      <div class="bar"><span class="route-choices" role="group" aria-label="Tracks from ${from} to ${to}">${choices}</span><span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary" id="open">🎟️ Show the card</button>`:""}</span></div>`;
   }
   stage.innerHTML=bar;
 
