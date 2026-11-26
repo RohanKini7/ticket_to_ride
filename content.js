@@ -19,6 +19,8 @@
      (what happened in his life, as a Friends-style episode title:
      "The One Where…") and 2. "prompt" (the
      question / task he has to do to earn the next ticket).
+   • Optional on a stop: ticketType (e.g. "Ticket for 2", default
+     "Single ticket") and passengers (shown instead of the class).
    • Optional fields in a stop: talks, stations (with reveal button),
      altPrompt + altLabel + mainLabel (a switchable second version).
    • After editing, open index.html in a browser. If something is
@@ -92,7 +94,8 @@ window.TICKET_CONTENT = {
     prompt:"Pick a chess piece for who you were when you started — and one for who you are now, as Dr. Kiran."},
   { phase:"Results & Rings", title:"The Wedding", icon:"💍",
     fact:"The One Where Dr. Kiran Got Married",
-    prompt:"Tell us something cute about the wedding."},
+    ticketType:"Ticket for 2", passengers:"Kiran + Deeksha",
+    prompt:"A question for Deeksha 💍 straight from his PhD: What sound does an axial flux motor make? Show us!"},
   { phase:"Firenze", title:"The Kamath Talks", icon:"🎙️",
     fact:"The One Where Dr. Kiran Started The Kamath Talks",
     prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style."},
