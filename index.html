@@ -52,7 +52,7 @@ h1{font-size:clamp(2rem,5vw,3rem);line-height:1.05;margin:7px 0 8px}
 .sw{display:inline-block;width:18px;height:5px;border-radius:3px;vertical-align:middle;margin-right:5px}
 
 /* Content */
-.content{padding:20px 36px 30px;min-height:300px}
+.content{padding:14px 28px 16px}
 .stubs{display:flex;gap:6px;margin-bottom:12px}
 .stub{flex:1;height:8px;border-radius:4px;background:#e3e9e6}
 .stub.done{background:var(--blue)}.stub.now{background:var(--red)}
@@ -112,6 +112,19 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 .city text.life.hidden{opacity:0}
 .city text.life.pop{animation:lifepop .7s ease}
 @keyframes lifepop{0%{opacity:0}40%{opacity:1;fill:#e0559a}100%{opacity:1}}
+/* Compact bar + ticket card */
+.bar{display:flex;gap:10px 14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:8px}
+.bar .leg{margin:0;color:var(--muted)}
+.bar .route-choices{margin:0}
+.bar-btns{display:flex;gap:10px;flex-wrap:wrap}
+.overlay{position:fixed;inset:0;background:#17324d55;display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
+.overlay[hidden]{display:none}
+.card{position:relative;background:var(--cream);border:2px dashed #d5c7a4;border-radius:20px;box-shadow:0 24px 70px #17324d55;width:min(620px,100%);max-height:88vh;display:flex;flex-direction:column}
+.card.pop{animation:cardin .4s ease}
+@keyframes cardin{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+#cardBody{overflow:auto;padding:24px 26px 22px}
+.close{position:absolute;top:8px;right:10px;border:0;background:#e8eef0;color:var(--navy);width:34px;height:34px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:1}
+.card .cleared{margin-right:30px}
 /* Dares */
 .dare-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #e0d5b8}
 .dare-btn{background:var(--gold);color:var(--navy)}.dare-btn:hover{background:#eab83f}
@@ -122,6 +135,16 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
 @media(max-width:650px){body{padding:8px}main{border-radius:16px}header{padding:20px 22px 17px}.route-wrap{padding:12px 10px 0}.content{padding:19px 20px 25px}.footer{padding:12px 20px}.city text{font-size:14px}.map-caption{font-size:.7rem;padding:8px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+/* Fit everything on one screen */
+header{padding:16px 30px 14px}
+h1{font-size:clamp(1.7rem,4vw,2.4rem);margin:4px 0 4px}
+.subtitle{font-size:.92rem}
+.route-wrap{padding:12px 24px 0}
+.map svg{max-height:calc(100vh - 385px);min-height:240px}
+.map{background:var(--water)}
+body{padding:10px}
+.map-caption{padding:6px 14px}
+.footer{padding:8px 30px}
 </style>
 </head>
 <body>
@@ -154,8 +177,9 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
-<div class="footer"><span>Pick a path → tell the PhD phase → reveal the personal milestone → retell it in that style.</span><span id="lineFooter"></span></div>
+<div class="footer"><span>Pick a path → the ticket opens at the station → reveal the personal milestone → next stop.</span><span id="lineFooter"></span></div>
 </main>
+<div class="overlay" id="overlay" hidden><div class="card" role="dialog" aria-modal="true" aria-label="Ticket"><button class="close" id="closeCard" aria-label="Close the ticket and look at the map">×</button><div id="cardBody"></div></div></div>
 
 <script src="content.js"></script>
 <script>
@@ -248,7 +272,7 @@ Object.entries(CITIES).forEach(([id,c])=>{
 });
 
 /* ---------- Journey logic ---------- */
-const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false};
+const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false,cardOpen:false};
 const other=(t,c)=>t.a===c?t.b:t.a;
 const byId=id=>TRACKS.find(t=>t.id===id);
 // Tracks run forward only: every hurdle from the current milestone leads to the next milestone.
@@ -280,22 +304,22 @@ function rideTrain(track,fromCity,done){
 /* ---------- Actions ---------- */
 function chooseTrack(id){
   if(!options().some(t=>t.id===id)||state.pending===id)return;
-  state.pending=id; state.fact=null; renderMap(); renderStage();
-  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;freshTicket=true;renderStage()}});
+  state.pending=id; state.fact=null; state.cardOpen=false; renderMap(); renderStage();
+  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;state.cardOpen=true;renderStage()}});
 }
 function nextStop(){
   const t=byId(state.pending);
   state.history.push({id:t.id,from:state.city,to:other(t,state.city)});
-  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null; state.fact=null; state.life=false;
+  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null; state.fact=null; state.life=false; state.cardOpen=state.history.length>=STOPS.length;
   animToken++; trainAtCity(state.city); render();
   if(state.history.length===STOPS.length)confetti();
 }
 function previousStop(){
   const h=state.history.pop(); animToken++;
-  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null; state.fact=null; state.life=true;
+  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null; state.fact=null; state.life=true; state.cardOpen=true;
   trainAtCity(h.to); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false});animToken++;trainAtCity(START);render()}
+function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false,cardOpen:false});animToken++;trainAtCity(START);render()}
 
 /* ---------- Rendering ---------- */
 function renderMap(){
@@ -351,42 +375,63 @@ function ticketBody(s){
   return h;
 }
 
+function finaleHTML(){
+  const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
+  return `<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>${C.stations.some(x=>x.life)?`<div class="counter" style="margin-top:14px">${FINALE.doubleRouteTitle||"Your double route"}</div><div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
+    <div class="ticket" style="text-align:left;margin:16px 0"><div class="icon" aria-hidden="true">🏝️</div><div class="counter">After the game</div><h2>${FINALE.title}</h2><p class="prompt">${state.alt?FINALE.altPrompt:FINALE.prompt}</p><button class="link" id="alt">${state.alt?FINALE.mainLabel:FINALE.altLabel}</button>
+    ${FINALE.dare?`<div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div>`:""}</div>
+    <p class="recap">Your route: ${path}</p><div class="controls" style="justify-content:center"><button class="button secondary" id="restart">Ride again</button></div></div>`;
+}
+
+function stopCardHTML(s,n){
+  const h=byId(state.pending);
+  const fc=!h.ideal?"":state.fact===null
+    ?`<div class="factcheck">🕵️ <strong>Fact check!</strong> Does the room believe it really went like this? <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></div>`
+    :state.fact?`<div class="factcheck">🕵️ The room believes you. Respect.</div>`:`<div class="factcheck no">🕵️ The room isn’t buying it. Nice try, Dr. Kiran!</div>`;
+  return `<div class="counter">Stop ${n+1} of ${STOPS.length} · ${s.phase||CITIES[LINE[n+1]].n}</div>
+    <div class="cleared${h.ideal?" ideal":""}">${h.ideal?"✨ The ideal path":"🚧 What actually happened"}: <strong>${h.name}</strong> — ${h.story}</div>${fc}${ticketBody(s)}
+    <div class="controls">${lifeShown()?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
+}
+
 function renderStage(){
-  const stage=document.getElementById("stage"), n=state.history.length;
-  if(n>=STOPS.length){
-    const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
-    stage.innerHTML=`${stubs()}<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>${C.stations.some(x=>x.life)?`<div class="counter" style="margin-top:14px">${FINALE.doubleRouteTitle||"Your double route"}</div><div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
-      <div class="ticket fresh" style="text-align:left;max-width:680px;margin:16px auto"><div class="icon" aria-hidden="true">🏝️</div><div class="counter">After the game</div><h2>${FINALE.title}</h2><p class="prompt">${state.alt?FINALE.altPrompt:FINALE.prompt}</p><button class="link" id="alt">${state.alt?FINALE.mainLabel:FINALE.altLabel}</button>
-      <div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div></div>
-      <p class="recap">Your route: ${path}</p><div class="controls" style="justify-content:center"><button class="button secondary" id="back">← Last stop</button><button class="button secondary" id="restart">Ride again</button></div></div>`;
-    document.getElementById("alt").onclick=()=>{state.alt=!state.alt;renderStage()};
-    document.getElementById("restart").onclick=restart;
-    document.getElementById("back").onclick=previousStop;
-    return;
+  const stage=document.getElementById("stage"), n=state.history.length, done=n>=STOPS.length;
+  // ---- Compact bar under the map ----
+  let bar=stubs();
+  if(done){
+    bar+=`<div class="bar"><span class="leg">🎓 Journey complete — welcome to the Defense station!</span><span class="bar-btns"><button class="button secondary" id="back">← Last stop</button>${state.cardOpen?"":`<button class="button primary" id="open">🎓 Open the finale</button>`}<button class="button secondary" id="restart2">Ride again</button></span></div>`;
+  }else{
+    const opts=options(), from=CITIES[state.city].n, to=CITIES[LINE[n+1]].n;
+    const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">${t.ideal?"✨ ":"🚧 "}${t.name}</button>`).join("");
+    const status=state.pending&&!state.revealed
+      ?(byId(state.pending).ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${byId(state.pending).name}”…`)
+      :`<strong>${from}</strong> → <strong>${to}</strong>: straight <span class="ideal-txt">✨ ideal path</span> or 🚧 what really happened?`;
+    bar+=`<div class="bar"><span class="counter" style="margin:0">Stop ${n+1} of ${STOPS.length}</span><span class="leg">${status}</span></div>
+      <div class="bar"><span class="route-choices" role="group" aria-label="Tracks from ${from} to ${to}">${choices}</span><span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary" id="open">🎟️ Open ticket</button>`:""}</span></div>`;
   }
-  const s=STOPS[n], opts=options(), from=CITIES[state.city].n;
-  const to=CITIES[LINE[n+1]].n;
-  const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">${t.ideal?"✨ Ideal path: ":"🚧 "}${t.name}</button>`).join("");
-  let ticket;
-  if(state.revealed){const h=byId(state.pending);const fc=!h.ideal?"":state.fact===null
-      ?`<div class="factcheck">🕵️ <strong>Fact check!</strong> Does the room believe it really went like this? <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></div>`
-      :state.fact?`<div class="factcheck">🕵️ The room believes you. Respect.</div>`:`<div class="factcheck no">🕵️ The room isn’t buying it. Nice try, Dr. Kiran!</div>`;
-    ticket=`<div class="ticket${freshTicket?" fresh":""}"><div class="cleared${h.ideal?" ideal":""}">${h.ideal?"✨ The ideal path":"🚧 What actually happened"}: <strong>${h.name}</strong> — ${h.story}</div>${fc}${ticketBody(s)}</div>`;freshTicket=false}
-  else if(state.pending) ticket=`<div class="ticket mystery">${byId(state.pending).ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${byId(state.pending).name}” on the way to ${to}…`}</div>`;
-  else ticket=`<div class="ticket mystery">🎟️ The ${to} ticket is face down. Pick a track to ride there and reveal it.</div>`;
-  stage.innerHTML=`${stubs()}<div class="counter">Stop ${n+1} of ${STOPS.length}${state.revealed?` · ${s.phase}`:""}</div>
-    <p class="leg"><strong>${from}</strong> → <strong>${to}</strong>: the straight <span class="ideal-txt">✨ ideal path</span>, or the 🚧 tangled track of what really happened?</p><div class="route-choices" role="group" aria-label="Hurdle tracks from ${from} to ${to}">${choices}</div>
-    ${ticket}
-    <div class="controls">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&lifeShown()?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
-  stage.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>chooseTrack(b.dataset.choice));
-  const r=document.getElementById("reveal");
-  if(r)r.onclick=()=>{const a=document.getElementById("answer"),show=a.classList.toggle("show");r.textContent=show?"Hide answer":"Reveal answer";r.setAttribute("aria-expanded",show)};
-  const fy=document.getElementById("factYes"); if(fy)fy.onclick=()=>{state.fact=true;renderStage()};
-  const fn=document.getElementById("factNo"); if(fn)fn.onclick=()=>{state.fact=false;renderStage()};
-  const lb=document.getElementById("lifeBtn"); if(lb)lb.onclick=()=>{state.life=true;freshStep=true;render()};
-  const alt=document.getElementById("alt"); if(alt)alt.onclick=()=>{state.alt=!state.alt;renderStage()};
-  const nx=document.getElementById("next"); if(nx)nx.onclick=nextStop;
-  const bk=document.getElementById("back"); if(bk)bk.onclick=previousStop;
+  stage.innerHTML=bar;
+
+  // ---- The ticket card (opens on arrival) ----
+  const overlay=document.getElementById("overlay"), body=document.getElementById("cardBody");
+  const show=state.cardOpen&&(done||state.revealed);
+  overlay.hidden=!show;
+  if(show){
+    const keep=body.scrollTop, same=overlay.dataset.key===String(n);
+    body.innerHTML=done?finaleHTML():stopCardHTML(STOPS[n],n);
+    overlay.dataset.key=String(n);
+    body.scrollTop=same?keep:0;
+    if(!same)document.querySelector(".card").classList.remove("pop"),void document.querySelector(".card").offsetWidth,document.querySelector(".card").classList.add("pop");
+  }else overlay.dataset.key="";
+
+  const $=id=>document.getElementById(id), on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
+  document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>chooseTrack(b.dataset.choice));
+  on("factYes",()=>{state.fact=true;renderStage()});
+  on("factNo",()=>{state.fact=false;renderStage()});
+  on("lifeBtn",()=>{state.life=true;freshStep=true;render()});
+  on("alt",()=>{state.alt=!state.alt;renderStage()});
+  on("next",nextStop);
+  on("back",previousStop);
+  on("open",()=>{state.cardOpen=true;renderStage()});
+  on("restart",restart); on("restart2",restart);
 }
 function render(){renderMap();renderStage()}
 
@@ -406,6 +451,9 @@ function confetti(){
   })(t0);
 }
 
+document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderStage()};
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&state.cardOpen){state.cardOpen=false;renderStage()}});
 trainAtCity(START);
 render();
 </script>
