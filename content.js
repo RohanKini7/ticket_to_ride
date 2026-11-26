@@ -72,47 +72,22 @@ window.TICKET_CONTENT = {
    }
   ],
 
-  /* ---- One stop per arrival: question (prompt), hint, dares ---- */
+  /* ---- One stop per arrival: memory (step 1) and prompt (step 2) ---- */
   stops: [
   { phase:"Initial Days", title:"Chess Club", icon:"♞",
     memory:"Tell us one funny memory from your initial days.",
-    prompt:"Pick a chess piece for who you were when you started — and one for who you are now, as Dr. Kiran.",
-    dares:[
-      "Cross the room the way your piece moves. Knights: the L-shape is mandatory.",
-      "Pick a professor, look them in the eye and say “Check… mate.” Movie-villain voice, please.",
-      "Name your PhD like a real chess opening — “The Cryogenic Gambit”? — and demonstrate its first move.",
-      "Stream mode: give 15 seconds of live chess-stream commentary on this party."
-    ]},
+    prompt:"Pick a chess piece for who you were when you started — and one for who you are now, as Dr. Kiran."},
   { phase:"Results & Rings", title:"The Wedding", icon:"💍",
     memory:"Tell us one memory from the phase when your first results came in.",
-    prompt:"Tell us something cute about the wedding.",
-    dares:[
-      "Give a 20-second wedding toast — to your COMSOL model.",
-      "Explain your wedding day in FEM terms: mesh, boundary conditions, convergence. 20 seconds.",
-      "Show us your best first-dance move. Five seconds is enough."
-    ]},
+    prompt:"Tell us something cute about the wedding."},
   { phase:"Firenze", title:"The Kamath Talks", icon:"🎙️",
     memory:"Tell us one memory from Italy.",
-    prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style.",
-    dares:[
-      "Hum or beatbox the theme tune of <em>The Kamath Talks</em>. Minimum five seconds.",
-      "Read the sponsor message: “This episode is brought to you by K-AXFLUX-H2 — keeping things cool since…”",
-      "Hand the mic to Markus: he gets 10 seconds to introduce <em>you</em>."
-    ]},
+    prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style."},
   { phase:"Publication", title:"The Baby", icon:"👶",
     memory:"Peer-reviewed and published! Tell us one memory from getting the paper out.",
-    prompt:"The PhD had already changed how you see life — and just then your baby arrived and turned the whole world around again. Tell us one good thing about your little one.",
-    dares:[
-      "Read the first line of your paper’s abstract as a bedtime story. Soothing voice, please.",
-      "Sing one line of a lullaby about axial flux motors.",
-      "Do your best “paper accepted” face, then your best “3 a.m. feeding” face."
-    ]},
+    prompt:"The PhD had already changed how you see life — and just then your baby arrived and turned the whole world around again. Tell us one good thing about your little one."},
   { phase:"Defense", title:"Parents Abroad", icon:"✈️",
-    prompt:"You did it, Dr. Kiran! And your parents travelled abroad for the very first time — to see you defend your thesis. How does that feel?",
-    dares:[
-      "Say a 10-second thank-you to your parents in the language you speak at home.",
-      "Explain your PhD to your parents in 20 seconds. No jargon allowed — not even “flux”."
-    ]}
+    prompt:"You did it, Dr. Kiran! And your parents travelled abroad for the very first time — to see you defend your thesis. How does that feel?"}
   ],
 
   /* ---- Shown after the last stop ---- */
