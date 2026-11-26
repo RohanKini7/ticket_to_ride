@@ -31,7 +31,7 @@ window.TICKET_CONTENT = {
   stations: [
     { name:"Augsburg", sub:"Day 0" },
     { name:"Initial Days", sub:"Joining 404 Not Found" },
-    { name:"First Results", sub:"Lab & model" },
+    { name:"Results & Rings", sub:"Midway: first data + a wedding" },
     { name:"Firenze", sub:"COMSOL 2024" },
     { name:"Publication", sub:"Peer-reviewed!" },
     { name:"Defense", sub:"Today" }
@@ -49,11 +49,11 @@ window.TICKET_CONTENT = {
       ideal: { name:"Knew It All From Day 1", story:"He knew exactly what to do. Everything was clear from day one: how the chair works, whom to ask." },
       real:  { name:"The Digging Detour", story:"A lot of digging, a lot of asking around, and a healthy dose of cluelessness." }
     },
-    { // Initial Days → First Results
+    { // Initial Days → Results & Rings
       ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
       real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
     },
-    { // First Results → Firenze
+    { // Results & Rings → Firenze
       ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
       real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
     },
@@ -79,15 +79,15 @@ window.TICKET_CONTENT = {
       "Pick a professor, look them in the eye and say “Check… mate.” Movie-villain voice, please.",
       "Strike your piece’s pose and hold it while everyone takes a photo."
     ]},
-  { phase:"First Results · The middlegame", title:"The Lab vs. The Model", icon:"🧊",
-    prompt:"An axial flux motor, cooled with cryogenic hydrogen, investigated experimentally <em>and</em> numerically — so you’ve been betrayed from both sides. Which one let you down more often: the test rig or the COMSOL model? And when the thermocouple said one temperature and the simulation said another, who did you believe?",
-    hint:"Old lab wisdom: nobody trusts a simulation except the person who ran it, and everybody trusts an experiment except the person who ran it.",
+  { phase:"Results & Rings · The middlegame", title:"Two Results, One Year", icon:"💍",
+    prompt:"Midway through the PhD, two big results came in: the first data that finally made sense… and a wedding. Time for a mash-up! Which needed more planning: the test campaign or the wedding? Which had stricter boundary conditions? And which converged first: the simulation, or the guest list?",
+    hint:"Old lab wisdom: nobody trusts a simulation except the person who ran it — and nobody trusts a wedding timeline except the person who planned it.",
     dares:[
-      "Act out cryogenic hydrogen flowing through a hollow conductor. Compressibly.",
-      "Be a COMSOL model that refuses to converge. The room times how long you last.",
-      "Explain an axial flux motor in 20 seconds to the least technical person in the room. The word “flux” is forbidden.",
-      "Mesh refinement: describe your PhD in ten words, then five, then one.",
-      "Pick someone as Reviewer 2. They ask: “But did you validate it?” You have 10 seconds to defend yourself."
+      "Give a 20-second wedding toast — to your COMSOL model.",
+      "Explain your wedding day in FEM terms: mesh, boundary conditions, convergence. 20 seconds.",
+      "Be a simulation that refuses to converge… until it finally does, like a first dance.",
+      "Mesh refinement: describe that year in ten words, then five, then one.",
+      "Pick someone as Reviewer 2. They ask: “But did you validate the results?” You have 10 seconds."
     ]},
   { phase:"Firenze · On tour", title:"The Kamath Talks", icon:"🎙️",
     prompt:"Benvenuto a Firenze! From the COMSOL Conference here to SAMPE in Long Beach, you took your motor on tour. Now it’s your show. Welcome to <em>The Kamath Talks</em>! Pick one of the professors here as today’s guest, give the episode a title, and introduce them in 20 seconds, full podcast voice.",
@@ -101,7 +101,7 @@ window.TICKET_CONTENT = {
     ]},
   { phase:"Publication · The other big releases", title:"The Three-Stage Life Route", icon:"💍",
     prompt:"Published! <em>Case Studies in Thermal Engineering</em>, SAMPE, COMSOL — well done. But these years had three even bigger “releases”, and none of them was peer-reviewed. Name the three big life milestones of your PhD journey, in the right order.",
-    hint:"Hint: no expectations, no disappointments — but some very nice surprises.",
+    hint:"Hint: you already gave one of them away at Results &amp; Rings. No expectations, no disappointments — but some very nice surprises.",
     stations:["Came single","Left married","Got a child"],
     dares:[
       "Mime all three stations, no words. The room has to guess each one.",
