@@ -94,11 +94,6 @@ window.TICKET_CONTENT = {
   finale: {
     heading: "Dr. Kiran Kamath wins the game!",
     message: "All aboard for the next adventure. Herzlichen Glückwunsch!",
-    title: "Game Night: Island Edition",
-    doubleRouteTitle: "Your double route",
-  prompt:"Shipwrecked! The rescue boat is three days away and you’re on an island with the professors. You saved exactly one tabletop game. Which one — and why does it keep everyone friends until the boat arrives?",
-  altPrompt:"Shipwrecked! The rescue boat is three days away and you’re on an island with everyone in this room. You saved exactly one tabletop game. Which one — and why does it keep everyone friends until the boat arrives?",
-  altLabel:"Make it the whole group instead", mainLabel:"Back to the professors version",
-  dare:"Give a 10-second acceptance speech as <strong>Dr. Kiran Kamath</strong>. Thank at least one person, one test rig and one chess piece — and finish with your signature: <strong>„DA BES(CH)T“</strong>."
+    dare: "Give a 10-second acceptance speech as <strong>Dr. Kiran Kamath</strong>. Thank at least one person, one test rig and one chess piece — and finish with your signature: <strong>„DA BES(CH)T“</strong>."
   }
 };
