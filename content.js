@@ -54,22 +54,22 @@ window.TICKET_CONTENT = {
       ideal: { name:"Knew It All From Day 1", story:"He knew exactly what to do. Everything was clear from day one: how the chair works, whom to ask." },
       real:  { name:"The Digging Detour", story:"A lot of digging, a lot of asking around, and a healthy dose of cluelessness." }
     },
-    { // Initial Days → Results & Rings
-      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
-      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
-    },
-    { // Results & Rings → Firenze
-      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
-      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
-    },
-    { // Firenze → Publication
-      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
-      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
-    },
-    { // Publication → Defense
-      ideal: { name:"✏️ Ideal path", story:"✏️ Write how it should have gone." },
-      real:  { name:"✏️ What really happened", story:"✏️ Write what actually happened." }
-    }
+   { // Initial Days → Results & Rings
+     ideal: { name:"Converged on First Run", story:"Perfect mesh, happy solver, and the simulation matched the experiment on day one." },
+     real:  { name:"Solver Says No", story:"“Maximum number of iterations reached.” Inverted mesh elements. Out of memory at 97 %. Re-mesh, re-run, repeat — then the results finally came." }
+   },
+   { // Results & Rings → Firenze
+     ideal: { name:"Ready a Week Early", story:"Abstract in early, slides done, talk rehearsed, bags packed. Relaxed arrival in Firenze." },
+     real:  { name:"Slides at 3 a.m.", story:"Abstract sent at 23:59, the template changed, a figure came out blurry, and the laptop decided to update an hour before the talk." }
+   },
+   { // Firenze → Publication
+     ideal: { name:"Accepted As Is", story:"No comments. The reviewers simply wrote: “Perfect.”" },
+     real:  { name:"Major Revisions", story:"Reviewer 2 asked for “just a few more simulations”. The response letter ended up longer than the paper." }
+   },
+   { // Publication → Defense
+     ideal: { name:"Kiran_defense_v1.pdf", story:"Written once, approved once, presented once." },
+     real:  { name:"Kiran_defense_v4506.pdf", story:"v1 was “final”. v12 was “final_final”. v4506 is the one he actually presented. Probably." }
+   }
   ],
 
   /* ---- One stop per arrival: question (prompt), hint, dares ---- */
