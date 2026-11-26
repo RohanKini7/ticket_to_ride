@@ -21,7 +21,7 @@ What you can change:
 | `stations` | Milestone stations: `name` + small `sub` (PhD side) and `life` (the personal milestone at the same stop). Always **one more** than `stops`. |
 | `hurdles` | One entry per leg: an `ideal` path (the straight track) and a `real` path (the tangled track: what actually happened), each with `name` + `story` |
 | `stops` | One per arrival: `phase`, `title`, `icon`, `memory` (step 1, optional), `prompt` (step 2). Optional: `hint`, `talks`, `altPrompt`/`altLabel`/`mainLabel` |
-| `journey` | Emojis for the plane intro, each leg and the summit, plus the status text per station |
+| `journey` | Emojis for the plane intro, the train on each leg and at the summit, plus the status text per station |
 | `finale` | The last screen: heading, message, Game Night question and final dare |
 
 Tips:
