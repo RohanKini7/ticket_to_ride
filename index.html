@@ -4,181 +4,201 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ticket to Kiran</title>
-<meta name="description" content="A five-stop celebration journey for Dr. Kiran.">
+<meta name="description" content="A five-stop celebration train journey for Dr. Kiran.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚂</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg0:#070a1f;--bg1:#120c35;--ink:#eef0ff;--muted:#a9b0d6;--glass:rgba(255,255,255,.07);--glass2:rgba(255,255,255,.12);
-  --line:rgba(255,255,255,.14);--pink:#ff5fd2;--violet:#8b5cff;--cyan:#40e0ff;--gold:#ffd166;--orange:#ff8a5b;--life:#ff8fd0;
-  --grad:linear-gradient(110deg,var(--cyan),var(--violet) 45%,var(--pink) 75%,var(--orange));
-  --display:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ink:#1d2a33;--muted:#5f6f78;--paper:#fffdf6;--line:#e3ddcc;
+  --sign:#14513f;--sign2:#0e3d30;--amber:#ffb627;--board:#141719;
+  --red:#d9452b;--gold:#f2b632;--blue:#1f6feb;--life:#c2185b;
+  --ui:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;color:var(--ink);font:16px/1.5 var(--body);background:radial-gradient(1200px 700px at 10% -10%,#2a1a6e 0%,transparent 60%),radial-gradient(900px 600px at 110% 10%,#5b1a6e 0%,transparent 55%),radial-gradient(900px 700px at 50% 120%,#0d3a6e 0%,transparent 60%),var(--bg0);min-height:100vh;display:grid;place-items:center;padding:10px;overflow-x:hidden}
-.blob{position:fixed;width:520px;height:520px;border-radius:50%;filter:blur(90px);opacity:.35;z-index:0;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
-.blob.b1{background:var(--violet);top:-160px;left:-120px}
-.blob.b2{background:var(--pink);bottom:-200px;right:-140px;animation-delay:-6s}
-.blob.b3{background:var(--cyan);top:30%;left:55%;width:380px;height:380px;opacity:.18;animation-delay:-11s}
-@keyframes drift{to{transform:translate(60px,40px) scale(1.15)}}
-main{position:relative;z-index:1;width:min(1080px,100%);background:var(--glass);border:1px solid var(--line);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow:hidden}
-main:before{content:"";position:absolute;inset:0;border-radius:28px;padding:1px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55;pointer-events:none}
-header{padding:16px 26px 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.2em;font:700 .7rem var(--display);color:var(--muted)}
-.eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blink 2s infinite}
-@keyframes blink{50%{opacity:.35}}
-h1{font:700 clamp(1.8rem,4.2vw,2.7rem)/1.05 var(--display);margin:4px 0 0;letter-spacing:-.02em;background:var(--grad);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 8s linear infinite}
-@keyframes shine{to{background-position:200% 0}}
-.subtitle{color:var(--muted);margin:2px 0 0}
-.subtitle[hidden]{display:none}
-.hud{display:flex;gap:8px;flex-wrap:wrap}
-.chip{font:600 .78rem var(--display);padding:6px 11px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--ink);white-space:nowrap}
-.chip b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:10px;color:var(--ink);font:16px/1.5 var(--ui);
+  background:radial-gradient(1000px 500px at 15% -10%,#fff7df 0%,transparent 60%),radial-gradient(900px 600px at 110% 110%,#dcefd8 0%,transparent 60%),#eef1e8}
+main{width:min(1060px,100%);background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 30px 70px rgba(29,42,51,.18),0 2px 0 rgba(255,255,255,.8) inset;border:1px solid #e6e2d6}
+
+/* Station sign header */
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 22px;background:linear-gradient(180deg,var(--sign),var(--sign2));color:#fff;position:relative}
+header:after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:repeating-linear-gradient(90deg,#fff 0 18px,transparent 18px 30px);opacity:.25}
+.brand{display:flex;align-items:center;gap:14px}
+.pict{width:44px;height:44px;border-radius:10px;background:#fff;color:var(--sign);display:grid;place-items:center;font-size:26px;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.eyebrow{font:700 .68rem var(--ui);letter-spacing:.22em;text-transform:uppercase;opacity:.75}
+h1{margin:0;font:800 clamp(1.5rem,3.6vw,2.2rem)/1.05 var(--ui);letter-spacing:-.01em}
+.subtitle{margin:0;opacity:.8}.subtitle[hidden]{display:none}
+.clock{font:700 1.05rem var(--mono);background:rgba(0,0,0,.25);padding:6px 12px;border-radius:8px;letter-spacing:.06em}
 
 /* Map */
-.route-wrap{padding:6px 18px 0}
-.map{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#0b1030;box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
-.map svg{display:block;width:100%;height:auto;max-height:calc(100vh - 230px);min-height:240px}
-.map-label{font:700 11px var(--display);fill:rgba(255,255,255,.45);letter-spacing:.22em}
-.star{fill:#fff;animation:twinkle 3s ease-in-out infinite}
-@keyframes twinkle{50%{opacity:.2}}
-.cloud{fill:#fff;opacity:.09;animation:float 40s linear infinite}
-@keyframes float{from{transform:translateX(-120px)}to{transform:translateX(1000px)}}
-.route{fill:none;stroke:rgba(205,190,255,.22);stroke-width:13;stroke-dasharray:3 7;stroke-linecap:butt;transition:stroke .2s}
+.route-wrap{padding:12px 14px 0}
+.map{position:relative;border-radius:16px;overflow:hidden;background:#a7d3e3;border:1px solid #d6e2d2;box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.map svg{display:block;width:100%;height:auto;max-height:calc(100vh - 270px);min-height:240px}
+.map-label{font:800 11px var(--ui);fill:rgba(20,81,63,.55);letter-spacing:.2em}
 .hit{fill:none;stroke:transparent;stroke-width:24;pointer-events:stroke}
-.route{pointer-events:none}
-.rail{fill:none;stroke:rgba(255,255,255,.4);stroke-width:3;stroke-linecap:round;pointer-events:none}
-.route-group{opacity:.55;transition:opacity .25s}
+.ballast,.sleepers,.rail{fill:none;pointer-events:none}
+.ballast{stroke:#d9d1bf;stroke-width:12;stroke-linecap:round;transition:stroke .2s}
+.sleepers{stroke:#7d5f42;stroke-width:9;stroke-dasharray:2 5}
+.rail{stroke:#69717a;stroke-width:2.4;stroke-linecap:round}
+.route-group{opacity:.62;transition:opacity .25s}
 .route-group.available,.route-group.selected,.route-group.completed{opacity:1}
 .route-group.available{cursor:pointer}
-.route-group.available .rail{stroke:var(--pink);stroke-width:4.5;stroke-dasharray:12 8;animation:flow 1s linear infinite;filter:drop-shadow(0 0 6px var(--pink))}
-.route-group.available.ideal .rail{stroke:var(--gold);filter:drop-shadow(0 0 6px var(--gold))}
-.route-group.available .route{stroke:rgba(255,95,210,.45)}
-.route-group.available.ideal .route{stroke:rgba(255,209,102,.45)}
-.route-group.available:hover .route,.route-group.available:focus-visible .route{stroke:rgba(255,95,210,.75);stroke-width:18}
-.route-group.completed .route{stroke:rgba(64,224,255,.4)}
-.route-group.available.ideal:hover .route{stroke:rgba(255,209,102,.75)}
-.route-group.completed .rail{stroke:var(--cyan);stroke-width:4.5;stroke-dasharray:none;filter:drop-shadow(0 0 5px var(--cyan))}
-.route-group.selected .rail{stroke:#fff;stroke-width:5;stroke-dasharray:none;animation:none;filter:drop-shadow(0 0 8px #fff)}
-.route-group.ideal:not(.available):not(.selected):not(.completed) .rail{stroke:rgba(255,209,102,.45)}
+.route-group.available .ballast{stroke:#ffb9a6;animation:halo 1.6s ease-in-out infinite}
+.route-group.available.ideal .ballast{stroke:#ffe08a}
+.route-group.available:hover .ballast,.route-group.available:focus-visible .ballast{stroke:#ff8a65;stroke-width:18;animation:none}
+.route-group.available.ideal:hover .ballast{stroke:#ffcf3f}
+.route-group.selected .ballast{stroke:#ffd166;stroke-width:15}
+.route-group.completed .ballast{stroke:#cfe0fb}
+.route-group.completed .rail{stroke:var(--blue);stroke-width:3}
 .route-group:focus{outline:none}
-@keyframes flow{to{stroke-dashoffset:-20}}
-.hurdle-label{font:700 11.5px var(--display);fill:#fff;paint-order:stroke;stroke:rgba(11,16,48,.9);stroke-width:5px;stroke-linejoin:round;opacity:0;transition:opacity .25s;pointer-events:none}
-.city circle{fill:#141a46;stroke:#8f9bff;stroke-width:3.5;transition:fill .2s}
-.city.reachable circle{stroke:var(--pink)}
-.city.visited circle{fill:var(--cyan);stroke:#fff}
-.city.current circle{fill:var(--pink);stroke:#fff;stroke-width:4;filter:drop-shadow(0 0 8px var(--pink))}
+@keyframes halo{50%{stroke-width:17}}
+.hurdle-label{font:800 11.5px var(--ui);fill:var(--ink);paint-order:stroke;stroke:#fffdf3;stroke-width:5px;stroke-linejoin:round;opacity:0;transition:opacity .25s;pointer-events:none}
+.city .platform{fill:#f4f1ea;stroke:#9aa3a8;stroke-width:1.5}
+.city circle{fill:#fff;stroke:var(--sign);stroke-width:4;transition:fill .2s}
+.city.visited circle{fill:var(--blue);stroke:#fff}
+.city.current circle{fill:var(--red);stroke:#fff;stroke-width:4}
 .city .ring{fill:none;stroke:none}
-.city.dest .ring{stroke:var(--gold);stroke-width:3;animation:pulse 1.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
-@keyframes pulse{from{transform:scale(.7);opacity:1}to{transform:scale(1.8);opacity:0}}
-.city text{font:700 15px var(--display);fill:#fff;paint-order:stroke;stroke:rgba(11,16,48,.85);stroke-width:5px;stroke-linejoin:round;pointer-events:none}
-.city text.sub{font:600 11px var(--body);fill:#c3c9f5}
-.city text.life{font:700 11.5px var(--display);fill:var(--life);transition:opacity .4s}
+.city.dest .ring{stroke:var(--gold);stroke-width:3.5;animation:pulse 1.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{from{transform:scale(.7);opacity:1}to{transform:scale(1.7);opacity:0}}
+.city text{font:800 15px var(--ui);fill:var(--ink);paint-order:stroke;stroke:#fffdf3;stroke-width:5px;stroke-linejoin:round;pointer-events:none}
+.city text.sub{font:700 11px var(--ui);fill:var(--muted)}
+.city text.life{font:800 11.5px var(--ui);fill:var(--life);transition:opacity .4s}
 .city text.life.hidden{opacity:0}
 .city text.life.pop{animation:lifepop .8s ease}
-@keyframes lifepop{0%{opacity:0}40%{opacity:1;fill:#fff}100%{opacity:1}}
-#train text{font-size:28px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.6))}
-#flag{opacity:0;transition:opacity .4s}
-#flag.planted{opacity:1}
-#flag text{font-size:34px;animation:wave 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:10% 100%}
-@keyframes wave{50%{transform:rotate(-8deg)}}
-.summit-glow{fill:url(#summitGlow);opacity:.0;transition:opacity 1s}
-.summit-glow.on{opacity:1}
+@keyframes lifepop{0%{opacity:0}40%{opacity:1;fill:#ff3d8b}100%{opacity:1}}
+.canopy,.puffs,.shadows{pointer-events:none}
+.puff{fill:#fff;animation:puff 1.6s ease-out forwards}
+@keyframes puff{from{opacity:.9;transform:translate(0,0) scale(.4)}to{opacity:0;transform:translate(6px,-22px) scale(1.8)}}
+.puff{transform-box:fill-box;transform-origin:center}
+.cloudshadow{fill:#1b3b2a;opacity:.07;animation:drift 70s linear infinite}
+@keyframes drift{from{transform:translateX(-300px)}to{transform:translateX(1100px)}}
+.water-shine{fill:none;stroke:#e9f7fc;stroke-width:1.2;stroke-dasharray:6 10;animation:shine 6s linear infinite;opacity:.8}
+@keyframes shine{to{stroke-dashoffset:-64}}
+#finish{opacity:0;transition:opacity .5s}
+#finish.on{opacity:1}
 
-/* Bar under the map */
-.content{padding:10px 20px 16px}
-.stubs{display:flex;gap:6px;margin-bottom:10px}
-.stub{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
-.stub.done{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
-.stub.now{background:var(--grad);box-shadow:0 0 12px var(--pink)}
-.bar{display:flex;gap:10px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.bar .leg{margin:0;color:var(--muted);flex:1;min-width:240px}
-.bar .leg strong{color:var(--ink)}
+/* Departure board */
+.content{padding:10px 14px 14px}
+.board{background:var(--board);border-radius:14px;padding:10px 14px;color:var(--amber);font:700 .92rem var(--mono);box-shadow:inset 0 2px 10px rgba(0,0,0,.6);display:grid;grid-template-columns:auto 1fr auto;gap:6px 18px;align-items:center}
+.board .k{color:#8b8f94;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase}
+.board .v{letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.board .cells{display:flex;gap:18px;min-width:0;flex-wrap:wrap}
+.board .cell{min-width:0}
+.board .status{padding:3px 8px;border-radius:6px;background:rgba(255,182,39,.12)}
+.board .status.go{color:#5ee08a;background:rgba(94,224,138,.12)}
+.board .status.blink{animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+.flip{animation:flipin .45s ease}
+@keyframes flipin{0%{transform:rotateX(90deg);opacity:0}100%{transform:none;opacity:1}}
+.stubs{display:flex;gap:6px;grid-column:1/-1}
+.stub{flex:1;height:5px;border-radius:99px;background:#2a2f33}
+.stub.done{background:var(--blue)}.stub.now{background:var(--amber)}
+.announce{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:10px}
+.announce .msg{color:var(--muted);flex:1;min-width:240px}
+.announce .msg strong{color:var(--ink)}
 .bar-btns{display:flex;gap:10px;flex-wrap:wrap}
-.counter{font:700 .74rem var(--display);text-transform:uppercase;letter-spacing:.18em;color:var(--cyan)}
-.fact{white-space:nowrap}
-.fact.no{color:var(--pink)}
+.fact{white-space:nowrap}.fact.no{color:var(--red)}
 
 /* Buttons */
-.button{border:0;border-radius:14px;padding:11px 18px;font:700 .98rem var(--display);cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s;color:var(--ink)}
+.button{border:0;border-radius:12px;padding:11px 18px;font:800 .97rem var(--ui);cursor:pointer;transition:transform .12s,box-shadow .2s,background .2s}
 .button:hover{transform:translateY(-1px)}
-.primary{background:var(--grad);background-size:160% 100%;color:#fff;box-shadow:0 8px 24px rgba(255,95,210,.35)}
-.primary:hover{background-position:100% 0;box-shadow:0 10px 30px rgba(139,92,255,.5)}
-.secondary{background:var(--glass2);border:1px solid var(--line)}
-.button.small{padding:5px 10px;font-size:.82rem;background:var(--glass2);border:1px solid var(--line);border-radius:10px}
+.primary{background:var(--red);color:#fff;box-shadow:0 6px 16px rgba(217,69,43,.3)}
+.primary:hover{background:#c13a22}
+.secondary{background:#eef0ea;color:var(--ink);border:1px solid #dcdfd5}
+.button.small{padding:5px 10px;font-size:.82rem;background:#fff;border:1px solid #d8dcd2;color:var(--ink);border-radius:9px}
 .button.draw{animation:nudge 1.6s ease-out infinite}
-@keyframes nudge{0%{box-shadow:0 0 0 0 rgba(255,95,210,.7)}70%{box-shadow:0 0 0 14px rgba(255,95,210,0)}100%{box-shadow:0 0 0 0 rgba(255,95,210,0)}}
-.link{background:none;border:0;color:var(--cyan);font:600 .9rem var(--body);text-decoration:underline;cursor:pointer;padding:0}
+@keyframes nudge{0%{box-shadow:0 0 0 0 rgba(217,69,43,.55)}70%{box-shadow:0 0 0 14px rgba(217,69,43,0)}100%{box-shadow:0 0 0 0 rgba(217,69,43,0)}}
+.link{background:none;border:0;color:var(--blue);font:700 .9rem var(--ui);text-decoration:underline;cursor:pointer;padding:0}
 
-/* Card */
-.overlay{position:fixed;inset:0;background:rgba(5,6,20,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
+/* Ticket card */
+.overlay{position:fixed;inset:0;background:rgba(20,30,25,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
 .overlay[hidden]{display:none}
-.card{position:relative;width:min(600px,100%);max-height:88vh;display:flex;flex-direction:column;border-radius:26px;background:linear-gradient(160deg,rgba(40,30,100,.92),rgba(12,14,40,.95));border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px rgba(139,92,255,.25)}
-.card:before{content:"";position:absolute;inset:0;border-radius:26px;padding:1.5px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.card.pop{animation:cardin .55s cubic-bezier(.2,.9,.25,1.2)}
-@keyframes cardin{from{opacity:0;transform:translateY(30px) rotateX(25deg) scale(.92)}to{opacity:1;transform:none}}
-#cardBody{overflow:auto;padding:26px 28px 24px}
-.close{position:absolute;top:12px;right:12px;border:1px solid var(--line);background:var(--glass2);color:var(--ink);width:34px;height:34px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:1}
-h2{font:700 clamp(1.4rem,3.6vw,1.9rem)/1.15 var(--display);margin:6px 0 10px;letter-spacing:-.01em}
-.milestone{display:inline-block;font:700 1.45rem var(--display);color:#fff;background:linear-gradient(110deg,rgba(255,95,210,.35),rgba(139,92,255,.35));border:1px solid rgba(255,143,208,.5);border-radius:16px;padding:8px 18px;margin:10px 0 4px;box-shadow:0 0 30px rgba(255,95,210,.25)}
-.tasks{font-size:1.12rem;line-height:1.55;padding-left:1.3em;margin:8px 0 4px;color:#e4e7ff}
+.card{position:relative;width:min(600px,100%);max-height:88vh;display:flex;flex-direction:column;background:var(--paper);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.card.pop{animation:cardin .5s cubic-bezier(.2,.9,.25,1.15)}
+@keyframes cardin{from{opacity:0;transform:translateY(26px) rotate(-2deg) scale(.95)}to{opacity:1;transform:none}}
+#cardBody{overflow:auto}
+.close{position:absolute;top:10px;right:12px;border:0;background:rgba(255,255,255,.2);color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:2}
+.tk-head{background:linear-gradient(180deg,var(--sign),var(--sign2));color:#fff;padding:14px 22px 12px;border-radius:14px 14px 0 0}
+.tk-head .eyebrow{opacity:.8}
+.tk-route{display:flex;align-items:center;gap:12px;font:800 1.15rem var(--ui);margin-top:4px;flex-wrap:wrap}
+.tk-route .arrow{opacity:.7}
+.tk-body{padding:18px 24px 6px;position:relative}
+.tk-meta{position:relative;display:flex;gap:18px;flex-wrap:wrap;font:700 .72rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:2px dashed var(--line);padding-bottom:10px;margin-bottom:12px}
+.tk-meta b{display:block;color:var(--ink);font-size:.86rem}
+.stamp{display:inline-block;transform:rotate(-4deg);border:3px solid var(--life);color:var(--life);border-radius:10px;padding:6px 14px;font:800 1.3rem var(--ui);letter-spacing:.01em;margin:4px 0 6px;background:rgba(194,24,91,.05);box-shadow:inset 0 0 0 2px rgba(194,24,91,.15)}
+h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
+.tasks{font-size:1.1rem;line-height:1.55;padding-left:1.3em;margin:6px 0 4px}
 .tasks li{margin-bottom:10px}
-.tasks li::marker{color:var(--pink);font-weight:800}
-.prompt{font-size:1.12rem;line-height:1.55;margin:0 0 12px;color:#e4e7ff}
-.controls{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.tasks li::marker{color:var(--red);font-weight:800}
+.prompt{font-size:1.1rem;line-height:1.55;margin:0 0 12px}
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 6px}
+.tk-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px 16px;border-top:2px dashed var(--line);font:700 .7rem var(--mono);color:var(--muted);letter-spacing:.12em}
+.barcode{height:28px;width:150px;background:repeating-linear-gradient(90deg,#222 0 2px,transparent 2px 4px,#222 4px 5px,transparent 5px 8px,#222 8px 11px,transparent 11px 12px)}
 .finish{text-align:center}
-.finish .big{font-size:3rem;filter:drop-shadow(0 0 18px rgba(255,209,102,.5))}
-.finish p{font-size:1.1rem;margin:6px 0;color:#e4e7ff}
-.recap{color:var(--muted)!important;font-size:.9rem!important}
-.double{max-width:520px;margin:14px auto 4px;display:grid;grid-template-columns:1fr auto 1fr;gap:6px 12px;text-align:left;font-size:.95rem}
-.double .h{font:700 .7rem var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
-.double .phd{font-weight:700;text-align:right}.double .life{color:var(--life);font-weight:700}.double .dot{color:var(--violet)}
-.dare-card{margin-top:16px;background:linear-gradient(120deg,rgba(255,209,102,.16),rgba(255,138,91,.16));border:1px solid rgba(255,209,102,.5);border-radius:16px;padding:14px 18px;text-align:left}
-.dare-card p{font-size:1.08rem;font-weight:600;margin:4px 0 2px}
-.dare-label{font:700 .72rem var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.finish .big{font-size:2.6rem}
+.finish p{margin:6px 0}
+.recap{color:var(--muted);font-size:.9rem}
+.double{max-width:520px;margin:12px auto 4px;display:grid;grid-template-columns:1fr auto 1fr;gap:5px 12px;text-align:left;font-size:.95rem}
+.double .h{font:800 .68rem var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--sign)}
+.double .phd{font-weight:800;text-align:right}.double .life{color:var(--life);font-weight:800}.double .dot{color:var(--sign)}
+.dare-card{margin-top:14px;background:#fff6dd;border:2px solid #f2d27a;border-radius:12px;padding:12px 16px;text-align:left}
+.dare-card p{font-size:1.05rem;font-weight:700;margin:4px 0 2px}
+.dare-label{font:800 .7rem var(--ui);letter-spacing:.16em;text-transform:uppercase;color:#b07d00}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
-@media(max-width:650px){.map svg{min-height:0}header{padding:14px 16px 6px}.route-wrap{padding:6px 8px 0}.content{padding:10px 12px 14px}.city text{font-size:13px}.hud{display:none}}
+@media(max-width:650px){.map svg{min-height:0}header{padding:10px 14px}.clock{display:none}.route-wrap{padding:8px 8px 0}.content{padding:8px}.board{grid-template-columns:1fr}.city text{font-size:13px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <canvas id="confetti" aria-hidden="true"></canvas>
 <main>
-<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header>
-  <div>
-    <div class="eyebrow">A celebratory mini-journey</div>
-    <h1 id="title">Ticket to Kiran</h1>
-    <p class="subtitle" id="subtitle"></p>
+  <div class="brand">
+    <div class="pict" aria-hidden="true">🚆</div>
+    <div>
+      <div class="eyebrow">A celebratory mini-journey</div>
+      <h1 id="title">Ticket to Kiran</h1>
+      <p class="subtitle" id="subtitle"></p>
+    </div>
   </div>
-  <div class="hud" aria-hidden="true"><span class="chip" id="hudAlt">⛰️ Altitude <b>0 m</b></span><span class="chip" id="hudStage">✈️ <b>Landing in Augsburg</b></span></div>
+  <div class="clock" id="clock" aria-hidden="true">--:--</div>
 </header>
 
 <div class="route-wrap"><div class="map">
-<svg id="map" viewBox="0 0 900 430" role="group" aria-label="The PhD mountain railway: from Augsburg up the mountain to the summit station at the defense. Paths from the current station can be selected.">
+<svg id="map" viewBox="0 0 900 430" role="group" aria-label="The PhD railway: six stations from Augsburg to the defense. Tracks from the current station can be selected.">
   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a0f2e"/><stop offset=".45" stop-color="#2b1863"/><stop offset=".78" stop-color="#8a2f7a"/><stop offset="1" stop-color="#ff8a5b"/></linearGradient>
-    <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2b7a"/><stop offset="1" stop-color="#21184d"/></linearGradient>
-    <linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2c2f6e"/><stop offset=".6" stop-color="#171a45"/><stop offset="1" stop-color="#0d1030"/></linearGradient>
-    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".9"/><stop offset="1" stop-color="#ff8a5b" stop-opacity="0"/></radialGradient>
-    <radialGradient id="summitGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd166" stop-opacity=".75"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+    <linearGradient id="grass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9ecbb"/><stop offset=".55" stop-color="#c7e2a3"/><stop offset="1" stop-color="#b6d78f"/></linearGradient>
+    <radialGradient id="hill" cx=".42" cy=".38" r=".65"><stop offset="0" stop-color="#e4f1c6"/><stop offset=".6" stop-color="#b9d891"/><stop offset="1" stop-color="#9cc275"/></radialGradient>
+    <pattern id="field1" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(28)"><rect width="8" height="8" fill="#efe2a4"/><rect width="4" height="8" fill="#e6d68e"/></pattern>
+    <pattern id="field2" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)"><rect width="8" height="8" fill="#cfe59b"/><rect width="4" height="8" fill="#c2dc8b"/></pattern>
+    <pattern id="field3" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(60)"><rect width="7" height="7" fill="#e9d3b0"/><rect width="3" height="7" fill="#dfc49b"/></pattern>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
   </defs>
-  <rect width="900" height="430" fill="url(#sky)"/>
-  <circle cx="610" cy="330" r="170" fill="url(#sun)"/>
-  <g id="stars"></g>
-  <path fill="url(#far)" opacity=".85" d="M0 330L70 290 140 312 220 250 300 290 370 232 450 276 520 214 600 262 690 205 760 250 840 196 900 230V430H0Z"/>
-  <g class="clouds"><ellipse class="cloud" cx="80" cy="120" rx="70" ry="14"/><ellipse class="cloud" cx="300" cy="70" rx="90" ry="16" style="animation-duration:55s;animation-delay:-20s"/><ellipse class="cloud" cx="520" cy="150" rx="60" ry="12" style="animation-duration:48s;animation-delay:-35s"/></g>
-  <path id="mountain" fill="url(#rock)"/>
-  <path id="ridge" fill="none" stroke="rgba(160,170,255,.35)" stroke-width="2"/>
-  <path id="snow" fill="#eef2ff" opacity=".95"/>
-  <circle id="summitGlowEl" class="summit-glow" r="90"/>
-  <text class="map-label" id="railwayName" x="24" y="28"></text>
+  <rect width="900" height="430" fill="#a7d3e3"/>
+  <path fill="url(#grass)" stroke="#e9f3d8" stroke-width="3" d="M85 45L200 32 260 58 330 35 390 62 465 38 525 66 610 48 680 79 760 57 825 92 850 150 818 198 842 245 800 291 825 340 770 392 690 383 630 407 555 378 493 402 432 372 360 396 300 359 235 380 184 341 127 358 93 315 65 278 82 226 57 185 83 131 66 87Z"/>
+  <g id="fields">
+    <path fill="url(#field1)" opacity=".85" d="M140 70l70-12 18 44-74 14z"/>
+    <path fill="url(#field2)" opacity=".85" d="M640 330l64-10 14 40-70 10z"/>
+    <path fill="url(#field3)" opacity=".8" d="M705 95l60 6-6 38-62-8z"/>
+    <path fill="url(#field2)" opacity=".7" d="M250 300l58-8 10 34-62 8z"/>
+  </g>
+  <g id="hills">
+    <ellipse cx="610" cy="235" rx="58" ry="32" fill="url(#hill)" opacity=".9"/>
+    <ellipse cx="185" cy="185" rx="44" ry="26" fill="url(#hill)" opacity=".85"/>
+  </g>
+  <path id="lake" fill="#9fd0e2" stroke="#d8eef5" stroke-width="2" d="M405 345c22-14 66-12 80 4s-6 34-40 36-58-24-40-40z"/>
+  <path id="river" fill="none" stroke="#9fd0e2" stroke-width="9" stroke-linecap="round" d="M470 40C452 92 498 118 474 168S420 232 446 280 452 330 446 352"/>
+  <path class="water-shine" d="M470 40C452 92 498 118 474 168S420 232 446 280 452 330 446 352"/>
+  <g id="decoTrees"></g>
+  <text class="map-label" id="railwayName" x="96" y="26"></text>
   <g id="tracks"></g>
+  <g id="train" aria-hidden="true"></g>
+  <g id="canopy" class="canopy"></g>
+  <g id="puffs" class="puffs"></g>
+  <g class="shadows"><ellipse class="cloudshadow" cx="0" cy="110" rx="120" ry="45" filter="url(#soft)"/><ellipse class="cloudshadow" cx="0" cy="300" rx="160" ry="55" filter="url(#soft)" style="animation-duration:95s;animation-delay:-40s"/></g>
+  <g id="labels"></g>
   <g id="cities"></g>
-  <g id="flag" aria-hidden="true"><text text-anchor="start">🚩</text></g>
-  <g id="train" aria-hidden="true"><text text-anchor="middle" dominant-baseline="central">✈️</text></g>
+  <g id="finish" aria-hidden="true"><text font-size="30" text-anchor="middle">🏁</text></g>
 </svg>
 </div></div>
 
@@ -188,7 +208,7 @@ h2{font:700 clamp(1.4rem,3.6vw,1.9rem)/1.15 var(--display);margin:6px 0 10px;let
 
 <script src="content.js"></script>
 <script>
-/* ---------- Content: the five stops (order is fixed, whatever route is chosen) ---------- */
+/* ---------- Content ---------- */
 const C = window.TICKET_CONTENT || null;
 const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
 (function validate(){
@@ -197,10 +217,8 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
   else{
     if(C.stations.length!==C.stops.length+1)errs.push(`There are ${C.stations.length} stations but ${C.stops.length} stops — stations must be exactly one more than stops.`);
     if(C.hurdles.length!==C.stops.length)errs.push(`There are ${C.hurdles.length} hurdle legs but ${C.stops.length} stops — they must be equal.`);
-    C.hurdles.forEach((h,i)=>{
-      if(!h||!h.ideal||!h.real||Array.isArray(h))errs.push(`Leg ${i+1} needs an "ideal" path and a "real" path, each with a name and a story.`);
-    });
-    C.stops.forEach((st,i)=>{if(!st.title||!st.prompt)errs.push(`Stop ${i+1} needs a title and a prompt.`);});
+    C.hurdles.forEach((h,i)=>{if(!h||!h.ideal||!h.real||Array.isArray(h))errs.push(`Leg ${i+1} needs an "ideal" path and a "real" path, each with a name and a story.`)});
+    C.stops.forEach((st,i)=>{if(!st.title||!st.prompt)errs.push(`Stop ${i+1} needs a title and a prompt.`)});
   }
   if(errs.length){document.body.insertAdjacentHTML("afterbegin",`<div style="background:#fde8e6;border:2px solid #c95045;padding:14px 18px;border-radius:12px;margin:10px;font:15px system-ui;max-width:900px"><b>content.js needs a fix:</b><ul>${errs.map(e=>`<li>${e}</li>`).join("")}</ul></div>`);throw new Error(errs.join(" | "))}
   document.title=C.title; document.getElementById("title").textContent=C.title;
@@ -208,28 +226,30 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
   document.getElementById("railwayName").textContent=C.railwayName||"";
 })();
 
-/* ---------- Map data: built from content.js ---------- */
-// Station positions are computed automatically: evenly spaced, zig-zag up and down.
+/* ---------- Map data ---------- */
+const NS="http://www.w3.org/2000/svg";
+const el=(tag,attrs={},parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e};
+let seed=11; const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+const scratch=el("g",{opacity:0,"pointer-events":"none"},document.getElementById("map"));   // for measuring paths
+
+// Stations: evenly spaced, zig-zag up and down
 const CITIES={}, LINE=[];
 C.stations.forEach((st,i)=>{
   const id="s"+i, n=C.stations.length;
-  const f=i/(n-1);
-  const x=Math.round(130+(790-130)*f);
-  const y=Math.round(338-232*Math.pow(f,1.2));            // each milestone higher up the mountain
+  const x=Math.round(75+(838-75)*i/(n-1));
+  const y=i===0?235:(i%2?140:285);
   CITIES[id]={n:st.name,sub:st.sub||"",life:st.life||"",x,y,last:i===n-1}; LINE.push(id);
 });
 const START=LINE[0];
-// Each leg in content.js: { ideal:{name,story}, real:{name,story} }
-//   ideal → the straight track (how it should have gone)
-//   real  → the tangled track (what actually happened)
+
+// Two tracks per leg: ideal = straight, real = tangled
 const TRACKS=[];
 const SAMPLES=240, LOOPS=4, LOOP_R=17, BULGE=52;
 function tangledPath(A,B,side){
-  // A prolate trochoid along the line A→B: it bulges out and ties itself into loops.
   const dx=B.x-A.x, dy=B.y-A.y, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L, nx=-uy*side, ny=ux*side;
   const pts=[];
   for(let i=0;i<=SAMPLES;i++){
-    const t=i/SAMPLES, w=Math.sin(Math.PI*t);             // loops fade out near the stations
+    const t=i/SAMPLES, w=Math.sin(Math.PI*t);
     const u=L*t - w*LOOP_R*Math.sin(2*Math.PI*LOOPS*t);
     const v=BULGE*w + w*LOOP_R*(1-Math.cos(2*Math.PI*LOOPS*t));
     pts.push([A.x+ux*u+nx*v, A.y+uy*u+ny*v]);
@@ -239,266 +259,274 @@ function tangledPath(A,B,side){
 }
 LINE.slice(0,-1).forEach((a,k)=>{
   const b=LINE[k+1], A=CITIES[a], B=CITIES[b], h=C.hurdles[k];
-  const real=Array.isArray(h.real)?h.real[0]:h.real;          // older content with two real paths still works
-  // Tangle on the outer side of the zig-zag so neighbouring legs don't collide.
-  const side=B.x>A.x?1:-1;                                  // tangles hang below the slope, away from the station labels
+  const real=Array.isArray(h.real)?h.real[0]:h.real;
+  const side=(B.y<A.y)?-1:1;                          // tangle on the outer side of the zig-zag
   const dx=B.x-A.x, dy=B.y-A.y, L=Math.hypot(dx,dy);
-  TRACKS.push({id:`${a}-${b}-ideal`,a,b,...h.ideal,ideal:true,d:`M${A.x} ${A.y}L${B.x} ${B.y}`,
-               lx:(A.x+B.x)/2-(dy/L)*18*side, ly:(A.y+B.y)/2+(dx/L)*18*side+4});
-  TRACKS.push({id:`${a}-${b}-real`,a,b,...real,ideal:false,...tangledPath(A,B,side)});
+  TRACKS.push({id:`${a}-${b}-ideal`,a,b,k,...h.ideal,ideal:true,d:`M${A.x} ${A.y}L${B.x} ${B.y}`,
+               lx:(A.x+B.x)/2+(dy/L)*16*side, ly:(A.y+B.y)/2-(dx/L)*16*side});
+  TRACKS.push({id:`${a}-${b}-real`,a,b,k,...real,ideal:false,...tangledPath(A,B,side)});
 });
 
-/* ---------- Build SVG ---------- */
-const NS="http://www.w3.org/2000/svg";
-const el=(tag,attrs={},parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e};
-const tracksG=document.getElementById("tracks"), citiesG=document.getElementById("cities");
+/* ---------- Build the map ---------- */
+const tracksG=document.getElementById("tracks"), citiesG=document.getElementById("cities"), labelsG=document.getElementById("labels");
+// lead-in track from the left edge into the first station
+const SPUR=el("path",{d:`M-200 ${CITIES[START].y+30}C-80 ${CITIES[START].y+30} ${CITIES[START].x-70} ${CITIES[START].y} ${CITIES[START].x} ${CITIES[START].y}`},scratch);
+(function drawSpur(){const g=el("g",{class:"route-group completed",style:"opacity:1"},tracksG);
+  ["ballast","sleepers","rail"].forEach(c=>el("path",{class:c,d:SPUR.getAttribute("d")},g));})();
 TRACKS.forEach(t=>{
-  const g=el("g",{class:"route-group","data-route":t.id,role:"button","aria-label":`${CITIES[t.a].n} to ${CITIES[t.b].n} via ${t.name}`},tracksG);
-  el("path",{class:"hit",d:t.d},g);   // invisible, wide click area (the sleepers have gaps)
-  el("path",{class:"route",d:t.d},g); t.path=el("path",{class:"rail",d:t.d},g); t.g=g;
+  const g=el("g",{class:"route-group"+(t.ideal?" ideal":""),"data-route":t.id,role:"button","aria-label":`${CITIES[t.a].n} to ${CITIES[t.b].n} via ${t.name}`},tracksG);
+  el("path",{class:"hit",d:t.d},g);
+  el("path",{class:"ballast",d:t.d},g); el("path",{class:"sleepers",d:t.d},g); t.path=el("path",{class:"rail",d:t.d},g); t.g=g;
   g.addEventListener("click",()=>chooseTrack(t.id));
   g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();chooseTrack(t.id)}});
+  t.label=el("text",{class:"hurdle-label",x:t.lx,y:t.ly+4,"text-anchor":"middle"},labelsG);
+  t.label.textContent=(t.ideal?"✨ ":"🚧 ")+t.name;
 });
-// Hurdle labels drawn above all tracks so they stay readable
-const labelsG=el("g",{},tracksG);
-TRACKS.forEach(t=>{t.label=el("text",{class:"hurdle-label",x:t.lx,y:t.ly+4,"text-anchor":"middle"},labelsG);t.label.textContent=(t.ideal?"✨ ":"🚧 ")+t.name;if(t.ideal)t.g.classList.add("ideal")});
 Object.entries(CITIES).forEach(([id,c])=>{
   const g=el("g",{class:"city","data-city":id},citiesG);
-  el("circle",{class:"ring",cx:c.x,cy:c.y,r:14},g); el("circle",{cx:c.x,cy:c.y,r:12},g);
-  const below=id===START;
-  // Stacked labels: name, PhD subtitle, life milestone (above or below the dot)
+  el("rect",{class:"platform",x:c.x-22,y:c.y-5,width:44,height:10,rx:3},g);
+  el("circle",{class:"ring",cx:c.x,cy:c.y,r:13},g); el("circle",{cx:c.x,cy:c.y,r:10},g);
+  const below=c.y>200;
   const rows=[["",c.n],["sub",c.sub],["life",c.life]].filter(r=>r[1]);
   rows.forEach(([cls,txt],r)=>{
-    const first=id===START;                // first station: labels to the left of the dot
-    const y=first?c.y-10+r*15:c.y-24-(rows.length-1-r)*15-(r===0?4:0);
-    const lifeEnd=cls==="life"&&c.last;   // keep the last life label inside the map
-    const t=el("text",{class:cls,x:first?c.x-20:lifeEnd?c.x+42:c.x,y,"text-anchor":first||lifeEnd?"end":"middle"},g); t.textContent=txt;
+    const y=below?c.y+34+r*15:c.y-24-(rows.length-1-r)*15-(r===0?4:0);
+    const lifeEnd=cls==="life"&&c.last;
+    const t=el("text",{class:cls,x:lifeEnd?c.x+42:c.x,y,"text-anchor":lifeEnd?"end":"middle"},g); t.textContent=txt;
     if(cls==="life")c.lifeEl=t;
   });
   c.g=g;
 });
+const fin=document.getElementById("finish").firstElementChild, lastC=CITIES[LINE[LINE.length-1]];
+fin.setAttribute("x",lastC.x+30); fin.setAttribute("y",lastC.y+10);
 
-/* ---------- Mountain scene ---------- */
-(function scene(){
-  let seed=7; const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
-  const P=LINE.map(id=>CITIES[id]), top=P[P.length-1];
-  const ridge=[[0,392]];
-  P.forEach((c,i)=>{ if(i){const a=P[i-1];for(let k=1;k<4;k++){const t=k/4;ridge.push([a.x+(c.x-a.x)*t,a.y+(c.y-a.y)*t+16+(rnd()-.5)*18])}}
-                     ridge.push([c.x,c.y+(i===P.length-1?-14:16)]); });
-  ridge.push([top.x+38,top.y+40],[top.x+70,top.y+70],[900,top.y+110]);
-  const d="M"+ridge.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join("L");
-  document.getElementById("mountain").setAttribute("d",d+"L900 430L0 430Z");
-  document.getElementById("ridge").setAttribute("d",d);
-  const px=top.x, py=top.y-14;
-  document.getElementById("snow").setAttribute("d",`M${px-46} ${py+36}L${px-20} ${py+12}L${px} ${py}L${px+22} ${py+16}L${px+40} ${py+34}L${px+28} ${py+30}L${px+16} ${py+40}L${px+4} ${py+28}L${px-10} ${py+42}L${px-24} ${py+30}Z`);
-  const g=document.getElementById("summitGlowEl"); g.setAttribute("cx",top.x); g.setAttribute("cy",top.y);
-  const stars=document.getElementById("stars");
-  for(let i=0;i<70;i++){const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
-    c.setAttribute("class","star");c.setAttribute("cx",(rnd()*900).toFixed(1));c.setAttribute("cy",(rnd()*200).toFixed(1));
-    c.setAttribute("r",(rnd()*1.3+.3).toFixed(2));c.style.animationDelay=(-rnd()*3).toFixed(2)+"s";c.style.opacity=(.3+rnd()*.7).toFixed(2);stars.appendChild(c)}
-  const fl=document.getElementById("flag").firstElementChild; fl.setAttribute("x",top.x+14); fl.setAttribute("y",top.y+8);
+/* ---------- Scenery: forests the train disappears into, tunnels, trees ---------- */
+const sampleD=(d,step)=>{const p=el("path",{d},scratch);const L=p.getTotalLength(),out=[];for(let s=0;s<=L;s+=step){const q=p.getPointAtLength(s);out.push([q.x,q.y])}p.remove();return out};
+const TRACK_PTS=TRACKS.flatMap(t=>sampleD(t.d,6)).concat(sampleD(SPUR.getAttribute("d"),6));
+const GREENS=["#4f8f3f","#5c9c47","#3f7d35","#6aa84f","#467f3a"];
+function tree(g,x,y,r){
+  el("circle",{cx:x+r*.25,cy:y+r*.3,r,fill:"rgba(30,50,20,.22)"},g);
+  el("circle",{cx:x,cy:y,r,fill:GREENS[(rnd()*GREENS.length)|0]},g);
+  el("circle",{cx:x-r*.3,cy:y-r*.3,r:r*.45,fill:"rgba(255,255,255,.18)"},g);
+}
+(function scenery(){
+  const canopy=document.getElementById("canopy");
+  TRACKS.forEach(t=>{
+    if(!t.ideal){                                       // forest over the middle of every tangled track
+      const pts=sampleD(t.d,7), a=Math.floor(pts.length*.36), b=Math.floor(pts.length*.64);
+      const g=el("g",{class:"forest"},canopy);
+      for(let i=a;i<=b;i++){const[x,y]=pts[i];for(let j=0;j<2;j++)tree(g,x+(rnd()-.5)*30,y+(rnd()-.5)*30,8+rnd()*6)}
+    }else if(t.k%2===1){                                // tunnel under a hill on every other ideal track
+      const A=CITIES[t.a],B=CITIES[t.b],L=Math.hypot(B.x-A.x,B.y-A.y),ang=Math.atan2(B.y-A.y,B.x-A.x)*180/Math.PI;
+      const mx=(A.x+B.x)/2,my=(A.y+B.y)/2,rx=L*.2;
+      const g=el("g",{transform:`translate(${mx} ${my}) rotate(${ang})`},canopy);
+      el("ellipse",{cx:3,cy:5,rx:rx+4,ry:28,fill:"rgba(30,50,20,.18)"},g);
+      el("ellipse",{cx:0,cy:0,rx,ry:26,fill:"url(#hill)",stroke:"rgba(60,90,40,.25)","stroke-width":1.5},g);
+      [-1,1].forEach(s=>el("path",{d:`M${s*(rx-2)} -9A10 9 0 0 ${s>0?1:0} ${s*(rx-2)} 9`,fill:"#3a3a3a",stroke:"#8d8574","stroke-width":3},g));
+      for(let i=0;i<5;i++)tree(g,(rnd()-.5)*rx*1.2,(rnd()-.5)*24,5+rnd()*3);
+    }
+  });
+  // scattered trees away from tracks and station labels
+  const deco=document.getElementById("decoTrees"), land=document.querySelector('path[fill="url(#grass)"]');
+  let placed=0;
+  for(let i=0;i<500&&placed<70;i++){
+    const x=40+rnd()*820,y=40+rnd()*360;
+    if(!land.isPointInFill(Object.assign(document.getElementById("map").createSVGPoint(),{x,y})))continue;
+    if(TRACK_PTS.some(p=>Math.hypot(p[0]-x,p[1]-y)<20))continue;
+    if(Object.values(CITIES).some(c=>Math.abs(c.x-x)<70&&Math.abs(c.y-y)<70))continue;
+    if(Math.hypot(x-460,y-200)<30)continue;
+    tree(deco,x,y,4+rnd()*4); placed++;
+  }
 })();
-// How he travels: plane in, then walk and climb, summit at the end (override in content.js → journey)
-const JOURNEY=Object.assign({intro:"✈️",legs:["🚂","🚂","🚂","🚂","🚂"],summit:"🚂",
-  stages:["Arriving in Augsburg","All aboard!","Climbing the line","Climbing the line","Final ascent","Summit station!"]},C.journey||{});
-const ALT_TOP=Number(JOURNEY.altitude||4806);
 
-/* ---------- Journey logic ---------- */
-const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false,cardOpen:false};
-const other=(t,c)=>t.a===c?t.b:t.a;
-const byId=id=>TRACKS.find(t=>t.id===id);
-// Tracks run forward only: every hurdle from the current milestone leads to the next milestone.
-function options(){
-  if(state.history.length>=STOPS.length)return[];
-  return TRACKS.filter(t=>t.a===state.city);
+/* ---------- The train: locomotive + two carriages following the track ---------- */
+const trainG=document.getElementById("train"), reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const CAR_LEN=26, GAP=29;
+const cars=[0,1,2].map(i=>{
+  const g=el("g",{},trainG);
+  el("rect",{x:-14,y:-7.5,width:28,height:15,rx:4,fill:"rgba(0,0,0,.2)",transform:"translate(1.5 2)"},g);
+  if(i===0){
+    el("rect",{x:-13,y:-7,width:26,height:14,rx:4,fill:"#c8372d",stroke:"#7a1e17","stroke-width":1.2},g);
+    el("rect",{x:-11,y:-5,width:9,height:10,rx:2,fill:"#2a2f36"},g);
+    el("circle",{cx:7,cy:0,r:3.4,fill:"#2a2f36"},g);
+    el("path",{d:"M13 -6L17 0L13 6Z",fill:"#ffd166"},g);
+  }else{
+    el("rect",{x:-13,y:-6.5,width:26,height:13,rx:3.5,fill:i===1?"#1f6f5a":"#f1e9d2",stroke:i===1?"#0f4a3b":"#b9ab88","stroke-width":1.2},g);
+    for(let w=-9;w<=7;w+=5.4)el("rect",{x:w,y:-3.5,width:3.6,height:7,rx:1,fill:i===1?"#cde8df":"#7aa9c9"},g);
+  }
+  return g;
+});
+let trail=[];
+function trailPush(x,y){const l=trail[trail.length-1];if(!l||Math.hypot(x-l[0],y-l[1])>.8){trail.push([x,y]);if(trail.length>900)trail.shift()}}
+function back(d){let acc=0;for(let i=trail.length-1;i>0;i--){const a=trail[i],b=trail[i-1],s=Math.hypot(a[0]-b[0],a[1]-b[1]);if(acc+s>=d){const t=(d-acc)/s;return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}acc+=s}return trail[0]||[0,0]}
+function poseTrain(){
+  cars.forEach((g,i)=>{const c=13+i*GAP,f=back(c-8),r=back(c+8),m=back(c);
+    const ang=Math.atan2(f[1]-r[1],f[0]-r[0])*180/Math.PI;g.setAttribute("transform",`translate(${m[0].toFixed(1)} ${m[1].toFixed(1)}) rotate(${ang.toFixed(1)})`)});
 }
-
-/* ---------- Train ---------- */
-const train=document.getElementById("train"), reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
-let animToken=0, confettiToken=0, freshTicket=false, freshStep=false;
-let noFlip=false;
-function setVehicle(e,fixed){train.firstElementChild.textContent=e;noFlip=!!fixed}
-function placeTrain(x,y,faceRight){const fr=faceRight&&!noFlip;train.setAttribute("transform",`translate(${x},${y-8})${fr?" scale(-1,1)":""}`);train.dataset.right=faceRight?1:""}
-function flyIn(){
-  const A=CITIES[START], token=++animToken;
-  setVehicle(JOURNEY.intro,true);
-  const path=el("path",{d:`M-40 40Q${A.x-10} ${A.y-260} ${A.x} ${A.y}`,fill:"none"},document.getElementById("map"));
-  const L=path.getTotalLength(), t0=performance.now(), dur=reduceMotion?1:2600;
-  (function frame(now){
-    if(token!==animToken){path.remove();return}
-    const t=Math.min(1,(now-t0)/dur), f=1-Math.pow(1-t,3), p=path.getPointAtLength(f*L);
-    placeTrain(p.x,p.y,true);
-    if(t<1)requestAnimationFrame(frame);else{path.remove();setVehicle(JOURNEY.legs[0]||"🚂");trainAtCity(START);updateHud()}
-  })(t0);
-}
-function updateHud(){
-  const n=state.history.length, done=n>=STOPS.length, k=LINE.indexOf(state.city);
-  const alt=Math.round(ALT_TOP*Math.pow(k/(LINE.length-1),1.25));
-  document.getElementById("hudAlt").innerHTML=`⛰️ Altitude <b>${alt.toLocaleString("de-DE")} m</b>`;
-  const st=done?JOURNEY.stages[JOURNEY.stages.length-1]:state.pending?(JOURNEY.stages[n+1]||"Climbing"):JOURNEY.stages[n]||"";
-  document.getElementById("hudStage").innerHTML=`${done?"🏔️":state.pending?(JOURNEY.legs[n]||"🚂"):n===0?"📍":"🚉"} <b>${st}</b>`;
-}
-function trainAtCity(c){const p=CITIES[c];placeTrain(p.x,p.y,!!train.dataset.right)}
-function rideTrain(track,fromCity,done){
-  setVehicle(JOURNEY.legs[state.history.length]||"🚂");
-  const token=++animToken, path=track.path, L=path.getTotalLength(), from=CITIES[fromCity];
-  const s=path.getPointAtLength(0), forward=Math.hypot(s.x-from.x,s.y-from.y)<5;
-  const at=f=>path.getPointAtLength((forward?f:1-f)*L);
-  if(reduceMotion){const e=at(1);placeTrain(e.x,e.y,e.x>from.x);done&&done();return}
-  const dur=Math.min(1700,700+L*2.2), t0=performance.now();
+function samples(pathEl,forward,step=1.2){const L=pathEl.getTotalLength(),o=[];for(let s=0;s<=L;s+=step){const q=pathEl.getPointAtLength(forward?s:L-s);o.push([q.x,q.y])}return o}
+let animToken=0, confettiToken=0, lastPuff=0;
+function puff(x,y){const now=performance.now();if(now-lastPuff<140||reduceMotion)return;lastPuff=now;
+  const c=el("circle",{class:"puff",cx:x,cy:y-6,r:4+rnd()*2},document.getElementById("puffs"));setTimeout(()=>c.remove(),1700)}
+function runAlong(pts,dur,done){
+  const token=++animToken,t0=performance.now();let idx=0;
+  if(reduceMotion){pts.forEach(p=>trailPush(p[0],p[1]));poseTrain();done&&done();return}
   (function frame(now){
     if(token!==animToken)return;
-    const t=Math.min(1,(now-t0)/dur), f=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
-    const p=at(f), q=at(Math.min(1,f+.01));
-    placeTrain(p.x,p.y,q.x-p.x>0.05?true:q.x-p.x<-0.05?false:!!train.dataset.right);
+    const t=Math.min(1,(now-t0)/dur), f=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2, to=Math.floor(f*(pts.length-1));
+    for(;idx<=to;idx++)trailPush(pts[idx][0],pts[idx][1]);
+    poseTrain(); const h=trail[trail.length-1]; if(t<1)puff(h[0],h[1]);
     if(t<1)requestAnimationFrame(frame);else done&&done();
   })(t0);
 }
+function rollIn(){                                     // the train pulls into the first station
+  trail=[]; const pts=samples(SPUR,true); pts.slice(0,90).forEach(p=>trailPush(p[0],p[1])); poseTrain();
+  runAlong(pts.slice(90),2400,()=>render());
+}
+function parkAfter(track){                             // place the whole train on the track it just used
+  trail=[]; samples(track.path,true).forEach(p=>trailPush(p[0],p[1])); poseTrain();
+}
 
-/* ---------- Actions ---------- */
+/* ---------- Journey logic ---------- */
+const state={city:START,history:[],pending:null,revealed:false,alt:false,fact:null,life:false,cardOpen:false};
+const other=(t,c)=>t.a===c?t.b:t.a;
+const byId=id=>TRACKS.find(t=>t.id===id);
+function options(){return state.history.length>=STOPS.length?[]:TRACKS.filter(t=>t.a===state.city)}
 function chooseTrack(id){
   if(!options().some(t=>t.id===id)||state.pending===id)return;
-  state.pending=id; state.fact=null; state.cardOpen=false; renderMap(); renderStage();
-  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;render()}});
+  if(state.pending){                                   // changed his mind: go back to the platform first
+    const prev=state.history[state.history.length-1]; if(prev)parkAfter(byId(prev.id)); else {trail=[];samples(SPUR,true).forEach(p=>trailPush(p[0],p[1]));poseTrain()}
+  }
+  state.pending=id; state.fact=null; state.cardOpen=false; state.revealed=false; render();
+  const t=byId(id);
+  runAlong(samples(t.path,true),Math.min(3200,1200+t.path.getTotalLength()*3.2),()=>{if(state.pending===id){state.revealed=true;render()}});
 }
 function nextStop(){
   const t=byId(state.pending);
-  state.history.push({id:t.id,from:state.city,to:other(t,state.city)});
-  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null; state.fact=null; state.life=false; state.cardOpen=state.history.length>=STOPS.length;
-  animToken++; trainAtCity(state.city); render();
-  if(state.history.length===STOPS.length){setVehicle(JOURNEY.summit);trainAtCity(state.city);confetti()}
+  state.history.push({id:t.id,from:state.city,to:t.b});
+  Object.assign(state,{city:t.b,pending:null,revealed:false,alt:false,fact:null,life:false,cardOpen:state.history.length>=STOPS.length});
+  animToken++; render();
+  if(state.history.length===STOPS.length)confetti();
 }
 function previousStop(){
   const h=state.history.pop(); animToken++;
-  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null; state.fact=null; state.life=true; state.cardOpen=true;
-  setVehicle(JOURNEY.legs[state.history.length]||"🚂"); trainAtCity(h.to); render();
+  Object.assign(state,{city:h.from,pending:h.id,revealed:true,alt:false,fact:null,life:true,cardOpen:true});
+  parkAfter(byId(h.id)); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false,cardOpen:false});animToken++;render();flyIn()}
+function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,fact:null,life:false,cardOpen:false});animToken++;render();rollIn()}
 
 /* ---------- Rendering ---------- */
 function renderMap(){
   const opts=options(), used=new Set(state.history.map(h=>h.id));
-  const dest=state.pending?other(byId(state.pending),state.city):null;
+  const dest=state.pending?byId(state.pending).b:null;
   TRACKS.forEach(t=>{
     const avail=opts.includes(t);
     t.g.classList.toggle("available",avail&&t.id!==state.pending);
     t.g.classList.toggle("selected",t.id===state.pending);
     t.g.classList.toggle("completed",used.has(t.id));
-    t.g.setAttribute("tabindex",avail?"0":"-1");
-    t.g.setAttribute("aria-disabled",avail?"false":"true");
+    t.g.setAttribute("tabindex",avail?"0":"-1"); t.g.setAttribute("aria-disabled",avail?"false":"true");
     t.label.style.opacity=(avail||t.id===state.pending)?1:0;
   });
-  const reachable=new Set(opts.map(t=>other(t,state.city)));
   const visited=new Set(state.history.flatMap(h=>[h.from,h.to]));
-  const finished=state.history.length>=STOPS.length;
-  // Life milestones stay hidden until revealed: start station, stations already passed, and the current one once revealed
   LINE.forEach((id,k)=>{const c=CITIES[id];if(!c.lifeEl)return;
-    const shown=k===0||k<=state.history.length||(k===state.history.length+1&&state.revealed&&lifeShown());
+    const shown=k===0||k<=state.history.length||(k===state.history.length+1&&state.revealed&&state.life);
     if(shown&&c.lifeEl.classList.contains("hidden"))c.lifeEl.classList.add("pop");
     c.lifeEl.classList.toggle("hidden",!shown);});
   Object.entries(CITIES).forEach(([id,c])=>{
     c.g.classList.toggle("current",id===state.city);
     c.g.classList.toggle("visited",visited.has(id)&&id!==state.city);
     c.g.classList.toggle("dest",id===dest);
-    c.g.classList.toggle("reachable",reachable.has(id));
   });
+  document.getElementById("finish").classList.toggle("on",state.history.length>=STOPS.length);
 }
-
 function stubs(){return `<div class="stubs" aria-hidden="true">${STOPS.map((_,i)=>`<span class="stub ${i<state.history.length?"done":i===state.history.length?"now":""}"></span>`).join("")}</div>`}
-
-const lifeShown=()=>state.life;   // the life milestone appears once the card has been drawn
-function ticketBody(s){
-  const st=CITIES[LINE[state.history.length+1]];
-  let h="";
-  if(s.memory){
-    h+=`<div class="step"><div class="step-label">Step 1 · The PhD phase</div><h2>${st.n}</h2><p class="prompt">${s.memory}</p></div>`;
-    if(!state.life)return h+`<div class="dare-row"><button class="button dare-btn" id="lifeBtn">🎁 Reveal the personal milestone</button><span class="hint" style="margin:0">Told the story? Something else happened on this stop…</span></div>`;
-    h+=`<div class="step two${freshStep?" fresh":""}"><div class="step-label">Step 2 · Personal milestone unlocked${st.life?`: <span class="lifechip">${st.life}</span>`:""}</div>`;
-  }
-  else if(st.life)h+=`<div class="step-label" style="color:#a0436f">Personal milestone: <span class="lifechip">${st.life}</span></div>`;
-  h+=`<div class="icon" aria-hidden="true">${s.icon}</div><h2>${s.title}</h2><p class="prompt">${state.alt&&s.altPrompt?s.altPrompt:s.prompt}</p>`;
-  if(s.talks)h+=`<div class="talks">${s.talks.map(t=>`<span class="talk">“${t}”</span>`).join("")}</div>`;
-  if(s.hint)h+=`<p class="hint">${s.hint}</p>`;
-  if(s.stations)h+=`<div class="answer" id="answer">${s.stations.map((x,i)=>`<span class="station"><small>Station ${i+1}</small>${x}</span>`).join('<span class="arrow" aria-hidden="true">→</span>')}</div><button class="button secondary" id="reveal" aria-expanded="false">Reveal answer</button>`;
-  if(s.altPrompt)h+=` <button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`;
-  if(s.memory)h+=`</div>`;
-  freshStep=false;
-  return h;
-}
-
-function finaleHTML(){
-  const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
-  return `<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>${C.stations.some(x=>x.life)?`<div class="counter" style="margin-top:14px">${FINALE.doubleRouteTitle||"Your double route"}</div><div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
-    ${FINALE.dare?`<div class="dare-card" style="text-align:left;margin:16px 0"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div>`:""}
-    <p class="recap">Your route: ${path}</p><div class="controls" style="justify-content:center"><button class="button secondary" id="restart">Ride again</button></div></div>`;
-}
-
-function stopCardHTML(s,n){
-  const st=CITIES[LINE[n+1]];
-  const tasks=[s.memory,state.alt&&s.altPrompt?s.altPrompt:s.prompt].filter(Boolean);
-  return `<div class="counter">Stop ${n+1} of ${STOPS.length} · ${st.n}</div>
-    ${st.life?`<div class="milestone">${st.life}</div>`:""}
-    <h2>${s.title}</h2>
-    ${tasks.length>1?`<ol class="tasks">${tasks.map(t=>`<li>${t}</li>`).join("")}</ol>`:`<p class="prompt">${tasks[0]}</p>`}
-    ${s.altPrompt?`<button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`:""}
-    <div class="controls"><button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button></div>`;
-}
-
+let lastBoard="";
 function renderStage(){
   const stage=document.getElementById("stage"), n=state.history.length, done=n>=STOPS.length;
-  // ---- Compact bar under the map ----
-  let bar=stubs();
+  const from=done?CITIES[state.city].n:CITIES[state.city].n, to=done?"—":CITIES[LINE[n+1]].n;
+  const p=state.pending&&byId(state.pending);
+  const status=done?["TERMINUS","go"]:!p?["CHOOSE YOUR TRACK","blink"]:!state.revealed?["EN ROUTE","go"]:["ARRIVED",""];
+  const via=p?(p.ideal?"✨ ":"🚧 ")+p.name:"—";
+  const key=[n,from,to,via,status[0]].join("|"), fresh=key!==lastBoard; lastBoard=key;
+  const fl=fresh?" flip":"";
+  const board=`<div class="board">
+    <div class="cell"><div class="k">Stop</div><div class="v${fl}">${done?STOPS.length:n+1}/${STOPS.length}</div></div>
+    <div class="cells">
+      <div class="cell"><div class="k">From</div><div class="v${fl}">${from}</div></div>
+      <div class="cell"><div class="k">To</div><div class="v${fl}">${to}</div></div>
+      <div class="cell" style="min-width:0;flex:1"><div class="k">Via</div><div class="v${fl}">${via}</div></div>
+    </div>
+    <div class="cell"><div class="k">Status</div><div class="v status ${status[1]}${fl}">${status[0]}</div></div>
+    ${stubs()}
+  </div>`;
+  let msg="", btns="";
   if(done){
-    bar+=`<div class="bar"><span class="leg">🎓 Journey complete — welcome to the Defense station!</span><span class="bar-btns"><button class="button secondary" id="back">← Last stop</button>${state.cardOpen?"":`<button class="button primary" id="open">🎓 Open the finale</button>`}<button class="button secondary" id="restart2">Ride again</button></span></div>`;
+    msg=`🎓 Terminus reached — welcome to <strong>${CITIES[state.city].n}</strong>!`;
+    btns=`<button class="button secondary" id="back">← Last stop</button>${state.cardOpen?"":`<button class="button primary" id="open">🎓 Open the finale</button>`}<button class="button secondary" id="restart2">Ride again</button>`;
   }else{
-    const opts=options(), from=CITIES[state.city].n, to=CITIES[LINE[n+1]].n;
-    const p=state.pending&&byId(state.pending);
     const fact=!p||!p.ideal||!state.revealed?"":state.fact===null
-      ?` <span class="fact">🕵️ Fact check! <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></span>`
+      ?` <span class="fact">🕵️ Fact check! <button class="button small" id="factYes">Believable ✅</button> <button class="button small" id="factNo">Nice try! ❌</button></span>`
       :state.fact?` <span class="fact">🕵️ The room believes you.</span>`:` <span class="fact no">🕵️ Nice try, Dr. Kiran!</span>`;
-    const status=!p?""
-      :!state.revealed?(p.ideal?`${JOURNEY.legs[n]||"🚂"} Cruising the ideal path to ${to}… suspiciously smooth.`:`${JOURNEY.legs[n]||"🚂"} Fighting through “${p.name}”…`)
-      :`${p.ideal?"✨":"🚧"} <strong>${p.name}</strong> — ${p.story}${fact}`;
-    bar+=`<div class="bar"><span class="counter" style="margin:0">Stop ${n+1} of ${STOPS.length}</span>${status?`<span class="leg">${status}</span>`:""}<span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show the card":"Draw the card"}</button>`:""}</span></div>`;
+    msg=!p?"":!state.revealed?(p.ideal?`📢 The train takes the straight line to ${to}… suspiciously smooth.`:`📢 Delays expected: “${p.name}”…`)
+      :`📢 ${p.ideal?"✨":"🚧"} <strong>${p.name}</strong> — ${p.story}${fact}`;
+    btns=`${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show your ticket":"Draw your ticket"}</button>`:""}`;
   }
-  stage.innerHTML=bar;
+  stage.innerHTML=board+`<div class="announce"><span class="msg">${msg}</span><span class="bar-btns">${btns}</span></div>`;
 
-  // ---- The ticket card (opens on arrival) ----
   const overlay=document.getElementById("overlay"), body=document.getElementById("cardBody");
   const show=state.cardOpen&&(done||state.revealed);
   overlay.hidden=!show;
   if(show){
-    const keep=body.scrollTop, same=overlay.dataset.key===String(n);
-    body.innerHTML=done?finaleHTML():stopCardHTML(STOPS[n],n);
-    overlay.dataset.key=String(n);
-    body.scrollTop=same?keep:0;
-    if(!same)document.querySelector(".card").classList.remove("pop"),void document.querySelector(".card").offsetWidth,document.querySelector(".card").classList.add("pop");
+    const k=String(n), same=overlay.dataset.key===k, keep=body.scrollTop;
+    body.innerHTML=done?finaleHTML():ticketHTML(STOPS[n],n);
+    overlay.dataset.key=k; body.scrollTop=same?keep:0;
+    if(!same){const c=document.querySelector(".card");c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop")}
   }else overlay.dataset.key="";
 
-  const $=id=>document.getElementById(id), on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
-  document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>chooseTrack(b.dataset.choice));
+  const on=(id,f)=>{const e=document.getElementById(id);if(e)e.onclick=f};
   on("factYes",()=>{state.fact=true;renderStage()});
   on("factNo",()=>{state.fact=false;renderStage()});
-  on("lifeBtn",()=>{state.life=true;freshStep=true;render()});
   on("alt",()=>{state.alt=!state.alt;renderStage()});
-  on("next",nextStop);
-  on("back",previousStop);
+  on("next",nextStop); on("back",previousStop);
   on("open",()=>{state.cardOpen=true;state.life=true;render()});
   on("restart",restart); on("restart2",restart);
 }
-function render(){renderMap();renderStage();
-  const done=state.history.length>=STOPS.length;
-  document.getElementById("flag").classList.toggle("planted",done);
-  document.getElementById("summitGlowEl").classList.toggle("on",done);
-  updateHud()}
+function ticketHTML(s,n){
+  const st=CITIES[LINE[n+1]], fromN=CITIES[LINE[n]].n, p=byId(state.pending);
+  const tasks=[s.memory,state.alt&&s.altPrompt?s.altPrompt:s.prompt].filter(Boolean);
+  return `<div class="tk-head"><div class="eyebrow">${C.railwayName||"PhD Railway"} · Single ticket</div>
+      <div class="tk-route"><span>${fromN}</span><span class="arrow">→</span><span>${st.n}</span></div></div>
+    <div class="tk-body">
+      <div class="tk-meta"><span>Stop<b>${n+1} of ${STOPS.length}</b></span><span>Via<b>${p?p.name:"—"}</b></span><span>Class<b>Doctoral</b></span></div>
+      ${st.life?`<div class="stamp">${st.life}</div>`:""}
+      <h2>${s.title}</h2>
+      ${tasks.length>1?`<ol class="tasks">${tasks.map(t=>`<li>${t}</li>`).join("")}</ol>`:`<p class="prompt">${tasks[0]}</p>`}
+      ${s.altPrompt?`<button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`:""}
+      <div class="controls"><button class="button primary" id="next">${n===STOPS.length-1?"Arrive at the terminus 🎓":"Next stop →"}</button></div>
+    </div>
+    <div class="tk-foot"><span>VALID FOR ONE PhD · NON-REFUNDABLE</span><span class="barcode" aria-hidden="true"></span></div>`;
+}
+function finaleHTML(){
+  const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
+  return `<div class="tk-head"><div class="eyebrow">Terminus</div><div class="tk-route"><span>${CITIES[START].n}</span><span class="arrow">→</span><span>${CITIES[state.city].n}</span></div></div>
+    <div class="tk-body finish"><div class="big" aria-hidden="true">🏁🎓🎉</div>
+      <h2>${FINALE.heading||""}</h2><p>${FINALE.message||""}</p>
+      ${C.stations.some(x=>x.life)?`<div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
+      ${FINALE.dare?`<div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div>`:""}
+      <p class="recap">Your route: ${path}</p>
+      <div class="controls" style="justify-content:center"><button class="button secondary" id="restart">Ride again</button></div>
+    </div>
+    <div class="tk-foot"><span>JOURNEY COMPLETE · DR. ON BOARD</span><span class="barcode" aria-hidden="true"></span></div>`;
+}
+function render(){renderMap();renderStage()}
 
-/* ---------- Finale confetti (no libraries) ---------- */
+/* ---------- Clock + confetti ---------- */
+function tick(){const d=new Date();document.getElementById("clock").textContent=d.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})}
+tick(); setInterval(tick,15000);
 function confetti(){
   if(reduceMotion)return;
   const cv=document.getElementById("confetti"),ctx=cv.getContext("2d");
   cv.width=innerWidth;cv.height=innerHeight;
-  const colors=["#c95045","#f3c65e","#286c8e","#3a806c","#17324d"];
-  const bits=Array.from({length:160},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*3,r:Math.random()*6.3,vr:(Math.random()-.5)*.3,w:6+Math.random()*6,c:colors[Math.random()*5|0]}));
+  const colors=["#d9452b","#f2b632","#1f6feb","#14513f","#c2185b"];
+  const bits=Array.from({length:170},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*3,r:Math.random()*6.3,vr:(Math.random()-.5)*.3,w:6+Math.random()*6,c:colors[Math.random()*5|0]}));
   const t0=performance.now(), tok=++confettiToken;
   (function f(now){
     if(tok!==confettiToken){ctx.clearRect(0,0,cv.width,cv.height);return}
@@ -507,12 +535,11 @@ function confetti(){
     if(now-t0<4500)requestAnimationFrame(f);else ctx.clearRect(0,0,cv.width,cv.height);
   })(t0);
 }
-
 document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderStage()};
 document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&state.cardOpen){state.cardOpen=false;renderStage()}});
 render();
-flyIn();
+rollIn();
 </script>
 </body>
 </html>
