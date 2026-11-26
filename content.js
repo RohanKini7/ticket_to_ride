@@ -53,7 +53,7 @@ window.TICKET_CONTENT = {
     { name:"Augsburg",        sub:"Day 0",                 life:"Arrived single" },
     { name:"Initial Days",    sub:"Joining 404 Not Found", life:"♟️ The chess stream" },
     { name:"Results & Rings", sub:"First data",            life:"💍 The wedding" },
-    { name:"Firenze",         sub:"COMSOL 2024",           life:"🎙️ The Kamath Talks" },
+    { name:"Firenze Conference", sub:"COMSOL 2024",           life:"🎙️ The Kamath Talks" },
     { name:"Publication",     sub:"Peer-reviewed!",        life:"👶 The baby" },
     { name:"Defense",         sub:"Today",                 life:"✈️ Parents’ first trip abroad" }
   ],
@@ -99,7 +99,7 @@ window.TICKET_CONTENT = {
     prompt:"A question for Deeksha 💍 straight from his PhD: What sound does an axial flux motor make? Show us!"},
   { phase:"Firenze", title:"The Kamath Talks", icon:"🎙️",
     fact:"The One Where Dr. Kiran Started The Kamath Talks",
-    ticketType:"Ticket for 2", passengers:"Kiran + Deeksha", destination:"Firenze Conference",
+    ticketType:"Ticket for 2", passengers:"Kiran + Deeksha",
     prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style."},
   { phase:"Publication", title:"The Baby", icon:"👶",
     fact:"The One Where Dr. Kiran Became a Dad",
