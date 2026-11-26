@@ -175,7 +175,6 @@ body{padding:10px}
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
-<div class="footer"><span>Pick a path → the train rides to the station → draw the card → next stop.</span><span id="lineFooter"></span></div>
 </main>
 <div class="overlay" id="overlay" hidden><div class="card" role="dialog" aria-modal="true" aria-label="Ticket"><button class="close" id="closeCard" aria-label="Close the ticket and look at the map">×</button><div id="cardBody"></div></div></div>
 
@@ -199,7 +198,6 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
   document.title=C.title; document.getElementById("title").textContent=C.title;
   const sub=document.getElementById("subtitle"); sub.textContent=C.subtitle||""; sub.hidden=!C.subtitle;
   document.getElementById("railwayName").textContent=C.railwayName||"";
-  document.getElementById("lineFooter").textContent=C.stations.map(x=>x.name).join(" → ");
 })();
 
 /* ---------- Map data: built from content.js ---------- */
