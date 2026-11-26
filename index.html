@@ -79,7 +79,11 @@ h1{margin:0;font:800 clamp(1.5rem,3.6vw,2.2rem)/1.05 var(--ui);letter-spacing:-.
 
 /* Departure board */
 .content{padding:10px 14px 14px}
-.board{background:var(--board);border-radius:14px;padding:10px 14px;color:var(--amber);font:700 .92rem var(--mono);box-shadow:inset 0 2px 10px rgba(0,0,0,.6);display:grid;grid-template-columns:auto 1fr auto;gap:6px 18px;align-items:center}
+.board{background:var(--board);border-radius:14px;padding:10px 14px;color:var(--amber);font:700 .92rem var(--mono);box-shadow:inset 0 2px 10px rgba(0,0,0,.6);display:grid;grid-template-columns:auto 1fr auto auto;gap:6px 18px;align-items:center}
+.board-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.board-btns:empty{display:none}
+.board .button{font-family:var(--ui);text-transform:none;letter-spacing:0;padding:9px 14px}
+.board .secondary{background:#2a2f33;color:#e8e8e8;border-color:#3a4045}
 .board .k{color:#8b8f94;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase}
 .board .v{letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .board .cells{display:flex;gap:18px;min-width:0;flex-wrap:wrap}
@@ -455,6 +459,7 @@ function renderStage(){
       <div class="cell" style="min-width:0;flex:1"><div class="k">Via</div><div class="v${fl}">${via}</div></div>
     </div>
     <div class="cell"><div class="k">Status</div><div class="v status ${status[1]}${fl}">${status[0]}</div></div>
+    <div class="board-btns" id="boardBtns"></div>
     ${stubs()}
   </div>`;
   let msg="", btns="";
@@ -465,7 +470,8 @@ function renderStage(){
     msg="";
     btns=`${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show your ticket":"Draw your ticket"}</button>`:""}`;
   }
-  stage.innerHTML=board+`<div class="announce"><span class="msg">${msg}</span><span class="bar-btns">${btns}</span></div>`;
+  stage.innerHTML=board;
+  document.getElementById("boardBtns").innerHTML=btns;
 
   const overlay=document.getElementById("overlay"), body=document.getElementById("cardBody");
   const show=state.cardOpen&&(done||state.revealed);
