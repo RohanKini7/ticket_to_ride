@@ -147,7 +147,7 @@ header{padding:16px 30px 14px}
 h1{font-size:clamp(1.7rem,4vw,2.4rem);margin:4px 0 4px}
 .subtitle{font-size:.92rem}
 .route-wrap{padding:12px 24px 0}
-.map svg{max-height:calc(100vh - 385px);min-height:240px}
+.map svg{max-height:calc(100vh - 330px);min-height:240px}
 .map{background:var(--water)}
 body{padding:10px}
 .map-caption{padding:6px 14px}
@@ -172,15 +172,6 @@ body{padding:10px}
   <g id="cities"></g>
   <g id="train" aria-hidden="true"><text text-anchor="middle" dominant-baseline="central">🚂</text></g>
 </svg>
-<div class="map-caption">
-  <span id="journeyStatus"></span>
-  <span class="key">
-    <span>straight = ✨ ideal · tangled = 🚧 what really happened</span>
-    <span><span class="sw" style="background:var(--red)"></span>routes from here</span>
-    <span><span class="sw" style="background:var(--gold)"></span>chosen</span>
-    <span><span class="sw" style="background:var(--blue)"></span>travelled</span>
-  </span>
-</div>
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
@@ -355,9 +346,6 @@ function renderMap(){
     c.g.classList.toggle("dest",id===dest);
     c.g.classList.toggle("reachable",reachable.has(id));
   });
-  document.getElementById("journeyStatus").innerHTML=finished
-    ?`Journey complete · Final station: <strong>${CITIES[state.city].n}</strong> (today!)`
-    :`Source: <strong>${CITIES[state.city].n}</strong> · Destination: <strong>${CITIES[LINE[LINE.indexOf(state.city)+1]].n}</strong> · Path: <strong>${state.pending?byId(state.pending).name:"choose one"}</strong>`;
 }
 
 function stubs(){return `<div class="stubs" aria-hidden="true">${STOPS.map((_,i)=>`<span class="stub ${i<state.history.length?"done":i===state.history.length?"now":""}"></span>`).join("")}</div>`}
@@ -408,16 +396,14 @@ function renderStage(){
     bar+=`<div class="bar"><span class="leg">🎓 Journey complete — welcome to the Defense station!</span><span class="bar-btns"><button class="button secondary" id="back">← Last stop</button>${state.cardOpen?"":`<button class="button primary" id="open">🎓 Open the finale</button>`}<button class="button secondary" id="restart2">Ride again</button></span></div>`;
   }else{
     const opts=options(), from=CITIES[state.city].n, to=CITIES[LINE[n+1]].n;
-    const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">${t.ideal?"✨ ":"🚧 "}${t.name}</button>`).join("");
     const p=state.pending&&byId(state.pending);
     const fact=!p||!p.ideal||!state.revealed?"":state.fact===null
       ?` <span class="fact">🕵️ Fact check! <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></span>`
       :state.fact?` <span class="fact">🕵️ The room believes you.</span>`:` <span class="fact no">🕵️ Nice try, Dr. Kiran!</span>`;
-    const status=!p?`<strong>${from}</strong> → <strong>${to}</strong>: straight <span class="ideal-txt">✨ ideal path</span> or 🚧 what really happened?`
+    const status=!p?""
       :!state.revealed?(p.ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${p.name}”…`)
       :`${p.ideal?"✨":"🚧"} <strong>${p.name}</strong> — ${p.story}${fact}`;
-    bar+=`<div class="bar"><span class="counter" style="margin:0">Stop ${n+1} of ${STOPS.length}</span><span class="leg">${status}</span></div>
-      <div class="bar"><span class="route-choices" role="group" aria-label="Tracks from ${from} to ${to}">${choices}</span><span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show the card":"Draw the card"}</button>`:""}</span></div>`;
+    bar+=`<div class="bar"><span class="counter" style="margin:0">Stop ${n+1} of ${STOPS.length}</span>${status?`<span class="leg">${status}</span>`:""}<span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show the card":"Draw the card"}</button>`:""}</span></div>`;
   }
   stage.innerHTML=bar;
 
