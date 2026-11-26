@@ -154,7 +154,7 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
-<div class="footer"><span>Pick a path → tell the PhD phase → reveal the personal milestone → retell it in that style → draw a dare.</span><span id="lineFooter"></span></div>
+<div class="footer"><span>Pick a path → tell the PhD phase → reveal the personal milestone → retell it in that style.</span><span id="lineFooter"></span></div>
 </main>
 
 <script src="content.js"></script>
@@ -171,7 +171,7 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
     C.hurdles.forEach((h,i)=>{
       if(!h||!h.ideal||!h.real||Array.isArray(h))errs.push(`Leg ${i+1} needs an "ideal" path and a "real" path, each with a name and a story.`);
     });
-    C.stops.forEach((st,i)=>{if(!st.title||!st.prompt)errs.push(`Stop ${i+1} needs a title and a prompt.`);if(!st.dares||!st.dares.length)errs.push(`Stop ${i+1} needs at least one dare.`)});
+    C.stops.forEach((st,i)=>{if(!st.title||!st.prompt)errs.push(`Stop ${i+1} needs a title and a prompt.`);});
   }
   if(errs.length){document.body.insertAdjacentHTML("afterbegin",`<div style="background:#fde8e6;border:2px solid #c95045;padding:14px 18px;border-radius:12px;margin:10px;font:15px system-ui;max-width:900px"><b>content.js needs a fix:</b><ul>${errs.map(e=>`<li>${e}</li>`).join("")}</ul></div>`);throw new Error(errs.join(" | "))}
   document.title=C.title; document.getElementById("title").textContent=C.title;
@@ -346,9 +346,6 @@ function ticketBody(s){
   if(s.hint)h+=`<p class="hint">${s.hint}</p>`;
   if(s.stations)h+=`<div class="answer" id="answer">${s.stations.map((x,i)=>`<span class="station"><small>Station ${i+1}</small>${x}</span>`).join('<span class="arrow" aria-hidden="true">→</span>')}</div><button class="button secondary" id="reveal" aria-expanded="false">Reveal answer</button>`;
   if(s.altPrompt)h+=` <button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`;
-  h+= state.dare===null
-    ? `<div class="dare-row"><button class="button dare-btn" id="dare">🎲 Draw a dare</button><span class="hint" style="margin:0">Answered? Now the room gets a say.</span></div>`
-    : `<div class="dare-card" id="dareCard"><div class="dare-label">Dare card ${state.dare+1} of ${s.dares.length}</div><p>${s.dares[state.dare]}</p><button class="link" id="dare">🎲 Shuffle for another dare</button></div>`;
   if(s.memory)h+=`</div>`;
   freshStep=false;
   return h;
@@ -373,7 +370,7 @@ function renderStage(){
   let ticket;
   if(state.revealed){const h=byId(state.pending);const fc=!h.ideal?"":state.fact===null
       ?`<div class="factcheck">🕵️ <strong>Fact check!</strong> Does the room believe it really went like this? <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></div>`
-      :state.fact?`<div class="factcheck">🕵️ The room believes you. Respect.</div>`:`<div class="factcheck no">🕵️ The room isn’t buying it. Penalty dare below 👇</div>`;
+      :state.fact?`<div class="factcheck">🕵️ The room believes you. Respect.</div>`:`<div class="factcheck no">🕵️ The room isn’t buying it. Nice try, Dr. Kiran!</div>`;
     ticket=`<div class="ticket${freshTicket?" fresh":""}"><div class="cleared${h.ideal?" ideal":""}">${h.ideal?"✨ The ideal path":"🚧 What actually happened"}: <strong>${h.name}</strong> — ${h.story}</div>${fc}${ticketBody(s)}</div>`;freshTicket=false}
   else if(state.pending) ticket=`<div class="ticket mystery">${byId(state.pending).ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${byId(state.pending).name}” on the way to ${to}…`}</div>`;
   else ticket=`<div class="ticket mystery">🎟️ The ${to} ticket is face down. Pick a track to ride there and reveal it.</div>`;
@@ -385,10 +382,8 @@ function renderStage(){
   const r=document.getElementById("reveal");
   if(r)r.onclick=()=>{const a=document.getElementById("answer"),show=a.classList.toggle("show");r.textContent=show?"Hide answer":"Reveal answer";r.setAttribute("aria-expanded",show)};
   const fy=document.getElementById("factYes"); if(fy)fy.onclick=()=>{state.fact=true;renderStage()};
-  const fn=document.getElementById("factNo"); if(fn)fn.onclick=()=>{state.fact=false;state.life=true;if(state.dare===null)state.dare=Math.random()*s.dares.length|0;render()};
+  const fn=document.getElementById("factNo"); if(fn)fn.onclick=()=>{state.fact=false;renderStage()};
   const lb=document.getElementById("lifeBtn"); if(lb)lb.onclick=()=>{state.life=true;freshStep=true;render()};
-  const dz=document.getElementById("dare");
-  if(dz)dz.onclick=()=>{const k=s.dares.length;let i;do{i=Math.random()*k|0}while(k>1&&i===state.dare);state.dare=i;renderStage()};
   const alt=document.getElementById("alt"); if(alt)alt.onclick=()=>{state.alt=!state.alt;renderStage()};
   const nx=document.getElementById("next"); if(nx)nx.onclick=nextStop;
   const bk=document.getElementById("back"); if(bk)bk.onclick=previousStop;
