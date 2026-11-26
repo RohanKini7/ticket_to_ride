@@ -171,7 +171,8 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 @keyframes tixin{to{opacity:1;transform:rotate(-3deg)}}
 @keyframes slam{to{opacity:1;transform:rotate(-14deg) scale(1)}}
 @keyframes shake{0%,100%{transform:rotate(-3deg)}20%{transform:translateX(-10px) rotate(-5deg)}40%{transform:translateX(9px) rotate(-1deg)}60%{transform:translateX(-6px) rotate(-4deg)}80%{transform:translateX(4px) rotate(-2deg)}}
-.tasks li.fact{font-weight:800;color:var(--sign);list-style-type:decimal}
+.tasks li.fact{font-weight:800;font-style:italic;color:#4b2a7a;font-size:1.15rem;letter-spacing:.005em}
+.ep{display:block;font:800 .66rem var(--mono);font-style:normal;letter-spacing:.18em;text-transform:uppercase;color:#8a73b3;margin-bottom:1px}
 @media(max-width:650px){.fxticket{right:4%;top:6%;width:200px;height:124px}.tix-top{font-size:.95rem}.tix-stamp{font-size:1.1rem}}
 /* Conductor dialogue */
 .score{font:800 .9rem var(--ui);background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:7px 12px;border-radius:9px;white-space:nowrap}
@@ -617,7 +618,7 @@ function ticketHTML(s,n){
       <div class="tk-meta"><span>Stop<b>${n+1} of ${STOPS.length}</b></span><span>Via<b>${p?p.name:"—"}</b></span><span>Class<b>Doctoral</b></span></div>
       ${st.life?`<div class="stamp">${st.life}</div>`:""}
       <h2>${s.title}</h2>
-      ${items.length>1?`<ol class="tasks">${items.map((t,i)=>`<li class="${i===0?"fact":""}">${t}</li>`).join("")}</ol>`:`<p class="prompt">${items[0]}</p>`}
+      ${items.length>1?`<ol class="tasks">${items.map((t,i)=>i===0&&s.fact?`<li class="fact"><span class="ep">📺 Episode ${n+1}</span>${t}</li>`:`<li>${t}</li>`).join("")}</ol>`:`<p class="prompt">${items[0]}</p>`}
       ${s.altPrompt?`<button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`:""}
       <div class="controls"><button class="button primary" id="next">${n===STOPS.length-1?"✅ Ticket earned — arrive at the terminus 🎓":"✅ Ticket earned — next stop →"}</button></div>
     </div>
