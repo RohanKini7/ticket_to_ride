@@ -28,7 +28,6 @@
 window.TICKET_CONTENT = {
 
   title: "Ticket to Kiran",
-  subtitle: "Five milestones from Augsburg to today’s defense. Ideal path or what really happened? Ride the train, answer what waits at the station.",
   railwayName: "THE PhD RAILWAY · LINE K-AXFLUX-H2",
 
   /* ---- Stations: each PhD milestone (name + sub) shares a stop with a
