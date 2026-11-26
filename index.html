@@ -93,6 +93,12 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 .leg{margin:10px 0 0;color:var(--muted)}
 .cleared{background:#f3f7fa;border-radius:10px;padding:8px 12px;margin:0 0 12px;color:var(--muted);font-size:.95rem}
 .cleared strong{color:var(--navy)}
+.cleared.ideal{background:#fff8e3}
+.route-group.ideal:not(.available):not(.selected):not(.completed) .rail{stroke:#c9a23a}
+.ideal-txt{color:#a17a12;font-weight:700}
+.factcheck{background:#eef3f6;border-radius:10px;padding:8px 12px;margin:-4px 0 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.factcheck.no{background:#fde8e6}
+.button.small{padding:6px 11px;font-size:.88rem;background:#fff;border:1px solid #cbd8d5;color:var(--navy)}
 /* Dares */
 .dare-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #e0d5b8}
 .dare-btn{background:var(--gold);color:var(--navy)}.dare-btn:hover{background:#eab83f}
@@ -126,6 +132,7 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 <div class="map-caption">
   <span id="journeyStatus"></span>
   <span class="key">
+    <span>straight = ✨ ideal · tangled = 🚧 what really happened</span>
     <span><span class="sw" style="background:var(--red)"></span>routes from here</span>
     <span><span class="sw" style="background:var(--gold)"></span>chosen</span>
     <span><span class="sw" style="background:var(--blue)"></span>travelled</span>
@@ -148,7 +155,9 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
   else{
     if(C.stations.length!==C.stops.length+1)errs.push(`There are ${C.stations.length} stations but ${C.stops.length} stops — stations must be exactly one more than stops.`);
     if(C.hurdles.length!==C.stops.length)errs.push(`There are ${C.hurdles.length} hurdle legs but ${C.stops.length} stops — they must be equal.`);
-    C.hurdles.forEach((h,i)=>{if(!h.length||h.length>3)errs.push(`Hurdle leg ${i+1} has ${h.length} hurdles — use 1 to 3.`)});
+    C.hurdles.forEach((h,i)=>{
+      if(!h||!h.ideal||!h.real||Array.isArray(h))errs.push(`Leg ${i+1} needs an "ideal" path and a "real" path, each with a name and a story.`);
+    });
     C.stops.forEach((st,i)=>{if(!st.title||!st.prompt)errs.push(`Stop ${i+1} needs a title and a prompt.`);if(!st.dares||!st.dares.length)errs.push(`Stop ${i+1} needs at least one dare.`)});
   }
   if(errs.length){document.body.insertAdjacentHTML("afterbegin",`<div style="background:#fde8e6;border:2px solid #c95045;padding:14px 18px;border-radius:12px;margin:10px;font:15px system-ui;max-width:900px"><b>content.js needs a fix:</b><ul>${errs.map(e=>`<li>${e}</li>`).join("")}</ul></div>`);throw new Error(errs.join(" | "))}
@@ -167,17 +176,33 @@ C.stations.forEach((st,i)=>{
   CITIES[id]={n:st.name,sub:st.sub||"",x,y}; LINE.push(id);
 });
 const START=LINE[0];
-const HURDLES=C.hurdles;
+// Each leg in content.js: { ideal:{name,story}, real:{name,story} }
+//   ideal → the straight track (how it should have gone)
+//   real  → the tangled track (what actually happened)
 const TRACKS=[];
+const SAMPLES=240, LOOPS=4, LOOP_R=17, BULGE=52;
+function tangledPath(A,B,side){
+  // A prolate trochoid along the line A→B: it bulges out and ties itself into loops.
+  const dx=B.x-A.x, dy=B.y-A.y, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L, nx=-uy*side, ny=ux*side;
+  const pts=[];
+  for(let i=0;i<=SAMPLES;i++){
+    const t=i/SAMPLES, w=Math.sin(Math.PI*t);             // loops fade out near the stations
+    const u=L*t - w*LOOP_R*Math.sin(2*Math.PI*LOOPS*t);
+    const v=BULGE*w + w*LOOP_R*(1-Math.cos(2*Math.PI*LOOPS*t));
+    pts.push([A.x+ux*u+nx*v, A.y+uy*u+ny*v]);
+  }
+  const mid=pts[SAMPLES/2];
+  return {d:"M"+pts.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join("L"), lx:mid[0]+nx*26, ly:mid[1]+ny*26};
+}
 LINE.slice(0,-1).forEach((a,k)=>{
-  const b=LINE[k+1], A=CITIES[a], B=CITIES[b], dx=B.x-A.x, dy=B.y-A.y, len=Math.hypot(dx,dy), nx=-dy/len, ny=dx/len;
-  const leg=HURDLES[k], sides=leg.length===1?[0]:leg.length===2?[-1,1]:[-1,0,1];
-  sides.forEach((side,i)=>{
-    const off=side*62, cx=(A.x+B.x)/2+nx*off*2, cy=(A.y+B.y)/2+ny*off*2;
-    const mx=(A.x+B.x)/2+nx*off, my=(A.y+B.y)/2+ny*off;   // midpoint of the curve
-    const {name,story}=leg[i];
-    TRACKS.push({id:`${a}-${b}-${i}`,a,b,name,story,d:`M${A.x} ${A.y}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${B.x} ${B.y}`,lx:mx,ly:my});
-  });
+  const b=LINE[k+1], A=CITIES[a], B=CITIES[b], h=C.hurdles[k];
+  const real=Array.isArray(h.real)?h.real[0]:h.real;          // older content with two real paths still works
+  // Tangle on the outer side of the zig-zag so neighbouring legs don't collide.
+  const side=(B.y<A.y)?-1:1;
+  const dx=B.x-A.x, dy=B.y-A.y, L=Math.hypot(dx,dy);
+  TRACKS.push({id:`${a}-${b}-ideal`,a,b,...h.ideal,ideal:true,d:`M${A.x} ${A.y}L${B.x} ${B.y}`,
+               lx:(A.x+B.x)/2+(dy/L)*14*side, ly:(A.y+B.y)/2-(dx/L)*14*side});
+  TRACKS.push({id:`${a}-${b}-real`,a,b,...real,ideal:false,...tangledPath(A,B,side)});
 });
 
 /* ---------- Build SVG ---------- */
@@ -192,7 +217,7 @@ TRACKS.forEach(t=>{
 });
 // Hurdle labels drawn above all tracks so they stay readable
 const labelsG=el("g",{},tracksG);
-TRACKS.forEach(t=>{t.label=el("text",{class:"hurdle-label",x:t.lx,y:t.ly+4,"text-anchor":"middle"},labelsG);t.label.textContent="🚧 "+t.name});
+TRACKS.forEach(t=>{t.label=el("text",{class:"hurdle-label",x:t.lx,y:t.ly+4,"text-anchor":"middle"},labelsG);t.label.textContent=(t.ideal?"✨ ":"🚧 ")+t.name;if(t.ideal)t.g.classList.add("ideal")});
 Object.entries(CITIES).forEach(([id,c])=>{
   const g=el("g",{class:"city","data-city":id},citiesG);
   el("circle",{class:"ring",cx:c.x,cy:c.y,r:14},g); el("circle",{cx:c.x,cy:c.y,r:12},g);
@@ -203,7 +228,7 @@ Object.entries(CITIES).forEach(([id,c])=>{
 });
 
 /* ---------- Journey logic ---------- */
-const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null};
+const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null};
 const other=(t,c)=>t.a===c?t.b:t.a;
 const byId=id=>TRACKS.find(t=>t.id===id);
 // Tracks run forward only: every hurdle from the current milestone leads to the next milestone.
@@ -235,22 +260,22 @@ function rideTrain(track,fromCity,done){
 /* ---------- Actions ---------- */
 function chooseTrack(id){
   if(!options().some(t=>t.id===id)||state.pending===id)return;
-  state.pending=id; renderMap(); renderStage();
+  state.pending=id; state.fact=null; renderMap(); renderStage();
   rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;freshTicket=true;renderStage()}});
 }
 function nextStop(){
   const t=byId(state.pending);
   state.history.push({id:t.id,from:state.city,to:other(t,state.city)});
-  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null;
+  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null; state.fact=null;
   animToken++; trainAtCity(state.city); render();
   if(state.history.length===STOPS.length)confetti();
 }
 function previousStop(){
   const h=state.history.pop(); animToken++;
-  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null;
+  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null; state.fact=null;
   trainAtCity(h.to); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null});animToken++;trainAtCity(START);render()}
+function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null});animToken++;trainAtCity(START);render()}
 
 /* ---------- Rendering ---------- */
 function renderMap(){
@@ -276,7 +301,7 @@ function renderMap(){
   });
   document.getElementById("journeyStatus").innerHTML=finished
     ?`Journey complete · Final station: <strong>${CITIES[state.city].n}</strong> (today!)`
-    :`Source: <strong>${CITIES[state.city].n}</strong> · Destination: <strong>${CITIES[LINE[LINE.indexOf(state.city)+1]].n}</strong> · Hurdle: <strong>${state.pending?byId(state.pending).name:"choose one"}</strong>`;
+    :`Source: <strong>${CITIES[state.city].n}</strong> · Destination: <strong>${CITIES[LINE[LINE.indexOf(state.city)+1]].n}</strong> · Path: <strong>${state.pending?byId(state.pending).name:"choose one"}</strong>`;
 }
 
 function stubs(){return `<div class="stubs" aria-hidden="true">${STOPS.map((_,i)=>`<span class="stub ${i<state.history.length?"done":i===state.history.length?"now":""}"></span>`).join("")}</div>`}
@@ -296,7 +321,7 @@ function ticketBody(s){
 function renderStage(){
   const stage=document.getElementById("stage"), n=state.history.length;
   if(n>=STOPS.length){
-    const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
+    const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
     stage.innerHTML=`${stubs()}<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>
       <div class="ticket fresh" style="text-align:left;max-width:680px;margin:16px auto"><div class="icon" aria-hidden="true">🏝️</div><div class="counter">After the game</div><h2>${FINALE.title}</h2><p class="prompt">${state.alt?FINALE.altPrompt:FINALE.prompt}</p><button class="link" id="alt">${state.alt?FINALE.mainLabel:FINALE.altLabel}</button>
       <div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div></div>
@@ -308,18 +333,23 @@ function renderStage(){
   }
   const s=STOPS[n], opts=options(), from=CITIES[state.city].n;
   const to=CITIES[LINE[n+1]].n;
-  const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">🚧 ${t.name}</button>`).join("");
+  const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">${t.ideal?"✨ Ideal path: ":"🚧 "}${t.name}</button>`).join("");
   let ticket;
-  if(state.revealed){const h=byId(state.pending);ticket=`<div class="ticket${freshTicket?" fresh":""}"><div class="cleared">🚧 Hurdle cleared: <strong>${h.name}</strong> — ${h.story}</div>${ticketBody(s)}</div>`;freshTicket=false}
-  else if(state.pending) ticket=`<div class="ticket mystery">🚂 Fighting through “${byId(state.pending).name}” on the way to ${to}…</div>`;
-  else ticket=`<div class="ticket mystery">🎟️ The ${to} ticket is face down. Pick a hurdle track to ride there and reveal it.</div>`;
+  if(state.revealed){const h=byId(state.pending);const fc=!h.ideal?"":state.fact===null
+      ?`<div class="factcheck">🕵️ <strong>Fact check!</strong> Does the room believe it really went like this? <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></div>`
+      :state.fact?`<div class="factcheck">🕵️ The room believes you. Respect.</div>`:`<div class="factcheck no">🕵️ The room isn’t buying it. Penalty dare below 👇</div>`;
+    ticket=`<div class="ticket${freshTicket?" fresh":""}"><div class="cleared${h.ideal?" ideal":""}">${h.ideal?"✨ The ideal path":"🚧 What actually happened"}: <strong>${h.name}</strong> — ${h.story}</div>${fc}${ticketBody(s)}</div>`;freshTicket=false}
+  else if(state.pending) ticket=`<div class="ticket mystery">${byId(state.pending).ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${byId(state.pending).name}” on the way to ${to}…`}</div>`;
+  else ticket=`<div class="ticket mystery">🎟️ The ${to} ticket is face down. Pick a track to ride there and reveal it.</div>`;
   stage.innerHTML=`${stubs()}<div class="counter">Stop ${n+1} of ${STOPS.length}${state.revealed?` · ${s.phase}`:""}</div>
-    <p class="leg"><strong>${from}</strong> → <strong>${to}</strong>: which hurdle stands in your way?</p><div class="route-choices" role="group" aria-label="Hurdle tracks from ${from} to ${to}">${choices}</div>
+    <p class="leg"><strong>${from}</strong> → <strong>${to}</strong>: the straight <span class="ideal-txt">✨ ideal path</span>, or the 🚧 tangled track of what really happened?</p><div class="route-choices" role="group" aria-label="Hurdle tracks from ${from} to ${to}">${choices}</div>
     ${ticket}
     <div class="controls">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
   stage.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>chooseTrack(b.dataset.choice));
   const r=document.getElementById("reveal");
   if(r)r.onclick=()=>{const a=document.getElementById("answer"),show=a.classList.toggle("show");r.textContent=show?"Hide answer":"Reveal answer";r.setAttribute("aria-expanded",show)};
+  const fy=document.getElementById("factYes"); if(fy)fy.onclick=()=>{state.fact=true;renderStage()};
+  const fn=document.getElementById("factNo"); if(fn)fn.onclick=()=>{state.fact=false;if(state.dare===null)state.dare=Math.random()*s.dares.length|0;renderStage()};
   const dz=document.getElementById("dare");
   if(dz)dz.onclick=()=>{const k=s.dares.length;let i;do{i=Math.random()*k|0}while(k>1&&i===state.dare);state.dare=i;renderStage()};
   const alt=document.getElementById("alt"); if(alt)alt.onclick=()=>{state.alt=!state.alt;renderStage()};
