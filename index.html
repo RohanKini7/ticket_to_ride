@@ -340,6 +340,7 @@ function ticketBody(s){
     if(!state.life)return h+`<div class="dare-row"><button class="button dare-btn" id="lifeBtn">🎁 Reveal the personal milestone</button><span class="hint" style="margin:0">Told the story? Something else happened on this stop…</span></div>`;
     h+=`<div class="step two${freshStep?" fresh":""}"><div class="step-label">Step 2 · Personal milestone unlocked${st.life?`: <span class="lifechip">${st.life}</span>`:""}</div>`;
   }
+  else if(st.life)h+=`<div class="step-label" style="color:#a0436f">Personal milestone: <span class="lifechip">${st.life}</span></div>`;
   h+=`<div class="icon" aria-hidden="true">${s.icon}</div><h2>${s.title}</h2><p class="prompt">${state.alt&&s.altPrompt?s.altPrompt:s.prompt}</p>`;
   if(s.talks)h+=`<div class="talks">${s.talks.map(t=>`<span class="talk">“${t}”</span>`).join("")}</div>`;
   if(s.hint)h+=`<p class="hint">${s.hint}</p>`;

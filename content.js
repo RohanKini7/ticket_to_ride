@@ -74,61 +74,44 @@ window.TICKET_CONTENT = {
 
   /* ---- One stop per arrival: question (prompt), hint, dares ---- */
   stops: [
-  { phase:"Initial Days · The opening", title:"Chess Club: Your Opening Move", icon:"♞",
-    memory:"How were your initial days in the <em>404 Not Found</em> group? What surprised you most — and what’s one favourite memory from that time?",
-    prompt:"Your initial days were also when the chess stream started. So retell them as a chess stream: What was your opening? What was the first blunder? Which move are you proudest of? And which chess piece were you back then — and which are you now, as Dr. Kiran?",
-    hint:"Stream voice on: greet the chat, explain the position, react to every move.",
+  { phase:"Initial Days", title:"Chess Club", icon:"♞",
+    memory:"Tell us one funny memory from your initial days.",
+    prompt:"Pick a chess piece for who you were when you started — and one for who you are now, as Dr. Kiran.",
     dares:[
       "Cross the room the way your piece moves. Knights: the L-shape is mandatory.",
-      "Name your PhD like a real chess opening — “The Cryogenic Gambit”? “The Axial Flux Defense”? — and demonstrate its first move.",
-      "Moderator mode: announce tonight’s headline match, “Experiment vs. Simulation”, like a tournament director with a microphone.",
       "Pick a professor, look them in the eye and say “Check… mate.” Movie-villain voice, please.",
-      "Stream mode: give 15 seconds of live chess-stream commentary on this party. Don’t forget to greet the chat."
+      "Name your PhD like a real chess opening — “The Cryogenic Gambit”? — and demonstrate its first move.",
+      "Stream mode: give 15 seconds of live chess-stream commentary on this party."
     ]},
-  { phase:"Results & Rings · The middlegame", title:"Two Results, One Year", icon:"💍",
-    memory:"How was the phase when the first results came in — experiments and simulations? What’s one favourite memory from the lab or the model?",
-    prompt:"That same phase brought the wedding. So tell the story of your first results as a wedding: How did you meet your data? Who objected when asked to “speak now or forever hold their peace”? What vows did experiment and simulation make — and did they converge happily ever after?",
-    hint:"Old lab wisdom: nobody trusts a simulation except the person who ran it — and nobody trusts a wedding timeline except the person who planned it.",
+  { phase:"Results & Rings", title:"The Wedding", icon:"💍",
+    memory:"Tell us one memory from the phase when your first results came in.",
+    prompt:"Tell us something cute about the wedding.",
     dares:[
       "Give a 20-second wedding toast — to your COMSOL model.",
       "Explain your wedding day in FEM terms: mesh, boundary conditions, convergence. 20 seconds.",
-      "Be a simulation that refuses to converge… until it finally does, like a first dance.",
-      "Mesh refinement: describe that year in ten words, then five, then one.",
-      "Pick someone as Reviewer 2. They ask: “But did you validate the results?” You have 10 seconds."
+      "Show us your best first-dance move. Five seconds is enough."
     ]},
-  { phase:"Firenze · On tour", title:"The Kamath Talks", icon:"🎙️",
-    memory:"Benvenuto a Firenze! How was the conference phase — COMSOL here, SAMPE in Long Beach? What’s one favourite memory from the road?",
-    prompt:"Around then, <em>The Kamath Talks</em> went on air. So tell your Firenze phase as a podcast episode: give it an episode title and a 20-second intro in full podcast voice — then pick one of the professors here as your guest and ask them one question.",
-    hint:"Affectionate roasting only. Think late-night show, not peer review.",
+  { phase:"Firenze", title:"The Kamath Talks", icon:"🎙️",
+    memory:"Tell us one memory from Italy.",
+    prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style.",
     dares:[
-      "Hum or beatbox the theme tune of <em>The Kamath Talks</em>. Minimum five seconds, maximum confidence.",
+      "Hum or beatbox the theme tune of <em>The Kamath Talks</em>. Minimum five seconds.",
       "Read the sponsor message: “This episode is brought to you by K-AXFLUX-H2 — keeping things cool since…”",
-      "Florence or Long Beach? Sell your favourite conference trip as a 15-second travel vlog.",
-      "Answer the classic conference question: “This is more of a comment than a question, but…” Ten seconds, straight face.",
-      "Hand the mic to your guest: they get 10 seconds to introduce <em>you</em>."
+      "Hand the mic to Markus: he gets 10 seconds to introduce <em>you</em>."
     ]},
-  { phase:"Publication · Two big releases", title:"Paper or Baby?", icon:"👶",
-    memory:"How was the publication phase — writing, submitting, waiting, revising? What’s one favourite memory from getting the paper out?",
-    prompt:"The paper arrived on the same track as the baby. So announce your publication like a birth: due date vs. actual date, hours of labour, weight in pages, and the first reactions from the relatives (Reviewer 2 counts as a relative). Then the quick-fire round: which kept you up more at night?",
-    hint:"Both were peer-reviewed. One of them by grandparents.",
+  { phase:"Publication", title:"The Baby", icon:"👶",
+    memory:"Peer-reviewed and published! Tell us one memory from getting the paper out.",
+    prompt:"The PhD had already changed how you see life — and just then your baby arrived and turned the whole world around again. Tell us one good thing about your little one.",
     dares:[
       "Read the first line of your paper’s abstract as a bedtime story. Soothing voice, please.",
       "Sing one line of a lullaby about axial flux motors.",
-      "Impersonate Reviewer 2 and the baby complaining about the same figure.",
-      "Do your best “paper accepted” face, then your best “3 a.m. feeding” face.",
-      "Describe fatherhood in the style of a paper abstract: background, method, results — 20 seconds."
+      "Do your best “paper accepted” face, then your best “3 a.m. feeding” face."
     ]},
-  { phase:"Defense · Parents’ first trip abroad", title:"Doctoral Seminar Schedule", icon:"🗓️",
-    memory:"Final station! How were the last months — writing the thesis, preparing the defense, and today? What’s one favourite memory from the final stretch?",
-    prompt:"Your parents travelled abroad for the very first time for this. So tell your defense phase as their travel guide: the must-see sights, what the locals (the professors) are like, and the one thing every tourist should know. Bonus, Mr. Seminar Coordinator: in which order would you schedule these three talks to impress them most?",
-    talks:["The 8 a.m. Talk","The Talk With 47 Slides","The Talk That Needs Just Five More Minutes"],
-    hint:"Bonus: how did you explain to your parents what a PhD actually is?",
+  { phase:"Defense", title:"Parents Abroad", icon:"✈️",
+    prompt:"You did it, Dr. Kiran! And your parents travelled abroad for the very first time — to see you defend your thesis. How does that feel?",
     dares:[
-      "Explain your PhD to your parents in 20 seconds. No jargon allowed — not even “flux”.",
       "Say a 10-second thank-you to your parents in the language you speak at home.",
-      "Pitch “The Talk With 47 Slides” in a single breath. Go!",
-      "Ask for “just five more minutes” in three languages. German counts.",
-      "Give the next speaker a 10-second pep talk based on your motto: “No expectations → no disappointments.”"
+      "Explain your PhD to your parents in 20 seconds. No jargon allowed — not even “flux”."
     ]}
   ],
 
