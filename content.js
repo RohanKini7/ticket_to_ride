@@ -20,7 +20,8 @@
      "The One Where…") and 2. "prompt" (the
      question / task he has to do to earn the next ticket).
    • Optional on a stop: ticketType (e.g. "Ticket for 2", default
-     "Single ticket") and passengers (shown instead of the class).
+     "Single ticket"), passengers (shown instead of the class) and
+     destination (the "to" name on the ticket, e.g. "Firenze Conference").
    • Optional fields in a stop: talks, stations (with reveal button),
      altPrompt + altLabel + mainLabel (a switchable second version).
    • After editing, open index.html in a browser. If something is
@@ -98,6 +99,7 @@ window.TICKET_CONTENT = {
     prompt:"A question for Deeksha 💍 straight from his PhD: What sound does an axial flux motor make? Show us!"},
   { phase:"Firenze", title:"The Kamath Talks", icon:"🎙️",
     fact:"The One Where Dr. Kiran Started The Kamath Talks",
+    ticketType:"Ticket for 2", passengers:"Kiran + Deeksha", destination:"Firenze Conference",
     prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style."},
   { phase:"Publication", title:"The Baby", icon:"👶",
     fact:"The One Where Dr. Kiran Became a Dad",

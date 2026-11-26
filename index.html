@@ -617,7 +617,7 @@ function typeText(elm,text){
 function ticketHTML(s,n){
   const st=CITIES[LINE[n+1]], fromN=CITIES[LINE[n]].n, p=byId(state.pending);
   return `<div class="tk-head"><div class="eyebrow">${C.railwayName||"PhD Railway"} · ${s.ticketType||"Single ticket"}</div>
-      <div class="tk-route"><span>${fromN}</span><span class="arrow">→</span><span>${st.n}</span></div></div>
+      <div class="tk-route"><span>${fromN}</span><span class="arrow">→</span><span>${s.destination||st.n}</span></div></div>
     <div class="tk-body">
       <div class="tk-meta"><span>Stop<b>${n+1} of ${STOPS.length}</b></span><span>Via<b>${p?p.name:"—"}</b></span>${s.passengers?`<span>Passengers<b>${s.passengers}</b></span>`:"<span>Class<b>Doctoral</b></span>"}</div>
       ${st.life?`<div class="stamp">${st.life}</div>`:""}
