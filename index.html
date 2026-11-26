@@ -5,172 +5,175 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ticket to Kiran</title>
 <meta name="description" content="A five-stop celebration journey for Dr. Kiran.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚂</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#17324d;--cream:#fffaf0;--red:#c95045;--ink:#203344;--muted:#617282;--green:#3a806c;--blue:#286c8e;--gold:#f3c65e;--map:#e8efdf;--water:#d9e9ed}
+:root{
+  --bg0:#070a1f;--bg1:#120c35;--ink:#eef0ff;--muted:#a9b0d6;--glass:rgba(255,255,255,.07);--glass2:rgba(255,255,255,.12);
+  --line:rgba(255,255,255,.14);--pink:#ff5fd2;--violet:#8b5cff;--cyan:#40e0ff;--gold:#ffd166;--orange:#ff8a5b;--life:#ff8fd0;
+  --grad:linear-gradient(110deg,var(--cyan),var(--violet) 45%,var(--pink) 75%,var(--orange));
+  --display:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#f5fbfc,#dfe9ec);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh;display:grid;place-items:center;padding:20px}
-main{width:min(1000px,100%);background:var(--cream);border:1px solid #d9e0da;border-radius:24px;box-shadow:0 20px 60px #17324d22;overflow:hidden}
-header{padding:25px 36px 19px;background:var(--navy);color:#fff;position:relative}
-header:after{content:"";position:absolute;inset:auto 0 0;height:5px;background:repeating-linear-gradient(90deg,var(--gold) 0 24px,transparent 24px 34px)}
-.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;font-weight:800;color:#a9d4df}
-h1{font-size:clamp(2rem,5vw,3rem);line-height:1.05;margin:7px 0 8px}
-.subtitle{color:#d7e5eb;margin:0}
+html,body{height:100%}
+body{margin:0;color:var(--ink);font:16px/1.5 var(--body);background:radial-gradient(1200px 700px at 10% -10%,#2a1a6e 0%,transparent 60%),radial-gradient(900px 600px at 110% 10%,#5b1a6e 0%,transparent 55%),radial-gradient(900px 700px at 50% 120%,#0d3a6e 0%,transparent 60%),var(--bg0);min-height:100vh;display:grid;place-items:center;padding:10px;overflow-x:hidden}
+.blob{position:fixed;width:520px;height:520px;border-radius:50%;filter:blur(90px);opacity:.35;z-index:0;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+.blob.b1{background:var(--violet);top:-160px;left:-120px}
+.blob.b2{background:var(--pink);bottom:-200px;right:-140px;animation-delay:-6s}
+.blob.b3{background:var(--cyan);top:30%;left:55%;width:380px;height:380px;opacity:.18;animation-delay:-11s}
+@keyframes drift{to{transform:translate(60px,40px) scale(1.15)}}
+main{position:relative;z-index:1;width:min(1080px,100%);background:var(--glass);border:1px solid var(--line);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow:hidden}
+main:before{content:"";position:absolute;inset:0;border-radius:28px;padding:1px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55;pointer-events:none}
+header{padding:16px 26px 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.2em;font:700 .7rem var(--display);color:var(--muted)}
+.eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blink 2s infinite}
+@keyframes blink{50%{opacity:.35}}
+h1{font:700 clamp(1.8rem,4.2vw,2.7rem)/1.05 var(--display);margin:4px 0 0;letter-spacing:-.02em;background:var(--grad);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 8s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
+.subtitle{color:var(--muted);margin:2px 0 0}
+.subtitle[hidden]{display:none}
+.hud{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:600 .78rem var(--display);padding:6px 11px;border-radius:999px;background:var(--glass2);border:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.chip b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* Map */
-.route-wrap{padding:18px 28px 0}
-.map{background:var(--map);border:1px solid #d3dfd1;border-radius:18px;overflow:hidden;position:relative;box-shadow:inset 0 0 30px #fff9}
-.map svg{display:block;width:100%;height:auto}
-.sea{fill:var(--water)}.land{fill:#e7efdc}.terrain{fill:#dce9d2}
-.map-label{font:800 12px system-ui,sans-serif;fill:#82977c;letter-spacing:.15em}
-.route{fill:none;stroke:#fdf8e8;stroke-width:15;stroke-linecap:round}
-.rail{fill:none;stroke:#9a866a;stroke-width:4;stroke-dasharray:2 8;stroke-linecap:round;pointer-events:none}
-.route-group{opacity:.6;transition:opacity .25s}
+.route-wrap{padding:6px 18px 0}
+.map{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#0b1030;box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
+.map svg{display:block;width:100%;height:auto;max-height:calc(100vh - 230px);min-height:240px}
+.map-label{font:700 11px var(--display);fill:rgba(255,255,255,.45);letter-spacing:.22em}
+.star{fill:#fff;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.2}}
+.cloud{fill:#fff;opacity:.09;animation:float 40s linear infinite}
+@keyframes float{from{transform:translateX(-120px)}to{transform:translateX(1000px)}}
+.route{fill:none;stroke:rgba(255,255,255,.06);stroke-width:16;stroke-linecap:round;transition:stroke .2s}
+.rail{fill:none;stroke:rgba(255,255,255,.32);stroke-width:3;stroke-dasharray:2 7;stroke-linecap:round;pointer-events:none}
+.route-group{opacity:.55;transition:opacity .25s}
 .route-group.available,.route-group.selected,.route-group.completed{opacity:1}
 .route-group.available{cursor:pointer}
-.route-group.available .route{stroke:#fff}
-.route-group.available .rail{stroke:var(--red);stroke-width:6;stroke-dasharray:14 8;animation:flow 1.1s linear infinite}
-.route-group.available:hover .route,.route-group.available:focus-visible .route{stroke:var(--gold);stroke-width:20}
-.route-group.completed .rail{stroke:var(--blue);stroke-width:6;stroke-dasharray:none}
-.route-group.selected .rail{stroke:var(--gold);stroke-width:7;stroke-dasharray:none;animation:none}
-.route-group.selected .route{stroke:#fff}
+.route-group.available .rail{stroke:var(--pink);stroke-width:4.5;stroke-dasharray:12 8;animation:flow 1s linear infinite;filter:drop-shadow(0 0 6px var(--pink))}
+.route-group.available.ideal .rail{stroke:var(--gold);filter:drop-shadow(0 0 6px var(--gold))}
+.route-group.available:hover .route,.route-group.available:focus-visible .route{stroke:rgba(255,95,210,.28);stroke-width:24}
+.route-group.available.ideal:hover .route{stroke:rgba(255,209,102,.28)}
+.route-group.completed .rail{stroke:var(--cyan);stroke-width:4.5;stroke-dasharray:none;filter:drop-shadow(0 0 5px var(--cyan))}
+.route-group.selected .rail{stroke:#fff;stroke-width:5;stroke-dasharray:none;animation:none;filter:drop-shadow(0 0 8px #fff)}
+.route-group.ideal:not(.available):not(.selected):not(.completed) .rail{stroke:rgba(255,209,102,.45)}
 .route-group:focus{outline:none}
-@keyframes flow{to{stroke-dashoffset:-22}}
-.city circle{fill:var(--cream);stroke:#829b83;stroke-width:4;transition:fill .2s}
-.city.reachable{cursor:pointer}
-.city.reachable circle{stroke:var(--red)}
-.city.visited circle{fill:var(--blue);stroke:#fff}
-.city.current circle{fill:var(--red);stroke:#fff;stroke-width:5}
+@keyframes flow{to{stroke-dashoffset:-20}}
+.hurdle-label{font:700 11.5px var(--display);fill:#fff;paint-order:stroke;stroke:rgba(11,16,48,.9);stroke-width:5px;stroke-linejoin:round;opacity:0;transition:opacity .25s;pointer-events:none}
+.city circle{fill:#141a46;stroke:#8f9bff;stroke-width:3.5;transition:fill .2s}
+.city.reachable circle{stroke:var(--pink)}
+.city.visited circle{fill:var(--cyan);stroke:#fff}
+.city.current circle{fill:var(--pink);stroke:#fff;stroke-width:4;filter:drop-shadow(0 0 8px var(--pink))}
 .city .ring{fill:none;stroke:none}
-.city.dest .ring{stroke:var(--gold);stroke-width:4;animation:pulse 1.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
-@keyframes pulse{from{transform:scale(.7);opacity:1}to{transform:scale(1.6);opacity:0}}
-.city text{font:700 16px system-ui,sans-serif;fill:var(--navy);paint-order:stroke;stroke:var(--map);stroke-width:5px;stroke-linejoin:round;pointer-events:none}
-#train text{font-size:27px;filter:drop-shadow(0 2px 1px #0004)}
-.map-caption{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 14px;background:#f6f7eb;color:var(--muted);font-size:.8rem;flex-wrap:wrap}
-.map-caption strong{color:var(--navy)}
-.key{display:flex;gap:14px;flex-wrap:wrap}
-.sw{display:inline-block;width:18px;height:5px;border-radius:3px;vertical-align:middle;margin-right:5px}
-
-/* Content */
-.content{padding:14px 28px 16px}
-.stubs{display:flex;gap:6px;margin-bottom:12px}
-.stub{flex:1;height:8px;border-radius:4px;background:#e3e9e6}
-.stub.done{background:var(--blue)}.stub.now{background:var(--red)}
-.counter{font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;font-weight:800;color:var(--green)}
-h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
-.intro,.prompt{font-size:1.15rem;line-height:1.55;max-width:780px;margin:0 0 14px}
-.hint{color:var(--muted);font-size:.95rem;margin:0 0 16px}
-.route-choices{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0 16px}
-.choice{border:1px solid #cbd8d5;background:#fff;color:var(--navy);padding:9px 14px;border-radius:999px;font:700 .92rem system-ui,sans-serif;cursor:pointer}
-.choice:hover,.choice.selected{border-color:var(--red);background:#fff0e9}
-.choice.selected:before{content:"✓ ";color:var(--red)}
-.ticket{position:relative;background:#fff;border:2px dashed #d5c7a4;border-radius:16px;padding:18px 22px;margin:4px 0 6px}
-.ticket.fresh,.ticket.mystery{animation:reveal .45s ease}
-.ticket.mystery{color:var(--muted);text-align:center;font-weight:600;background:repeating-linear-gradient(-45deg,#fffdf6 0 12px,#fbf5e4 12px 24px)}
-.ticket .icon{font-size:2rem;line-height:1;margin-bottom:4px}
-@keyframes reveal{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
-.talks{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
-.talk{background:#eef3f6;border-radius:10px;padding:7px 11px;font-weight:700;color:var(--navy);font-size:.95rem}
-.answer{display:none;margin:4px 0 16px}
-.answer.show{display:flex;gap:8px;flex-wrap:wrap;align-items:center;animation:reveal .4s ease}
-.station{background:#eef5f1;border:2px solid var(--green);border-radius:12px;padding:8px 13px;font-weight:700;color:var(--navy)}
-.station small{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
-.arrow{color:var(--green);font-weight:800}
-.controls{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
-.button{border:0;border-radius:12px;padding:12px 18px;font:700 1rem system-ui,sans-serif;cursor:pointer;transition:transform .12s,background .2s}
-.button:hover{transform:translateY(-1px)}
-.primary{background:var(--red);color:#fff}.primary:hover{background:#ad4038}
-.secondary{background:#e8eef0;color:var(--navy)}
-.link{background:none;border:0;color:var(--blue);font:600 .9rem system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:0}
-.finish{text-align:center;padding:10px 0}
-.finish .big{font-size:3rem}
-.finish p{font-size:1.2rem;margin:6px 0}
-.recap{color:var(--muted);font-size:.95rem!important}
-.footer{border-top:1px solid #d8e1e5;padding:13px 36px;color:var(--muted);font-size:.84rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-/* PhD railway */
-.hurdle-label{font:700 11.5px system-ui,sans-serif;fill:var(--navy);paint-order:stroke;stroke:#fffdf4;stroke-width:5px;stroke-linejoin:round;opacity:0;transition:opacity .25s;pointer-events:none}
-.city text.sub{font:600 11px system-ui,sans-serif;fill:var(--muted)}
-.city text.life{font:700 11.5px system-ui,sans-serif;fill:#a0436f}
-.double{max-width:680px;margin:16px auto 4px;display:grid;grid-template-columns:1fr auto 1fr;gap:6px 12px;text-align:left;font-size:.95rem}
-.double .h{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--green)}
-.double .phd{color:var(--navy);font-weight:700;text-align:right}.double .life{color:#a0436f;font-weight:700}.double .dot{color:var(--muted)}
-.leg{margin:10px 0 0;color:var(--muted)}
-.cleared{background:#f3f7fa;border-radius:10px;padding:8px 12px;margin:0 0 12px;color:var(--muted);font-size:.95rem}
-.cleared strong{color:var(--navy)}
-.cleared.ideal{background:#fff8e3}
-.route-group.ideal:not(.available):not(.selected):not(.completed) .rail{stroke:#c9a23a}
-.ideal-txt{color:#a17a12;font-weight:700}
-.factcheck{background:#eef3f6;border-radius:10px;padding:8px 12px;margin:-4px 0 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.factcheck.no{background:#fde8e6}
-.button.small{padding:6px 11px;font-size:.88rem;background:#fff;border:1px solid #cbd8d5;color:var(--navy)}
-.step-label{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--green);margin-bottom:2px}
-.step.two{margin-top:18px;padding-top:16px;border-top:2px dashed #ecd3df}
-.step.two .step-label{color:#a0436f}
-.step.two.fresh{animation:reveal .5s ease}
-.lifechip{display:inline-block;background:#fbe9f1;color:#a0436f;border-radius:999px;padding:2px 10px;letter-spacing:0;text-transform:none;font-size:.95rem}
-.city text.life{transition:opacity .4s}
+.city.dest .ring{stroke:var(--gold);stroke-width:3;animation:pulse 1.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{from{transform:scale(.7);opacity:1}to{transform:scale(1.8);opacity:0}}
+.city text{font:700 15px var(--display);fill:#fff;paint-order:stroke;stroke:rgba(11,16,48,.85);stroke-width:5px;stroke-linejoin:round;pointer-events:none}
+.city text.sub{font:600 11px var(--body);fill:#c3c9f5}
+.city text.life{font:700 11.5px var(--display);fill:var(--life);transition:opacity .4s}
 .city text.life.hidden{opacity:0}
-.city text.life.pop{animation:lifepop .7s ease}
-@keyframes lifepop{0%{opacity:0}40%{opacity:1;fill:#e0559a}100%{opacity:1}}
-/* Compact bar + ticket card */
-.bar{display:flex;gap:10px 14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:8px}
-.bar .leg{margin:0;color:var(--muted)}
-.bar .route-choices{margin:0}
+.city text.life.pop{animation:lifepop .8s ease}
+@keyframes lifepop{0%{opacity:0}40%{opacity:1;fill:#fff}100%{opacity:1}}
+#train text{font-size:28px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+#flag{opacity:0;transition:opacity .4s}
+#flag.planted{opacity:1}
+#flag text{font-size:34px;animation:wave 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:10% 100%}
+@keyframes wave{50%{transform:rotate(-8deg)}}
+.summit-glow{fill:url(#summitGlow);opacity:.0;transition:opacity 1s}
+.summit-glow.on{opacity:1}
+
+/* Bar under the map */
+.content{padding:10px 20px 16px}
+.stubs{display:flex;gap:6px;margin-bottom:10px}
+.stub{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+.stub.done{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.stub.now{background:var(--grad);box-shadow:0 0 12px var(--pink)}
+.bar{display:flex;gap:10px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar .leg{margin:0;color:var(--muted);flex:1;min-width:240px}
+.bar .leg strong{color:var(--ink)}
 .bar-btns{display:flex;gap:10px;flex-wrap:wrap}
-.overlay{position:fixed;inset:0;background:#17324d55;display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
-.overlay[hidden]{display:none}
-.card{position:relative;background:var(--cream);border:2px dashed #d5c7a4;border-radius:20px;box-shadow:0 24px 70px #17324d55;width:min(620px,100%);max-height:88vh;display:flex;flex-direction:column}
-.card.pop{animation:cardin .4s ease}
-@keyframes cardin{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
-#cardBody{overflow:auto;padding:24px 26px 22px}
-.close{position:absolute;top:8px;right:10px;border:0;background:#e8eef0;color:var(--navy);width:34px;height:34px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:1}
-.card .cleared{margin-right:30px}
-.milestone{display:inline-block;font-size:1.5rem;font-weight:800;color:#a0436f;background:#fbe9f1;border-radius:16px;padding:8px 18px;margin:8px 0 4px}
-.tasks{font-size:1.15rem;line-height:1.55;padding-left:1.3em;margin:6px 0 4px}
-.tasks li{margin-bottom:10px}
+.counter{font:700 .74rem var(--display);text-transform:uppercase;letter-spacing:.18em;color:var(--cyan)}
 .fact{white-space:nowrap}
-.fact.no{color:var(--red)}
-.button.draw{animation:nudge 1.4s ease-in-out infinite}
-@keyframes nudge{0%{box-shadow:0 0 0 0 #c9504588}70%{box-shadow:0 0 0 12px #c9504500}100%{box-shadow:0 0 0 0 #c9504500}}
-/* Dares */
-.dare-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #e0d5b8}
-.dare-btn{background:var(--gold);color:var(--navy)}.dare-btn:hover{background:#eab83f}
-.dare-card{margin-top:18px;background:linear-gradient(135deg,#fff4d6,#ffe9c7);border:2px solid var(--gold);border-radius:14px;padding:14px 18px;transform:rotate(-.6deg);animation:flip .45s ease;box-shadow:0 6px 18px #c9504522}
-.dare-card p{font-size:1.15rem;font-weight:600;color:var(--navy);margin:4px 0 8px}
-.dare-label{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--red)}
-@keyframes flip{from{opacity:0;transform:rotateX(70deg)}to{opacity:1;transform:rotate(-.6deg)}}
+.fact.no{color:var(--pink)}
+
+/* Buttons */
+.button{border:0;border-radius:14px;padding:11px 18px;font:700 .98rem var(--display);cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s;color:var(--ink)}
+.button:hover{transform:translateY(-1px)}
+.primary{background:var(--grad);background-size:160% 100%;color:#fff;box-shadow:0 8px 24px rgba(255,95,210,.35)}
+.primary:hover{background-position:100% 0;box-shadow:0 10px 30px rgba(139,92,255,.5)}
+.secondary{background:var(--glass2);border:1px solid var(--line)}
+.button.small{padding:5px 10px;font-size:.82rem;background:var(--glass2);border:1px solid var(--line);border-radius:10px}
+.button.draw{animation:nudge 1.6s ease-out infinite}
+@keyframes nudge{0%{box-shadow:0 0 0 0 rgba(255,95,210,.7)}70%{box-shadow:0 0 0 14px rgba(255,95,210,0)}100%{box-shadow:0 0 0 0 rgba(255,95,210,0)}}
+.link{background:none;border:0;color:var(--cyan);font:600 .9rem var(--body);text-decoration:underline;cursor:pointer;padding:0}
+
+/* Card */
+.overlay{position:fixed;inset:0;background:rgba(5,6,20,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
+.overlay[hidden]{display:none}
+.card{position:relative;width:min(600px,100%);max-height:88vh;display:flex;flex-direction:column;border-radius:26px;background:linear-gradient(160deg,rgba(40,30,100,.92),rgba(12,14,40,.95));border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px rgba(139,92,255,.25)}
+.card:before{content:"";position:absolute;inset:0;border-radius:26px;padding:1.5px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.card.pop{animation:cardin .55s cubic-bezier(.2,.9,.25,1.2)}
+@keyframes cardin{from{opacity:0;transform:translateY(30px) rotateX(25deg) scale(.92)}to{opacity:1;transform:none}}
+#cardBody{overflow:auto;padding:26px 28px 24px}
+.close{position:absolute;top:12px;right:12px;border:1px solid var(--line);background:var(--glass2);color:var(--ink);width:34px;height:34px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:1}
+h2{font:700 clamp(1.4rem,3.6vw,1.9rem)/1.15 var(--display);margin:6px 0 10px;letter-spacing:-.01em}
+.milestone{display:inline-block;font:700 1.45rem var(--display);color:#fff;background:linear-gradient(110deg,rgba(255,95,210,.35),rgba(139,92,255,.35));border:1px solid rgba(255,143,208,.5);border-radius:16px;padding:8px 18px;margin:10px 0 4px;box-shadow:0 0 30px rgba(255,95,210,.25)}
+.tasks{font-size:1.12rem;line-height:1.55;padding-left:1.3em;margin:8px 0 4px;color:#e4e7ff}
+.tasks li{margin-bottom:10px}
+.tasks li::marker{color:var(--pink);font-weight:800}
+.prompt{font-size:1.12rem;line-height:1.55;margin:0 0 12px;color:#e4e7ff}
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.finish{text-align:center}
+.finish .big{font-size:3rem;filter:drop-shadow(0 0 18px rgba(255,209,102,.5))}
+.finish p{font-size:1.1rem;margin:6px 0;color:#e4e7ff}
+.recap{color:var(--muted)!important;font-size:.9rem!important}
+.double{max-width:520px;margin:14px auto 4px;display:grid;grid-template-columns:1fr auto 1fr;gap:6px 12px;text-align:left;font-size:.95rem}
+.double .h{font:700 .7rem var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
+.double .phd{font-weight:700;text-align:right}.double .life{color:var(--life);font-weight:700}.double .dot{color:var(--violet)}
+.dare-card{margin-top:16px;background:linear-gradient(120deg,rgba(255,209,102,.16),rgba(255,138,91,.16));border:1px solid rgba(255,209,102,.5);border-radius:16px;padding:14px 18px;text-align:left}
+.dare-card p{font-size:1.08rem;font-weight:600;margin:4px 0 2px}
+.dare-label{font:700 .72rem var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
-@media(max-width:650px){body{padding:8px}main{border-radius:16px}header{padding:20px 22px 17px}.route-wrap{padding:12px 10px 0}.content{padding:19px 20px 25px}.footer{padding:12px 20px}.city text{font-size:14px}.map-caption{font-size:.7rem;padding:8px}}
+@media(max-width:650px){.map svg{min-height:0}header{padding:14px 16px 6px}.route-wrap{padding:6px 8px 0}.content{padding:10px 12px 14px}.city text{font-size:13px}.hud{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
-/* Fit everything on one screen */
-header{padding:16px 30px 14px}
-h1{font-size:clamp(1.7rem,4vw,2.4rem);margin:4px 0 4px}
-.subtitle{font-size:.92rem}
-.route-wrap{padding:12px 24px 0}
-.map svg{max-height:calc(100vh - 330px);min-height:240px}
-.map{background:var(--water)}
-body{padding:10px}
-.map-caption{padding:6px 14px}
-.footer{padding:8px 30px}
 </style>
 </head>
 <body>
 <canvas id="confetti" aria-hidden="true"></canvas>
 <main>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header>
-  <div class="eyebrow">A celebratory mini-journey</div>
-  <h1 id="title">Ticket to Kiran</h1>
-  <p class="subtitle" id="subtitle"></p>
+  <div>
+    <div class="eyebrow">A celebratory mini-journey</div>
+    <h1 id="title">Ticket to Kiran</h1>
+    <p class="subtitle" id="subtitle"></p>
+  </div>
+  <div class="hud" aria-hidden="true"><span class="chip" id="hudAlt">⛰️ Altitude <b>0 m</b></span><span class="chip" id="hudStage">✈️ <b>Landing in Augsburg</b></span></div>
 </header>
 
 <div class="route-wrap"><div class="map">
-<svg id="map" viewBox="0 0 900 430" role="group" aria-label="The PhD railway: six milestones from Augsburg to the defense, with three hurdle tracks between each pair. Tracks from the current station can be selected.">
-  <path class="sea" d="M0 0H900V430H0Z"/>
-  <path class="land" d="M85 45L200 32 260 58 330 35 390 62 465 38 525 66 610 48 680 79 760 57 825 92 850 150 818 198 842 245 800 291 825 340 770 392 690 383 630 407 555 378 493 402 432 372 360 396 300 359 235 380 184 341 127 358 93 315 65 278 82 226 57 185 83 131 66 87Z"/>
-  <text class="map-label" id="railwayName" x="70" y="34" style="fill:#7d9aa5"></text>
+<svg id="map" viewBox="0 0 900 430" role="group" aria-label="The PhD expedition: from landing in Augsburg up the mountain to the summit at the defense. Paths from the current station can be selected.">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a0f2e"/><stop offset=".45" stop-color="#2b1863"/><stop offset=".78" stop-color="#8a2f7a"/><stop offset="1" stop-color="#ff8a5b"/></linearGradient>
+    <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2b7a"/><stop offset="1" stop-color="#21184d"/></linearGradient>
+    <linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2c2f6e"/><stop offset=".6" stop-color="#171a45"/><stop offset="1" stop-color="#0d1030"/></linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".9"/><stop offset="1" stop-color="#ff8a5b" stop-opacity="0"/></radialGradient>
+    <radialGradient id="summitGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd166" stop-opacity=".75"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="900" height="430" fill="url(#sky)"/>
+  <circle cx="610" cy="330" r="170" fill="url(#sun)"/>
+  <g id="stars"></g>
+  <path fill="url(#far)" opacity=".85" d="M0 330L70 290 140 312 220 250 300 290 370 232 450 276 520 214 600 262 690 205 760 250 840 196 900 230V430H0Z"/>
+  <g class="clouds"><ellipse class="cloud" cx="80" cy="120" rx="70" ry="14"/><ellipse class="cloud" cx="300" cy="70" rx="90" ry="16" style="animation-duration:55s;animation-delay:-20s"/><ellipse class="cloud" cx="520" cy="150" rx="60" ry="12" style="animation-duration:48s;animation-delay:-35s"/></g>
+  <path id="mountain" fill="url(#rock)"/>
+  <path id="ridge" fill="none" stroke="rgba(160,170,255,.35)" stroke-width="2"/>
+  <path id="snow" fill="#eef2ff" opacity=".95"/>
+  <circle id="summitGlowEl" class="summit-glow" r="90"/>
+  <text class="map-label" id="railwayName" x="24" y="28"></text>
   <g id="tracks"></g>
   <g id="cities"></g>
-  <g id="train" aria-hidden="true"><text text-anchor="middle" dominant-baseline="central">🚂</text></g>
+  <g id="flag" aria-hidden="true"><text text-anchor="start">🚩</text></g>
+  <g id="train" aria-hidden="true"><text text-anchor="middle" dominant-baseline="central">✈️</text></g>
 </svg>
 </div></div>
 
@@ -205,8 +208,9 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
 const CITIES={}, LINE=[];
 C.stations.forEach((st,i)=>{
   const id="s"+i, n=C.stations.length;
-  const x=Math.round(75+(838-75)*i/(n-1));
-  const y=i===0?235:(i%2?140:285);
+  const f=i/(n-1);
+  const x=Math.round(130+(790-130)*f);
+  const y=Math.round(338-232*Math.pow(f,1.2));            // each milestone higher up the mountain
   CITIES[id]={n:st.name,sub:st.sub||"",life:st.life||"",x,y,last:i===n-1}; LINE.push(id);
 });
 const START=LINE[0];
@@ -232,10 +236,10 @@ LINE.slice(0,-1).forEach((a,k)=>{
   const b=LINE[k+1], A=CITIES[a], B=CITIES[b], h=C.hurdles[k];
   const real=Array.isArray(h.real)?h.real[0]:h.real;          // older content with two real paths still works
   // Tangle on the outer side of the zig-zag so neighbouring legs don't collide.
-  const side=(B.y<A.y)?-1:1;
+  const side=B.x>A.x?1:-1;                                  // tangles hang below the slope, away from the station labels
   const dx=B.x-A.x, dy=B.y-A.y, L=Math.hypot(dx,dy);
   TRACKS.push({id:`${a}-${b}-ideal`,a,b,...h.ideal,ideal:true,d:`M${A.x} ${A.y}L${B.x} ${B.y}`,
-               lx:(A.x+B.x)/2+(dy/L)*14*side, ly:(A.y+B.y)/2-(dx/L)*14*side});
+               lx:(A.x+B.x)/2-(dy/L)*18*side, ly:(A.y+B.y)/2+(dx/L)*18*side+4});
   TRACKS.push({id:`${a}-${b}-real`,a,b,...real,ideal:false,...tangledPath(A,B,side)});
 });
 
@@ -255,17 +259,43 @@ TRACKS.forEach(t=>{t.label=el("text",{class:"hurdle-label",x:t.lx,y:t.ly+4,"text
 Object.entries(CITIES).forEach(([id,c])=>{
   const g=el("g",{class:"city","data-city":id},citiesG);
   el("circle",{class:"ring",cx:c.x,cy:c.y,r:14},g); el("circle",{cx:c.x,cy:c.y,r:12},g);
-  const below=c.y>200;
+  const below=id===START;
   // Stacked labels: name, PhD subtitle, life milestone (above or below the dot)
   const rows=[["",c.n],["sub",c.sub],["life",c.life]].filter(r=>r[1]);
   rows.forEach(([cls,txt],r)=>{
-    const y=below?c.y+36+r*15:c.y-24-(rows.length-1-r)*15-(r===0?4:0);
+    const first=id===START;                // first station: labels to the left of the dot
+    const y=first?c.y-10+r*15:c.y-24-(rows.length-1-r)*15-(r===0?4:0);
     const lifeEnd=cls==="life"&&c.last;   // keep the last life label inside the map
-    const t=el("text",{class:cls,x:lifeEnd?c.x+42:c.x,y,"text-anchor":lifeEnd?"end":"middle"},g); t.textContent=txt;
+    const t=el("text",{class:cls,x:first?c.x-20:lifeEnd?c.x+42:c.x,y,"text-anchor":first||lifeEnd?"end":"middle"},g); t.textContent=txt;
     if(cls==="life")c.lifeEl=t;
   });
   c.g=g;
 });
+
+/* ---------- Mountain scene ---------- */
+(function scene(){
+  let seed=7; const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+  const P=LINE.map(id=>CITIES[id]), top=P[P.length-1];
+  const ridge=[[0,392]];
+  P.forEach((c,i)=>{ if(i){const a=P[i-1];for(let k=1;k<4;k++){const t=k/4;ridge.push([a.x+(c.x-a.x)*t,a.y+(c.y-a.y)*t+16+(rnd()-.5)*18])}}
+                     ridge.push([c.x,c.y+(i===P.length-1?-14:16)]); });
+  ridge.push([top.x+38,top.y+40],[top.x+70,top.y+70],[900,top.y+110]);
+  const d="M"+ridge.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join("L");
+  document.getElementById("mountain").setAttribute("d",d+"L900 430L0 430Z");
+  document.getElementById("ridge").setAttribute("d",d);
+  const px=top.x, py=top.y-14;
+  document.getElementById("snow").setAttribute("d",`M${px-46} ${py+36}L${px-20} ${py+12}L${px} ${py}L${px+22} ${py+16}L${px+40} ${py+34}L${px+28} ${py+30}L${px+16} ${py+40}L${px+4} ${py+28}L${px-10} ${py+42}L${px-24} ${py+30}Z`);
+  const g=document.getElementById("summitGlowEl"); g.setAttribute("cx",top.x); g.setAttribute("cy",top.y);
+  const stars=document.getElementById("stars");
+  for(let i=0;i<70;i++){const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    c.setAttribute("class","star");c.setAttribute("cx",(rnd()*900).toFixed(1));c.setAttribute("cy",(rnd()*200).toFixed(1));
+    c.setAttribute("r",(rnd()*1.3+.3).toFixed(2));c.style.animationDelay=(-rnd()*3).toFixed(2)+"s";c.style.opacity=(.3+rnd()*.7).toFixed(2);stars.appendChild(c)}
+  const fl=document.getElementById("flag").firstElementChild; fl.setAttribute("x",top.x+14); fl.setAttribute("y",top.y+8);
+})();
+// How he travels: plane in, then walk and climb, summit at the end (override in content.js → journey)
+const JOURNEY=Object.assign({intro:"✈️",legs:["🚶","🧗","🧗","🧗","🧗"],summit:"🧑‍🎓",
+  stages:["Landing in Augsburg","Base camp","Climbing","Climbing","Final ascent","Summit!"]},C.journey||{});
+const ALT_TOP=Number(JOURNEY.altitude||4806);
 
 /* ---------- Journey logic ---------- */
 const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false,cardOpen:false};
@@ -280,9 +310,31 @@ function options(){
 /* ---------- Train ---------- */
 const train=document.getElementById("train"), reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let animToken=0, confettiToken=0, freshTicket=false, freshStep=false;
-function placeTrain(x,y,faceRight){train.setAttribute("transform",`translate(${x},${y-5})${faceRight?" scale(-1,1)":""}`);train.dataset.right=faceRight?1:""}
+let noFlip=false;
+function setVehicle(e,fixed){train.firstElementChild.textContent=e;noFlip=!!fixed}
+function placeTrain(x,y,faceRight){const fr=faceRight&&!noFlip;train.setAttribute("transform",`translate(${x},${y-8})${fr?" scale(-1,1)":""}`);train.dataset.right=faceRight?1:""}
+function flyIn(){
+  const A=CITIES[START], token=++animToken;
+  setVehicle(JOURNEY.intro,true);
+  const path=el("path",{d:`M-40 40Q${A.x-10} ${A.y-260} ${A.x} ${A.y}`,fill:"none"},document.getElementById("map"));
+  const L=path.getTotalLength(), t0=performance.now(), dur=reduceMotion?1:2600;
+  (function frame(now){
+    if(token!==animToken){path.remove();return}
+    const t=Math.min(1,(now-t0)/dur), f=1-Math.pow(1-t,3), p=path.getPointAtLength(f*L);
+    placeTrain(p.x,p.y,true);
+    if(t<1)requestAnimationFrame(frame);else{path.remove();setVehicle(JOURNEY.legs[0]||"🚶");trainAtCity(START);updateHud()}
+  })(t0);
+}
+function updateHud(){
+  const n=state.history.length, done=n>=STOPS.length, k=LINE.indexOf(state.city);
+  const alt=Math.round(ALT_TOP*Math.pow(k/(LINE.length-1),1.25));
+  document.getElementById("hudAlt").innerHTML=`⛰️ Altitude <b>${alt.toLocaleString("de-DE")} m</b>`;
+  const st=done?JOURNEY.stages[JOURNEY.stages.length-1]:state.pending?(JOURNEY.stages[n+1]||"Climbing"):JOURNEY.stages[n]||"";
+  document.getElementById("hudStage").innerHTML=`${done?"🏔️":state.pending?(JOURNEY.legs[n]||"🧗"):n===0?"📍":"⛺"} <b>${st}</b>`;
+}
 function trainAtCity(c){const p=CITIES[c];placeTrain(p.x,p.y,!!train.dataset.right)}
 function rideTrain(track,fromCity,done){
+  setVehicle(JOURNEY.legs[state.history.length]||"🧗");
   const token=++animToken, path=track.path, L=path.getTotalLength(), from=CITIES[fromCity];
   const s=path.getPointAtLength(0), forward=Math.hypot(s.x-from.x,s.y-from.y)<5;
   const at=f=>path.getPointAtLength((forward?f:1-f)*L);
@@ -308,14 +360,14 @@ function nextStop(){
   state.history.push({id:t.id,from:state.city,to:other(t,state.city)});
   state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null; state.fact=null; state.life=false; state.cardOpen=state.history.length>=STOPS.length;
   animToken++; trainAtCity(state.city); render();
-  if(state.history.length===STOPS.length)confetti();
+  if(state.history.length===STOPS.length){setVehicle(JOURNEY.summit,true);trainAtCity(state.city);confetti()}
 }
 function previousStop(){
   const h=state.history.pop(); animToken++;
   state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null; state.fact=null; state.life=true; state.cardOpen=true;
-  trainAtCity(h.to); render();
+  setVehicle(JOURNEY.legs[state.history.length]||"🧗"); trainAtCity(h.to); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false,cardOpen:false});animToken++;trainAtCity(START);render()}
+function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false,cardOpen:false});animToken++;render();flyIn()}
 
 /* ---------- Rendering ---------- */
 function renderMap(){
@@ -328,7 +380,7 @@ function renderMap(){
     t.g.classList.toggle("completed",used.has(t.id));
     t.g.setAttribute("tabindex",avail?"0":"-1");
     t.g.setAttribute("aria-disabled",avail?"false":"true");
-    t.label.style.opacity=(avail||t.id===state.pending||used.has(t.id))?1:0;
+    t.label.style.opacity=(avail||t.id===state.pending)?1:0;
   });
   const reachable=new Set(opts.map(t=>other(t,state.city)));
   const visited=new Set(state.history.flatMap(h=>[h.from,h.to]));
@@ -399,7 +451,7 @@ function renderStage(){
       ?` <span class="fact">🕵️ Fact check! <button class="button small" id="factYes">Believable ✅</button><button class="button small" id="factNo">Nice try! ❌</button></span>`
       :state.fact?` <span class="fact">🕵️ The room believes you.</span>`:` <span class="fact no">🕵️ Nice try, Dr. Kiran!</span>`;
     const status=!p?""
-      :!state.revealed?(p.ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${p.name}”…`)
+      :!state.revealed?(p.ideal?`${JOURNEY.legs[n]||"🧗"} Cruising the ideal path to ${to}… suspiciously smooth.`:`${JOURNEY.legs[n]||"🧗"} Fighting through “${p.name}”…`)
       :`${p.ideal?"✨":"🚧"} <strong>${p.name}</strong> — ${p.story}${fact}`;
     bar+=`<div class="bar"><span class="counter" style="margin:0">Stop ${n+1} of ${STOPS.length}</span>${status?`<span class="leg">${status}</span>`:""}<span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show the card":"Draw the card"}</button>`:""}</span></div>`;
   }
@@ -428,7 +480,11 @@ function renderStage(){
   on("open",()=>{state.cardOpen=true;state.life=true;render()});
   on("restart",restart); on("restart2",restart);
 }
-function render(){renderMap();renderStage()}
+function render(){renderMap();renderStage();
+  const done=state.history.length>=STOPS.length;
+  document.getElementById("flag").classList.toggle("planted",done);
+  document.getElementById("summitGlowEl").classList.toggle("on",done);
+  updateHud()}
 
 /* ---------- Finale confetti (no libraries) ---------- */
 function confetti(){
@@ -449,8 +505,8 @@ function confetti(){
 document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderStage()};
 document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&state.cardOpen){state.cardOpen=false;renderStage()}});
-trainAtCity(START);
 render();
+flyIn();
 </script>
 </body>
 </html>

@@ -28,7 +28,18 @@
 window.TICKET_CONTENT = {
 
   title: "Ticket to Kiran",
-  railwayName: "THE PhD RAILWAY · LINE K-AXFLUX-H2",
+  railwayName: "THE PhD EXPEDITION · K-AXFLUX-H2",
+
+  /* ---- How he travels on the map ----
+     intro: flies in to the first station · legs: one emoji per leg
+     summit: shown at the top · stages: status text per station */
+  journey: {
+    intro: "✈️",
+    legs: ["🚶", "🧗", "🧗", "🧗", "🧗"],
+    summit: "🧑‍🎓",
+    stages: ["Landing in Augsburg", "Base camp", "Climbing", "Climbing", "Final ascent", "Summit!"],
+    altitude: 4806
+  },
 
   /* ---- Stations: each PhD milestone (name + sub) shares a stop with a
      life milestone (life). Keep "life" short — it is shown on the map. */
