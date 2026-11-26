@@ -28,6 +28,10 @@ header:after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;bac
 .eyebrow{font:700 .68rem var(--ui);letter-spacing:.22em;text-transform:uppercase;opacity:.75}
 h1{margin:0;font:800 clamp(1.5rem,3.6vw,2.2rem)/1.05 var(--ui);letter-spacing:-.01em}
 .subtitle{margin:0;opacity:.8}.subtitle[hidden]{display:none}
+.head-right{display:flex;align-items:center;gap:10px}
+.restart{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font:800 .85rem var(--ui);padding:7px 12px;border-radius:9px;cursor:pointer;transition:background .2s}
+.restart:hover{background:rgba(255,255,255,.22)}
+.restart.confirm{background:var(--red);border-color:var(--red)}
 .clock{font:700 1.05rem var(--mono);background:rgba(0,0,0,.25);padding:6px 12px;border-radius:8px;letter-spacing:.06em}
 
 /* Map */
@@ -149,7 +153,7 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 .dare-card p{font-size:1.05rem;font-weight:700;margin:4px 0 2px}
 .dare-label{font:800 .7rem var(--ui);letter-spacing:.16em;text-transform:uppercase;color:#b07d00}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
-@media(max-width:650px){.map svg{min-height:0}header{padding:10px 14px}.clock{display:none}.route-wrap{padding:8px 8px 0}.content{padding:8px}.board{grid-template-columns:1fr}.city text{font-size:13px}}
+@media(max-width:650px){.map svg{min-height:0}header{padding:10px 14px}.clock{display:none}.restart{padding:6px 9px;font-size:.78rem}.route-wrap{padding:8px 8px 0}.content{padding:8px}.board{grid-template-columns:1fr}.city text{font-size:13px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -165,7 +169,7 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
       <p class="subtitle" id="subtitle"></p>
     </div>
   </div>
-  <div class="clock" id="clock" aria-hidden="true">--:--</div>
+  <div class="head-right"><button class="restart" id="restartTop" title="Start the journey from Augsburg again">↺ Start over</button><div class="clock" id="clock" aria-hidden="true">--:--</div></div>
 </header>
 
 <div class="route-wrap"><div class="map">
@@ -537,6 +541,12 @@ function confetti(){
     if(now-t0<4500)requestAnimationFrame(f);else ctx.clearRect(0,0,cv.width,cv.height);
   })(t0);
 }
+// Start over from anywhere: first click asks, second click (within 3 s) restarts
+(function(){const b=document.getElementById("restartTop");let timer=null;
+  b.onclick=()=>{
+    if(!b.classList.contains("confirm")){b.classList.add("confirm");b.textContent="Start over? Click again";timer=setTimeout(()=>{b.classList.remove("confirm");b.textContent="↺ Start over"},3000);return}
+    clearTimeout(timer);b.classList.remove("confirm");b.textContent="↺ Start over";restart();
+  };})();
 document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderStage()};
 document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&state.cardOpen){state.cardOpen=false;renderStage()}});
