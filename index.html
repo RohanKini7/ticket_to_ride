@@ -130,6 +130,8 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 .tasks li{margin-bottom:10px}
 .fact{white-space:nowrap}
 .fact.no{color:var(--red)}
+.button.draw{animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{0%{box-shadow:0 0 0 0 #c9504588}70%{box-shadow:0 0 0 12px #c9504500}100%{box-shadow:0 0 0 0 #c9504500}}
 /* Dares */
 .dare-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #e0d5b8}
 .dare-btn{background:var(--gold);color:var(--navy)}.dare-btn:hover{background:#eab83f}
@@ -310,7 +312,7 @@ function rideTrain(track,fromCity,done){
 function chooseTrack(id){
   if(!options().some(t=>t.id===id)||state.pending===id)return;
   state.pending=id; state.fact=null; state.cardOpen=false; renderMap(); renderStage();
-  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;state.cardOpen=true;render()}});
+  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;render()}});
 }
 function nextStop(){
   const t=byId(state.pending);
@@ -360,7 +362,7 @@ function renderMap(){
 
 function stubs(){return `<div class="stubs" aria-hidden="true">${STOPS.map((_,i)=>`<span class="stub ${i<state.history.length?"done":i===state.history.length?"now":""}"></span>`).join("")}</div>`}
 
-const lifeShown=()=>true;
+const lifeShown=()=>state.life;   // the life milestone appears once the card has been drawn
 function ticketBody(s){
   const st=CITIES[LINE[state.history.length+1]];
   let h="";
@@ -416,7 +418,7 @@ function renderStage(){
       :!state.revealed?(p.ideal?`🚂 Cruising the ideal path to ${to}… suspiciously smooth.`:`🚂 Fighting through “${p.name}”…`)
       :`${p.ideal?"✨":"🚧"} <strong>${p.name}</strong> — ${p.story}${fact}`;
     bar+=`<div class="bar"><span class="counter" style="margin:0">Stop ${n+1} of ${STOPS.length}</span><span class="leg">${status}</span></div>
-      <div class="bar"><span class="route-choices" role="group" aria-label="Tracks from ${from} to ${to}">${choices}</span><span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary" id="open">🎟️ Show the card</button>`:""}</span></div>`;
+      <div class="bar"><span class="route-choices" role="group" aria-label="Tracks from ${from} to ${to}">${choices}</span><span class="bar-btns">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show the card":"Draw the card"}</button>`:""}</span></div>`;
   }
   stage.innerHTML=bar;
 
@@ -440,7 +442,7 @@ function renderStage(){
   on("alt",()=>{state.alt=!state.alt;renderStage()});
   on("next",nextStop);
   on("back",previousStop);
-  on("open",()=>{state.cardOpen=true;renderStage()});
+  on("open",()=>{state.cardOpen=true;state.life=true;render()});
   on("restart",restart); on("restart2",restart);
 }
 function render(){renderMap();renderStage()}
