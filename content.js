@@ -15,6 +15,10 @@
      path (straight track) and one "real" path (tangled track). The
      chosen track only changes the route and the little story line,
      never the question.
+   • Each stop runs in two steps: "memory" is asked first (how was this
+     PhD phase + one favourite memory). Then the personal milestone is
+     revealed on the map and "prompt" asks him to retell the phase in
+     that milestone's style. Leave "memory" out to skip step 1.
    • Optional fields in a stop: talks, stations (with reveal button),
      altPrompt + altLabel + mainLabel (a switchable second version).
    • After editing, open index.html in a browser. If something is
@@ -71,8 +75,9 @@ window.TICKET_CONTENT = {
   /* ---- One stop per arrival: question (prompt), hint, dares ---- */
   stops: [
   { phase:"Initial Days · The opening", title:"Chess Club: Your Opening Move", icon:"♞",
-    prompt:"Your initial days came with a second opening: the chess stream. You’ve organised, moderated and streamed enough chess — today you’re the one on the board. Which chess piece were you when you first joined the <em>404 Not Found</em> group, and which piece are you now, as Dr. Kiran? Give your new piece a dramatic entrance line.",
-    hint:"The pawn who crossed the whole board and got promoted? The knight who never once went in a straight line?",
+    memory:"How were your initial days in the <em>404 Not Found</em> group? What surprised you most — and what’s one favourite memory from that time?",
+    prompt:"Your initial days were also when the chess stream started. So retell them as a chess stream: What was your opening? What was the first blunder? Which move are you proudest of? And which chess piece were you back then — and which are you now, as Dr. Kiran?",
+    hint:"Stream voice on: greet the chat, explain the position, react to every move.",
     dares:[
       "Cross the room the way your piece moves. Knights: the L-shape is mandatory.",
       "Name your PhD like a real chess opening — “The Cryogenic Gambit”? “The Axial Flux Defense”? — and demonstrate its first move.",
@@ -81,7 +86,8 @@ window.TICKET_CONTENT = {
       "Stream mode: give 15 seconds of live chess-stream commentary on this party. Don’t forget to greet the chat."
     ]},
   { phase:"Results & Rings · The middlegame", title:"Two Results, One Year", icon:"💍",
-    prompt:"Midway through the PhD, two big results came in: the first data that finally made sense… and a wedding. Time for a mash-up! Which needed more planning: the test campaign or the wedding? Which had stricter boundary conditions? And which converged first: the simulation, or the guest list?",
+    memory:"How was the phase when the first results came in — experiments and simulations? What’s one favourite memory from the lab or the model?",
+    prompt:"That same phase brought the wedding. So tell the story of your first results as a wedding: How did you meet your data? Who objected when asked to “speak now or forever hold their peace”? What vows did experiment and simulation make — and did they converge happily ever after?",
     hint:"Old lab wisdom: nobody trusts a simulation except the person who ran it — and nobody trusts a wedding timeline except the person who planned it.",
     dares:[
       "Give a 20-second wedding toast — to your COMSOL model.",
@@ -91,7 +97,8 @@ window.TICKET_CONTENT = {
       "Pick someone as Reviewer 2. They ask: “But did you validate the results?” You have 10 seconds."
     ]},
   { phase:"Firenze · On tour", title:"The Kamath Talks", icon:"🎙️",
-    prompt:"Benvenuto a Firenze! While your motor went on tour — COMSOL here, SAMPE in Long Beach — a second show went on air. Welcome to <em>The Kamath Talks</em>! Pick one of the professors here as today’s guest, give the episode a title, and introduce them in 20 seconds, full podcast voice.",
+    memory:"Benvenuto a Firenze! How was the conference phase — COMSOL here, SAMPE in Long Beach? What’s one favourite memory from the road?",
+    prompt:"Around then, <em>The Kamath Talks</em> went on air. So tell your Firenze phase as a podcast episode: give it an episode title and a 20-second intro in full podcast voice — then pick one of the professors here as your guest and ask them one question.",
     hint:"Affectionate roasting only. Think late-night show, not peer review.",
     dares:[
       "Hum or beatbox the theme tune of <em>The Kamath Talks</em>. Minimum five seconds, maximum confidence.",
@@ -101,7 +108,8 @@ window.TICKET_CONTENT = {
       "Hand the mic to your guest: they get 10 seconds to introduce <em>you</em>."
     ]},
   { phase:"Publication · Two big releases", title:"Paper or Baby?", icon:"👶",
-    prompt:"The publication and the baby arrived on the same track — talk about a collision! Quick-fire comparison: Which had the longer review process? Which kept you up more at night: Reviewer 2 or the baby? And which one has the better chance of being cited by your parents?",
+    memory:"How was the publication phase — writing, submitting, waiting, revising? What’s one favourite memory from getting the paper out?",
+    prompt:"The paper arrived on the same track as the baby. So announce your publication like a birth: due date vs. actual date, hours of labour, weight in pages, and the first reactions from the relatives (Reviewer 2 counts as a relative). Then the quick-fire round: which kept you up more at night?",
     hint:"Both were peer-reviewed. One of them by grandparents.",
     dares:[
       "Read the first line of your paper’s abstract as a bedtime story. Soothing voice, please.",
@@ -111,7 +119,8 @@ window.TICKET_CONTENT = {
       "Describe fatherhood in the style of a paper abstract: background, method, results — 20 seconds."
     ]},
   { phase:"Defense · Parents’ first trip abroad", title:"Doctoral Seminar Schedule", icon:"🗓️",
-    prompt:"Final station: today’s defense — and the trip that brought your parents abroad for the very first time. So, Mr. Seminar Coordinator, one last schedule: your parents are in the audience. In which order do you put these three talks to impress them most, and why?",
+    memory:"Final station! How were the last months — writing the thesis, preparing the defense, and today? What’s one favourite memory from the final stretch?",
+    prompt:"Your parents travelled abroad for the very first time for this. So tell your defense phase as their travel guide: the must-see sights, what the locals (the professors) are like, and the one thing every tourist should know. Bonus, Mr. Seminar Coordinator: in which order would you schedule these three talks to impress them most?",
     talks:["The 8 a.m. Talk","The Talk With 47 Slides","The Talk That Needs Just Five More Minutes"],
     hint:"Bonus: how did you explain to your parents what a PhD actually is?",
     dares:[
