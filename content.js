@@ -16,7 +16,8 @@
      chosen track only changes the route and the little story line,
      never the question.
    • Each stop: on arrival Kiran draws a ticket. It shows 1. "fact"
-     (what happened in his life in that phase) and 2. "prompt" (the
+     (what happened in his life, as a Friends-style episode title:
+     "The One Where…") and 2. "prompt" (the
      question / task he has to do to earn the next ticket).
    • Optional fields in a stop: talks, stations (with reveal button),
      altPrompt + altLabel + mainLabel (a switchable second version).
@@ -87,19 +88,19 @@ window.TICKET_CONTENT = {
   /* ---- One stop per arrival: memory (step 1) and prompt (step 2) ---- */
   stops: [
   { phase:"Initial Days", title:"Chess Club", icon:"♞",
-    fact:"Kiran started chess streaming on YouTube.",
+    fact:"The One Where Dr. Kiran Started Streaming Chess",
     prompt:"Pick a chess piece for who you were when you started — and one for who you are now, as Dr. Kiran."},
   { phase:"Results & Rings", title:"The Wedding", icon:"💍",
-    fact:"Kiran got married.",
+    fact:"The One Where Dr. Kiran Got Married",
     prompt:"Tell us something cute about the wedding."},
   { phase:"Firenze", title:"The Kamath Talks", icon:"🎙️",
-    fact:"Kiran started The Kamath Talks on YouTube.",
+    fact:"The One Where Dr. Kiran Started The Kamath Talks",
     prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style."},
   { phase:"Publication", title:"The Baby", icon:"👶",
-    fact:"Kiran became a father — the baby arrived.",
+    fact:"The One Where Dr. Kiran Became a Dad",
     prompt:"The PhD had already changed how you see life — and just then your baby arrived and turned the whole world around again. Tell us one good thing about your little one."},
   { phase:"Defense", title:"Parents Abroad", icon:"✈️",
-    fact:"Kiran’s parents travelled abroad for the first time — to see him defend his thesis.",
+    fact:"The One Where Dr. Kiran’s Parents Flew In for the Defense",
     prompt:"You did it, Dr. Kiran! And your parents travelled abroad for the very first time — to see you defend your thesis. How does that feel?"}
   ],
 
