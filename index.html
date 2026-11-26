@@ -150,10 +150,33 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 .dare-card p{font-size:1.05rem;font-weight:700;margin:4px 0 2px}
 .dare-label{font:800 .7rem var(--ui);letter-spacing:.16em;text-transform:uppercase;color:#b07d00}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
+
+/* Official: badge + ticket check animations */
+.who{display:flex;align-items:center;gap:8px}
+.badge{display:inline-grid;place-items:center;width:34px;height:24px;border-radius:5px;background:var(--red);color:#fff;font:800 .5rem/1.05 var(--ui);letter-spacing:.02em;text-align:center;text-transform:none;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)}
+.dialog[hidden]{display:none}
+.fxticket{position:absolute;right:6%;top:14%;width:250px;height:150px;pointer-events:none;z-index:3}
+.fxticket .tix{position:absolute;inset:0;border-radius:14px;padding:14px 16px;box-shadow:0 16px 40px rgba(0,0,0,.3);opacity:0;transform:translateX(60px) rotate(6deg);font:700 .9rem var(--ui)}
+.tix-top{font:800 1.15rem var(--ui);letter-spacing:.04em;margin-bottom:8px}.tix-top b{margin-left:2px;font-weight:800}
+.tix-row{font:700 .78rem var(--mono);opacity:.85;margin:3px 0}
+.invalid-tix{background:linear-gradient(135deg,#fdfdfd,#e9eef4);color:#25313d;border:2px solid #c9d3dd}
+.free-tix{background:linear-gradient(135deg,#e9f8ee,#c9efd6);color:#14513f;border:2px solid #8fd1a6}
+.tix-stamp{position:absolute;right:14px;bottom:16px;font:800 1.5rem var(--ui);letter-spacing:.06em;padding:4px 12px;border:4px solid;border-radius:10px;transform:rotate(-14deg) scale(2.2);opacity:0}
+.tix-stamp.bad{color:#d0021b;border-color:#d0021b;background:rgba(255,235,235,.85)}
+.tix-stamp.good{color:#118a3e;border-color:#118a3e;background:rgba(232,255,240,.85)}
+.fxticket.invalid.go .invalid-tix{animation:tixin .5s ease forwards,shake .5s .95s ease}
+.fxticket.invalid.go .invalid-tix .tix-stamp{animation:slam .35s .7s cubic-bezier(.2,1.6,.4,1) forwards}
+.fxticket.freepass.go .free-tix{animation:tixin .5s ease forwards}
+.fxticket.freepass.go .free-tix .tix-stamp{animation:slam .35s .7s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes tixin{to{opacity:1;transform:rotate(-3deg)}}
+@keyframes slam{to{opacity:1;transform:rotate(-14deg) scale(1)}}
+@keyframes shake{0%,100%{transform:rotate(-3deg)}20%{transform:translateX(-10px) rotate(-5deg)}40%{transform:translateX(9px) rotate(-1deg)}60%{transform:translateX(-6px) rotate(-4deg)}80%{transform:translateX(4px) rotate(-2deg)}}
+.tasks li.fact{font-weight:800;color:var(--sign);list-style-type:decimal}
+@media(max-width:650px){.fxticket{right:4%;top:6%;width:200px;height:124px}.tix-top{font-size:.95rem}.tix-stamp{font-size:1.1rem}}
 /* Conductor dialogue */
 .score{font:800 .9rem var(--ui);background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:7px 12px;border-radius:9px;white-space:nowrap}
 .score b{font-family:var(--mono);color:#ffd166}
-.dialog{position:absolute;left:12px;bottom:12px;transition:left .45s ease;width:min(500px,calc(100% - 24px));display:flex;gap:12px;align-items:flex-end;z-index:3}
+.dialog{position:absolute;right:12px;bottom:12px;width:min(500px,calc(100% - 24px));display:flex;gap:12px;align-items:flex-end;z-index:3}
 .dialog.in .bubble{animation:bubin .35s ease}
 @keyframes bubin{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
 .avatar{flex:0 0 76px;width:76px;height:76px;border-radius:50%;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.25);border:3px solid #fff;overflow:hidden;animation:bob 3s ease-in-out infinite}
@@ -205,7 +228,7 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
       <p class="subtitle" id="subtitle"></p>
     </div>
   </div>
-  <div class="head-right"><div class="score" title="Points">⭐ <b id="pts">0</b> pts</div><button class="restart" id="restartTop" title="Start over" aria-label="Start over">↺</button><div class="clock" id="clock" aria-hidden="true">--:--</div></div>
+  <div class="head-right"><button class="restart" id="restartTop" title="Start over" aria-label="Start over">↺</button><div class="clock" id="clock" aria-hidden="true">--:--</div></div>
 </header>
 
 <div class="route-wrap"><div class="map">
@@ -245,8 +268,7 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
   <g id="finish" aria-hidden="true"><text font-size="30" text-anchor="middle">🏁</text></g>
 </svg>
 <div class="dialog in" id="dialog" role="dialog" aria-live="polite">
-  <button class="mini-btn" id="minBtn" title="Hide / show the official" aria-label="Hide or show the official">–</button>
-  <div class="avatar"><svg viewBox="0 0 64 64" aria-hidden="true">
+    <div class="avatar"><svg viewBox="0 0 64 64" aria-hidden="true">
   <circle cx="32" cy="32" r="31" fill="#e8f1ea"/>
   <path d="M10 64c2-12 11-18 22-18s20 6 22 18z" fill="#22355c"/>
   <path d="M28 46l4 7 4-7z" fill="#fff"/><circle cx="26" cy="55" r="1.6" fill="#f2c14e"/><circle cx="38" cy="55" r="1.6" fill="#f2c14e"/>
@@ -258,9 +280,13 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
   <path d="M17 21c1-8 8-12 15-12s14 4 15 12z" fill="#22355c"/><rect x="17" y="19" width="30" height="5" rx="2" fill="#d9452b"/>
   <path d="M15 24h34c-2 3-5 4-17 4s-15-1-17-4z" fill="#111a2e"/><circle cx="32" cy="14" r="2.4" fill="#f2c14e"/>
 </svg></div>
-  <div class="bubble"><div class="who" id="who"></div><div class="say" id="say"></div><div id="extra"></div><div class="acts" id="acts"></div></div>
+  <div class="bubble"><div class="who"><span class="badge" aria-hidden="true">PhD<br>Bahn</span><span id="who"></span></div><div class="say" id="say"></div><div id="extra"></div><div class="acts" id="acts"></div></div>
 </div>
-<div class="stampfx" id="stampFx" aria-hidden="true"><div class="ring"><span class="em">✅</span><span class="word">STAMPED</span></div></div>
+<div class="fxticket" id="fxTicket" aria-hidden="true">
+  <div class="tix invalid-tix"><div class="tix-top">DEUTSCHLAND<b>TICKET</b></div><div class="tix-row">Name: Kiran K.</div><div class="tix-row">Valid: PhD Railway?</div><div class="tix-stamp bad">UNGÜLTIG</div></div>
+  <div class="tix free-tix"><div class="tix-top">FREE<b>PASS</b></div><div class="tix-row">Augsburg → Initial Days</div><div class="tix-row">Newcomer · Freifahrt</div><div class="tix-stamp good">GÜLTIG ✓</div></div>
+</div>
+<div class="stampfx" id="stampFx" aria-hidden="true"><div class="ring"><span class="em">✅</span><span class="word">EARNED</span></div></div>
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
@@ -446,81 +472,46 @@ function parkAfter(track){                             // place the whole train 
   trail=[]; samples(track.path,true).forEach(p=>trailPush(p[0],p[1])); poseTrain();
 }
 
-/* ---------- Game: conductor, memories, tasks, stamps, points ---------- */
-const CONDUCTOR=Object.assign({
-  name:"DB official",
-  intro:[
-    "Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your DB official for today. 🎩",
-    "The rules are simple. At every station you choose a track: the ✨ straight ideal line, or the 🚧 tangled one — what really happened.",
-    "When the train arrives, you tell us one funny memory from that phase of your PhD.",
-    "Then I give you a special task. Complete it and I stamp your ticket for the next train. Collect all the stamps to reach the terminus!",
-    "Points: +10 for every memory, +25 for every task, and a +5 honesty bonus whenever you admit what really happened. Bitte einsteigen! 🚂"
-  ],
-  pick:"Your train to {to} is waiting. Choose your track: ✨ ideal or 🚧 what really happened?",
-  rideIdeal:"Straight line to {to}… suspiciously smooth. 🤨",
-  rideReal:"Attention please: delays expected due to “{via}”. 🙈",
-  arrive:"Next station: {station}! 🎙️ Memory check:",
-  task:"To get your ticket for the next train, here is your special task:",
-  issued:"Ticket stamped! ✅ The next train leaves for {next}. Bitte einsteigen — the doors close automatically.",
-  finale:"Endstation: {station}! Please take all your degrees with you. 🎓 You collected {stamps} stamps and {points} points."
-},C.conductor||{});
-const POINTS={memory:10,task:25,honesty:5};
-const fill=(s,o)=>String(s).replace(/\{(\w+)\}/g,(_,k)=>o[k]??"");
+/* ---------- Game: intro with the DB official, then earn a ticket at every station ---------- */
+const CONDUCTOR=Object.assign({name:"DB official",intro:[
+  {text:"Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your DB official for today. 🎩"},
+  {text:"On this railway you need to earn a ticket to move from station to station. Let me check yours… 🔍"},
+  {text:"Deutschlandticket ist ungültig! 🚫",fx:"invalid"},
+  {text:"But wait… you are only in your Initial Days! Newcomers ride for free. Here is your free pass. 🎫",fx:"freepass"},
+  {text:"Choose your track from Augsburg to Initial Days. From then on, you earn every ticket at the station. Gute Fahrt! 🚂"}
+]},C.conductor||{});
+const INTRO=CONDUCTOR.intro.map(x=>typeof x==="string"?{text:x}:x);
 const emojiOf=life=>{const t=(life||"").trim().split(/\s+/)[0]||"";return /\p{Extended_Pictographic}/u.test(t)?t:"✅"};
 
-// phase: intro → pick → ride → memory → task → issued → (next stop: pick) … → done
-const state={city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0,min:false};
+// phase: intro → pick → ride → arrived (draw ticket) → next stop … → done
+const state={city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0};
 const other=(t,c)=>t.a===c?t.b:t.a;
 const byId=id=>TRACKS.find(t=>t.id===id);
 function options(){return (state.phase==="pick"||state.phase==="ride")&&state.history.length<STOPS.length?TRACKS.filter(t=>t.a===state.city):[]}
-function stopPoints(h,i){return (STOPS[i].memory?POINTS.memory:0)+POINTS.task+(byId(h.id).ideal?0:POINTS.honesty)}
-function points(){
-  let p=state.history.reduce((s,h,i)=>s+stopPoints(h,i),0);
-  if(["task","issued"].includes(state.phase)&&STOPS[state.history.length]?.memory)p+=POINTS.memory;
-  if(state.phase==="issued"){p+=POINTS.task;if(!byId(state.pending).ideal)p+=POINTS.honesty}
-  return p;
-}
-const maxPoints=()=>STOPS.reduce((s,st)=>s+(st.memory?POINTS.memory:0)+POINTS.task+POINTS.honesty,0);
-function rank(p){const r=p/maxPoints();return r>=.97?"Platinum Doctoral Express 💎":r>=.85?"Gold Intercity Scholar 🥇":r>=.7?"Silver Regional Hero 🥈":"Bronze Commuter 🥉"}
-function stamps(){return state.history.length+(state.phase==="issued"?1:0)}
 
 function chooseTrack(id){
   if(!options().some(t=>t.id===id)||state.pending===id)return;
   if(state.pending){const prev=state.history[state.history.length-1];if(prev)parkAfter(byId(prev.id));else{trail=[];samples(SPUR,true).forEach(p=>trailPush(p[0],p[1]));poseTrain()}}
-  state.pending=id; state.revealed=false; state.life=false; state.phase="ride"; render();
+  state.pending=id; state.revealed=false; state.life=false; state.cardOpen=false; state.phase="ride"; render();
   const t=byId(id);
-  runAlong(samples(t.path,true),Math.min(3200,1200+t.path.getTotalLength()*3.2),()=>{
-    if(state.pending!==id)return;
-    state.revealed=true; const s=STOPS[state.history.length];
-    if(s.memory)state.phase="memory"; else {state.phase="task";state.life=true}
-    state.min=false; render();
-  });
-}
-function memoryDone(){state.phase="task";state.life=true;render()}
-function taskDone(){
-  const last=state.history.length===STOPS.length-1;
-  stampFx(emojiOf(CITIES[LINE[state.history.length+1]].life));
-  if(last){setTimeout(nextStop,900);state.phase="issued";render();return}
-  state.phase="issued"; render();
+  runAlong(samples(t.path,true),Math.min(3200,1200+t.path.getTotalLength()*3.2),()=>{if(state.pending===id){state.revealed=true;state.phase="arrived";render()}});
 }
 function nextStop(){
   const t=byId(state.pending);
+  stampFx(emojiOf(CITIES[t.b].life));
   state.history.push({id:t.id,from:state.city,to:t.b});
   const done=state.history.length>=STOPS.length;
-  Object.assign(state,{city:t.b,pending:null,revealed:false,life:false,cardOpen:false,phase:done?"done":"pick",min:false});
+  Object.assign(state,{city:t.b,pending:null,revealed:false,life:false,cardOpen:false,phase:done?"done":"pick"});
   animToken++; render();
-  if(done)confetti();
+  if(done){confetti();setTimeout(()=>{state.cardOpen=true;render()},1300)}
 }
 function previousStop(){
   const h=state.history.pop(); animToken++;
-  Object.assign(state,{city:h.from,pending:h.id,revealed:true,life:true,cardOpen:false,phase:"task",min:false});
+  Object.assign(state,{city:h.from,pending:h.id,revealed:true,life:true,cardOpen:true,phase:"arrived"});
   parkAfter(byId(h.id)); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0,min:false});animToken++;render();rollIn()}
-function stampFx(e){
-  const fx=document.getElementById("stampFx"); fx.querySelector(".em").textContent=e;
-  fx.classList.remove("go"); void fx.offsetWidth; fx.classList.add("go");
-}
+function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0});animToken++;render();rollIn()}
+function stampFx(e){const fx=document.getElementById("stampFx");fx.querySelector(".em").textContent=e;fx.classList.remove("go");void fx.offsetWidth;fx.classList.add("go")}
 
 /* ---------- Rendering ---------- */
 function renderMap(){
@@ -547,19 +538,22 @@ function renderMap(){
   document.getElementById("finish").classList.toggle("on",state.phase==="done");
 }
 function stampSlots(){
-  const got=stamps();
-  return `<div class="stubs" aria-label="${got} of ${STOPS.length} stamps">${STOPS.map((_,i)=>{
-    const e=emojiOf(CITIES[LINE[i+1]].life), on=i<got, now=i===state.history.length&&!on;
-    return `<span class="slot ${on?"on":""} ${now?"now":""}" title="${CITIES[LINE[i+1]].n}">${on?e:i+1}</span>`}).join("")}</div>`;
+  const got=state.history.length;
+  return `<div class="stubs" aria-label="${got} of ${STOPS.length} tickets">${STOPS.map((_,i)=>{
+    const on=i<got, now=i===got;
+    return `<span class="slot ${on?"on":""} ${now?"now":""}" title="${CITIES[LINE[i+1]].n}">${on?emojiOf(CITIES[LINE[i+1]].life):"🎫"}</span>`}).join("")}</div>`;
 }
 let lastBoard="";
 function renderStage(){
   const stage=document.getElementById("stage"), n=state.history.length, done=state.phase==="done";
   const from=CITIES[state.city].n, to=done?"—":CITIES[LINE[n+1]].n;
   const p=state.pending&&byId(state.pending);
-  const status={intro:["BOARDING","blink"],pick:["CHOOSE YOUR TRACK","blink"],ride:["EN ROUTE","go"],memory:["ARRIVED",""],task:["TICKET CHECK",""],issued:["STAMPED ✓","go"],done:["TERMINUS","go"]}[state.phase];
+  const status={intro:["TICKET CHECK","blink"],pick:[n===0?"FREE PASS ✓":"TICKET VALID ✓","go"],ride:["EN ROUTE","go"],arrived:["ARRIVED",""],done:["TERMINUS","go"]}[state.phase];
   const via=p?(p.ideal?"✨ ":"🚧 ")+p.name:"—";
   const key=[n,from,to,via,status[0]].join("|"), fl=key!==lastBoard?" flip":""; lastBoard=key;
+  let btns="";
+  if(done)btns=`<button class="button secondary" id="back">← Last stop</button>${state.cardOpen?"":`<button class="button primary" id="open">🎓 Open the finale</button>`}`;
+  else btns=`${n&&state.phase!=="intro"?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.phase==="arrived"&&!state.cardOpen?`<button class="button primary${state.life?"":" draw"}" id="open">🎟️ ${state.life?"Show your ticket":"Draw your ticket"}</button>`:""}`;
   stage.innerHTML=`<div class="board">
     <div class="cell"><div class="k">Stop</div><div class="v${fl}">${Math.min(n+1,STOPS.length)}/${STOPS.length}</div></div>
     <div class="cells">
@@ -568,56 +562,42 @@ function renderStage(){
       <div class="cell" style="min-width:0;flex:1"><div class="k">Via</div><div class="v${fl}">${via}</div></div>
     </div>
     <div class="cell"><div class="k">Status</div><div class="v status ${status[1]}${fl}">${status[0]}</div></div>
-    <div class="board-btns">${done?`<button class="button primary" id="open">🎓 Final ticket</button>`:n&&state.phase==="pick"?'<button class="button secondary" id="back">← Previous stop</button>':""}</div>
+    <div class="board-btns">${btns}</div>
     ${stampSlots()}
   </div>`;
-  document.getElementById("pts").textContent=points();
 
-  // ---- conductor dialogue ----
-  const dlg=document.getElementById("dialog"), say=document.getElementById("say"), acts=document.getElementById("acts");
-  dlg.classList.toggle("min",state.min);
-  // keep the official out of the train's way: right side while the action is on the left half
-  const focus=CITIES[state.pending?byId(state.pending).b:state.city], mapW=document.querySelector(".map").clientWidth;
-  dlg.style.left=(focus.x<450?Math.max(12,mapW-dlg.offsetWidth-12):12)+"px";
-  const st=CITIES[LINE[n+1]]||CITIES[state.city], s=STOPS[n]||{};
-  let text="", extra="", btns="";
+  // ---- the DB official: only during the intro ----
+  const dlg=document.getElementById("dialog");
+  dlg.hidden=state.phase!=="intro";
+  const fx=document.getElementById("fxTicket");
   if(state.phase==="intro"){
-    const L=CONDUCTOR.intro, last=state.page>=L.length-1;
-    text=L[state.page]; extra=`<div class="pager">${L.map((_,i)=>`<i class="${i===state.page?"on":""}"></i>`).join("")}</div>`;
-    btns=`${last?"":'<button class="button ghost" id="skip">Skip</button>'}<button class="button primary" id="nextPage">${last?"Let’s go! 🚂":"Next ›"}</button>`;
-  }else if(state.phase==="pick"){text=fill(CONDUCTOR.pick,{to})}
-  else if(state.phase==="ride"){text=fill(p.ideal?CONDUCTOR.rideIdeal:CONDUCTOR.rideReal,{to,via:p.name})}
-  else if(state.phase==="memory"){
-    text=fill(CONDUCTOR.arrive,{station:st.n}); extra=`<div class="ask">${s.memory}</div>`;
-    btns=`<button class="button primary" id="memDone">✅ Memory told <span class="plus">+${POINTS.memory}</span></button>`;
-  }else if(state.phase==="task"){
-    text=CONDUCTOR.task; extra=`${st.life?`<div class="stamp mini">${st.life}</div>`:""}<div class="ask"><b>${s.title||""}</b><br>${s.prompt}</div>`;
-    btns=`<button class="button primary" id="taskDone">✅ Task done — stamp it! <span class="plus">+${POINTS.task}${p&&!p.ideal?` +${POINTS.honesty}`:""}</span></button>`;
-  }else if(state.phase==="issued"){
-    const last=n===STOPS.length-1;
-    text=last?"Final stamp! ✅ Arriving at the terminus…":fill(CONDUCTOR.issued,{next:CITIES[LINE[n+1]].n});
-    btns=last?"":`<button class="button primary" id="board">🚂 Board the next train</button>`;
-  }else if(state.phase==="done"){
-    text=fill(CONDUCTOR.finale,{station:CITIES[state.city].n,stamps:`${stamps()}/${STOPS.length}`,points:points()});
-    extra=`<div class="ask">🏆 Rank: <b>${rank(points())}</b></div>`;
-    btns=`<button class="button primary" id="open2">🎓 Show my final ticket</button>`;
-  }
-  const dkey=state.phase+"|"+state.page+"|"+n;
-  if(dlg.dataset.key!==dkey){dlg.dataset.key=dkey;typeText(say,text);dlg.classList.remove("in");void dlg.offsetWidth;dlg.classList.add("in")}
-  document.getElementById("extra").innerHTML=extra; acts.innerHTML=btns;
+    const pg=INTRO[state.page]||{text:""}, last=state.page>=INTRO.length-1;
+    const dkey="intro|"+state.page;
+    if(dlg.dataset.key!==dkey){
+      dlg.dataset.key=dkey; typeText(document.getElementById("say"),pg.text);
+      dlg.classList.remove("in"); void dlg.offsetWidth; dlg.classList.add("in");
+      fx.className="fxticket"+(pg.fx?" "+pg.fx:""); void fx.offsetWidth; if(pg.fx)fx.classList.add("go");
+    }
+    document.getElementById("extra").innerHTML=`<div class="pager">${INTRO.map((_,i)=>`<i class="${i===state.page?"on":""}"></i>`).join("")}</div>`;
+    document.getElementById("acts").innerHTML=`${last?"":'<button class="button ghost" id="skip">Skip</button>'}<button class="button primary" id="nextPage">${last?"Let’s go! 🚂":"Next ›"}</button>`;
+  }else{dlg.dataset.key="";fx.className="fxticket"}
 
-  // ---- finale card ----
+  // ---- ticket / finale card ----
   const overlay=document.getElementById("overlay"), body=document.getElementById("cardBody");
-  overlay.hidden=!(state.cardOpen&&done);
-  if(!overlay.hidden&&overlay.dataset.key!=="f"){body.innerHTML=finaleHTML();overlay.dataset.key="f";const c=document.querySelector(".card");c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop")}
-  if(overlay.hidden)overlay.dataset.key="";
+  const show=state.cardOpen&&(done||state.phase==="arrived");
+  overlay.hidden=!show;
+  if(show){
+    const k=done?"f":String(n), same=overlay.dataset.key===k;
+    body.innerHTML=done?finaleHTML():ticketHTML(STOPS[n],n); overlay.dataset.key=k;
+    if(!same){body.scrollTop=0;const c=document.querySelector(".card");c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop")}
+  }else overlay.dataset.key="";
 
   const on=(id,f)=>{const e=document.getElementById(id);if(e)e.onclick=f};
-  on("nextPage",()=>{if(state.page<CONDUCTOR.intro.length-1)state.page++;else state.phase="pick";render()});
+  on("nextPage",()=>{if(state.page<INTRO.length-1)state.page++;else state.phase="pick";render()});
   on("skip",()=>{state.phase="pick";render()});
-  on("memDone",memoryDone); on("taskDone",taskDone); on("board",nextStop);
-  on("back",previousStop);
-  on("open",()=>{state.cardOpen=true;render()}); on("open2",()=>{state.cardOpen=true;render()});
+  on("next",nextStop); on("back",previousStop);
+  on("open",()=>{state.cardOpen=true;state.life=true;render()});
+  on("alt",()=>{state.alt=!state.alt;renderStage()});
   on("restart",restart);
 }
 let typeTok=0;
@@ -626,14 +606,28 @@ function typeText(elm,text){
   if(reduceMotion)return;
   const full=elm.textContent; elm.textContent=""; let i=0;
   elm.onclick=()=>{typeTok++;elm.innerHTML=text};
-  (function step(){if(tok!==typeTok)return;i+=2;elm.textContent=full.slice(0,i);if(i<full.length)setTimeout(step,16);else elm.innerHTML=text})();
+  (function step(){if(tok!==typeTok)return;i+=2;elm.textContent=full.slice(0,i);if(i<full.length)setTimeout(step,18);else elm.innerHTML=text})();
+}
+function ticketHTML(s,n){
+  const st=CITIES[LINE[n+1]], fromN=CITIES[LINE[n]].n, p=byId(state.pending);
+  const items=[s.fact,state.alt&&s.altPrompt?s.altPrompt:s.prompt].filter(Boolean);
+  return `<div class="tk-head"><div class="eyebrow">${C.railwayName||"PhD Railway"} · Single ticket</div>
+      <div class="tk-route"><span>${fromN}</span><span class="arrow">→</span><span>${st.n}</span></div></div>
+    <div class="tk-body">
+      <div class="tk-meta"><span>Stop<b>${n+1} of ${STOPS.length}</b></span><span>Via<b>${p?p.name:"—"}</b></span><span>Class<b>Doctoral</b></span></div>
+      ${st.life?`<div class="stamp">${st.life}</div>`:""}
+      <h2>${s.title}</h2>
+      ${items.length>1?`<ol class="tasks">${items.map((t,i)=>`<li class="${i===0?"fact":""}">${t}</li>`).join("")}</ol>`:`<p class="prompt">${items[0]}</p>`}
+      ${s.altPrompt?`<button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`:""}
+      <div class="controls"><button class="button primary" id="next">${n===STOPS.length-1?"✅ Ticket earned — arrive at the terminus 🎓":"✅ Ticket earned — next stop →"}</button></div>
+    </div>
+    <div class="tk-foot"><span>VALID FOR ONE PhD · NON-REFUNDABLE</span><span class="barcode" aria-hidden="true"></span></div>`;
 }
 function finaleHTML(){
   const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
-  return `<div class="tk-head"><div class="eyebrow">Terminus · ${stamps()}/${STOPS.length} stamps · ${points()} points</div><div class="tk-route"><span>${CITIES[START].n}</span><span class="arrow">→</span><span>${CITIES[state.city].n}</span></div></div>
+  return `<div class="tk-head"><div class="eyebrow">Terminus · ${state.history.length}/${STOPS.length} tickets earned</div><div class="tk-route"><span>${CITIES[START].n}</span><span class="arrow">→</span><span>${CITIES[state.city].n}</span></div></div>
     <div class="tk-body finish"><div class="big" aria-hidden="true">🏁🎓🎉</div>
       <h2>${FINALE.heading||""}</h2><p>${FINALE.message||""}</p>
-      <div class="rankline">🏆 ${rank(points())}</div>
       ${C.stations.some(x=>x.life)?`<div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
       ${FINALE.dare?`<div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div>`:""}
       <p class="recap">Your route: ${path}</p>
@@ -670,7 +664,6 @@ document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderSta
 document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&state.cardOpen){state.cardOpen=false;renderStage()}});
 document.getElementById("who").textContent=CONDUCTOR.name;
-document.getElementById("minBtn").onclick=()=>{state.min=!state.min;renderStage()};
 render();
 rollIn();
 </script>
