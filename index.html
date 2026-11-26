@@ -64,7 +64,8 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 .choice{border:1px solid #cbd8d5;background:#fff;color:var(--navy);padding:9px 14px;border-radius:999px;font:700 .92rem system-ui,sans-serif;cursor:pointer}
 .choice:hover,.choice.selected{border-color:var(--red);background:#fff0e9}
 .choice.selected:before{content:"✓ ";color:var(--red)}
-.ticket{position:relative;background:#fff;border:2px dashed #d5c7a4;border-radius:16px;padding:18px 22px;margin:4px 0 6px;animation:reveal .45s ease}
+.ticket{position:relative;background:#fff;border:2px dashed #d5c7a4;border-radius:16px;padding:18px 22px;margin:4px 0 6px}
+.ticket.fresh,.ticket.mystery{animation:reveal .45s ease}
 .ticket.mystery{color:var(--muted);text-align:center;font-weight:600;background:repeating-linear-gradient(-45deg,#fffdf6 0 12px,#fbf5e4 12px 24px)}
 .ticket .icon{font-size:2rem;line-height:1;margin-bottom:4px}
 @keyframes reveal{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
@@ -86,6 +87,19 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 .finish p{font-size:1.2rem;margin:6px 0}
 .recap{color:var(--muted);font-size:.95rem!important}
 .footer{border-top:1px solid #d8e1e5;padding:13px 36px;color:var(--muted);font-size:.84rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+/* PhD railway */
+.hurdle-label{font:700 11.5px system-ui,sans-serif;fill:var(--navy);paint-order:stroke;stroke:#fffdf4;stroke-width:5px;stroke-linejoin:round;opacity:0;transition:opacity .25s;pointer-events:none}
+.city text.sub{font:600 11px system-ui,sans-serif;fill:var(--muted)}
+.leg{margin:10px 0 0;color:var(--muted)}
+.cleared{background:#f3f7fa;border-radius:10px;padding:8px 12px;margin:0 0 12px;color:var(--muted);font-size:.95rem}
+.cleared strong{color:var(--navy)}
+/* Dares */
+.dare-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #e0d5b8}
+.dare-btn{background:var(--gold);color:var(--navy)}.dare-btn:hover{background:#eab83f}
+.dare-card{margin-top:18px;background:linear-gradient(135deg,#fff4d6,#ffe9c7);border:2px solid var(--gold);border-radius:14px;padding:14px 18px;transform:rotate(-.6deg);animation:flip .45s ease;box-shadow:0 6px 18px #c9504522}
+.dare-card p{font-size:1.15rem;font-weight:600;color:var(--navy);margin:4px 0 8px}
+.dare-label{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--red)}
+@keyframes flip{from{opacity:0;transform:rotateX(70deg)}to{opacity:1;transform:rotate(-.6deg)}}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
 @media(max-width:650px){body{padding:8px}main{border-radius:16px}header{padding:20px 22px 17px}.route-wrap{padding:12px 10px 0}.content{padding:19px 20px 25px}.footer{padding:12px 20px}.city text{font-size:14px}.map-caption{font-size:.7rem;padding:8px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
@@ -96,18 +110,15 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 <main>
 <header>
   <div class="eyebrow">A celebratory mini-journey</div>
-  <h1>Ticket to Kiran</h1>
-  <p class="subtitle">Five stops across Europe. Pick a track, ride the train, answer what you find at the station.</p>
+  <h1 id="title">Ticket to Kiran</h1>
+  <p class="subtitle" id="subtitle">Five milestones from Augsburg to today’s defense. Pick your hurdle, ride the train, answer what waits at the station.</p>
 </header>
 
 <div class="route-wrap"><div class="map">
-<svg id="map" viewBox="0 0 900 430" role="group" aria-label="Europe-inspired railway map. Routes from the current city can be selected.">
+<svg id="map" viewBox="0 0 900 430" role="group" aria-label="The PhD railway: six milestones from Augsburg to the defense, with three hurdle tracks between each pair. Tracks from the current station can be selected.">
   <path class="sea" d="M0 0H900V430H0Z"/>
   <path class="land" d="M85 45L200 32 260 58 330 35 390 62 465 38 525 66 610 48 680 79 760 57 825 92 850 150 818 198 842 245 800 291 825 340 770 392 690 383 630 407 555 378 493 402 432 372 360 396 300 359 235 380 184 341 127 358 93 315 65 278 82 226 57 185 83 131 66 87Z"/>
-  <path class="terrain" d="M130 78Q180 50 232 84T320 75L330 110Q266 129 204 110T130 125Z M548 95Q600 68 663 99T752 91L768 124Q696 141 632 124T550 139Z M300 265Q350 239 408 269T493 255L505 291Q436 312 370 293T303 307Z M604 286Q655 255 713 285T775 278L786 316Q716 335 653 315T605 323Z"/>
-  <text class="map-label" x="118" y="60">NORTH SEA</text>
-  <text class="map-label" x="705" y="372">MEDITERRANEAN</text>
-  <text class="map-label" x="96" y="300">EUROPEAN RAILWAYS</text>
+  <text class="map-label" id="railwayName" x="70" y="34" style="fill:#7d9aa5"></text>
   <g id="tracks"></g>
   <g id="cities"></g>
   <g id="train" aria-hidden="true"><text text-anchor="middle" dominant-baseline="central">🚂</text></g>
@@ -123,93 +134,87 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
-<div class="footer"><span>Each track can only be ridden once. Your next ride always leaves from where you arrived.</span><span>Made for Kiran’s celebration</span></div>
+<div class="footer"><span>Pick a hurdle → ride to the milestone → answer the ticket → draw a dare.</span><span>Augsburg → Initial Days → First Results → Firenze → Publication → Defense</span></div>
 </main>
 
+<script src="content.js"></script>
 <script>
 /* ---------- Content: the five stops (order is fixed, whatever route is chosen) ---------- */
-const STOPS = [
-  { title:"Chess Club", icon:"♞",
-    prompt:"Pick a chess piece to represent your PhD journey so far. Give it a dramatic entrance line — or demonstrate its signature move.",
-    hint:"Funky answers encouraged: the knight that took the scenic L-shaped route, the pawn that got promoted, the king who castled just in time…" },
-  { title:"Kiran Talks", icon:"🎙️",
-    prompt:"Welcome to <em>Kiran Talks</em>, the podcast. Pick one of the professors in the room and introduce them as today’s guest — in 20 seconds. What’s the episode title?",
-    hint:"Affectionate roasting only. Bonus points for a theme-tune hum." },
-  { title:"Doctoral Seminar Schedule", icon:"🗓️",
-    prompt:"You’re in charge of the seminar schedule today. Put these three talks in running order — and tell us why.",
-    talks:["The 8 a.m. Talk","The Talk With 47 Slides","The Talk That Needs Just Five More Minutes"],
-    hint:"There are no wrong answers. The scheduling committee is listening." },
-  { title:"The Three-Stage Life Route", icon:"💍",
-    prompt:"One PhD, three big life stations. Name the three milestones of your PhD journey — in the right order.",
-    hint:"Hint: none of them is a publication.",
-    stations:["Came single","Got married","Had a child"] },
-  { title:"Game Night: Island Edition", icon:"🏝️",
-    prompt:"You’re stranded on an island with the professors. You can bring exactly one board game for everyone. Which game do you choose — and why?",
-    altPrompt:"You’re stranded on an island with everyone in this room. You can bring exactly one board game for the whole group. Which game do you choose — and why?",
-    altLabel:"Make it the whole group instead", mainLabel:"Back to the professors version",
-    hint:"Make your pitch persuasive: who wins, who sulks, who reads the rulebook?" }
-];
+const C = window.TICKET_CONTENT || null;
+const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
+(function validate(){
+  const errs=[];
+  if(!C)errs.push("content.js did not load (missing file or a syntax error such as a missing comma or quote).");
+  else{
+    if(C.stations.length!==C.stops.length+1)errs.push(`There are ${C.stations.length} stations but ${C.stops.length} stops — stations must be exactly one more than stops.`);
+    if(C.hurdles.length!==C.stops.length)errs.push(`There are ${C.hurdles.length} hurdle legs but ${C.stops.length} stops — they must be equal.`);
+    C.hurdles.forEach((h,i)=>{if(!h.length||h.length>3)errs.push(`Hurdle leg ${i+1} has ${h.length} hurdles — use 1 to 3.`)});
+    C.stops.forEach((st,i)=>{if(!st.title||!st.prompt)errs.push(`Stop ${i+1} needs a title and a prompt.`);if(!st.dares||!st.dares.length)errs.push(`Stop ${i+1} needs at least one dare.`)});
+  }
+  if(errs.length){document.body.insertAdjacentHTML("afterbegin",`<div style="background:#fde8e6;border:2px solid #c95045;padding:14px 18px;border-radius:12px;margin:10px;font:15px system-ui;max-width:900px"><b>content.js needs a fix:</b><ul>${errs.map(e=>`<li>${e}</li>`).join("")}</ul></div>`);throw new Error(errs.join(" | "))}
+  document.title=C.title; document.getElementById("title").textContent=C.title;
+  document.getElementById("subtitle").textContent=C.subtitle||"";
+  document.getElementById("railwayName").textContent=C.railwayName||"";
+})();
 
-/* ---------- Map data: single source of truth for cities and tracks ---------- */
-const START = "london";
-const CITIES = {
-  london:{n:"London",x:116,y:170,lx:-32,ly:-16}, paris:{n:"Paris",x:266,y:220,lx:-31,ly:26},
-  amsterdam:{n:"Amsterdam",x:303,y:125,lx:-35,ly:-18}, brussels:{n:"Brussels",x:323,y:208,lx:2,ly:22},
-  berlin:{n:"Berlin",x:500,y:173,lx:-27,ly:-20}, zurich:{n:"Zürich",x:493,y:286,lx:-31,ly:25},
-  prague:{n:"Praha",x:590,y:245,lx:-29,ly:24}, copenhagen:{n:"København",x:568,y:88,lx:-32,ly:-20},
-  vienna:{n:"Wien",x:683,y:298,lx:-23,ly:25}, warsaw:{n:"Warszawa",x:758,y:171,lx:-28,ly:-20},
-  rome:{n:"Roma",x:569,y:365,lx:-23,ly:25}
-};
-const TRACKS = [
-  ["london","paris","M116 170Q190 175 266 220"], ["london","amsterdam","M116 170Q197 105 303 125"],
-  ["london","brussels","M116 170Q225 158 323 208"], ["brussels","amsterdam","M323 208Q315 155 303 125"],
-  ["paris","brussels","M266 220Q293 205 323 208"], ["paris","zurich","M266 220Q380 267 493 286"],
-  ["paris","berlin","M266 220Q379 144 500 173"], ["amsterdam","berlin","M303 125Q411 118 500 173"],
-  ["brussels","berlin","M323 208Q414 171 500 173"], ["amsterdam","copenhagen","M303 125Q430 66 568 88"],
-  ["berlin","prague","M500 173Q553 218 590 245"], ["berlin","copenhagen","M500 173Q525 107 568 88"],
-  ["berlin","warsaw","M500 173Q620 130 758 171"], ["copenhagen","warsaw","M568 88Q682 96 758 171"],
-  ["zurich","prague","M493 286Q532 252 590 245"], ["zurich","vienna","M493 286Q590 318 683 298"],
-  ["zurich","rome","M493 286Q520 345 569 365"], ["prague","vienna","M590 245Q652 269 683 298"],
-  ["prague","warsaw","M590 245Q678 205 758 171"], ["vienna","rome","M683 298Q627 355 569 365"]
-].map(([a,b,d])=>({id:`${a}-${b}`,a,b,d}));
+/* ---------- Map data: built from content.js ---------- */
+// Station positions are computed automatically: evenly spaced, zig-zag up and down.
+const CITIES={}, LINE=[];
+C.stations.forEach((st,i)=>{
+  const id="s"+i, n=C.stations.length;
+  const x=Math.round(75+(838-75)*i/(n-1));
+  const y=i===0?235:(i%2?140:285);
+  CITIES[id]={n:st.name,sub:st.sub||"",x,y}; LINE.push(id);
+});
+const START=LINE[0];
+const HURDLES=C.hurdles;
+const TRACKS=[];
+LINE.slice(0,-1).forEach((a,k)=>{
+  const b=LINE[k+1], A=CITIES[a], B=CITIES[b], dx=B.x-A.x, dy=B.y-A.y, len=Math.hypot(dx,dy), nx=-dy/len, ny=dx/len;
+  const leg=HURDLES[k], sides=leg.length===1?[0]:leg.length===2?[-1,1]:[-1,0,1];
+  sides.forEach((side,i)=>{
+    const off=side*62, cx=(A.x+B.x)/2+nx*off*2, cy=(A.y+B.y)/2+ny*off*2;
+    const mx=(A.x+B.x)/2+nx*off, my=(A.y+B.y)/2+ny*off;   // midpoint of the curve
+    const {name,story}=leg[i];
+    TRACKS.push({id:`${a}-${b}-${i}`,a,b,name,story,d:`M${A.x} ${A.y}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${B.x} ${B.y}`,lx:mx,ly:my});
+  });
+});
 
 /* ---------- Build SVG ---------- */
 const NS="http://www.w3.org/2000/svg";
 const el=(tag,attrs={},parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e};
 const tracksG=document.getElementById("tracks"), citiesG=document.getElementById("cities");
 TRACKS.forEach(t=>{
-  const g=el("g",{class:"route-group","data-route":t.id,role:"button","aria-label":`${CITIES[t.a].n} – ${CITIES[t.b].n}`},tracksG);
+  const g=el("g",{class:"route-group","data-route":t.id,role:"button","aria-label":`${CITIES[t.a].n} to ${CITIES[t.b].n} via ${t.name}`},tracksG);
   el("path",{class:"route",d:t.d},g); t.path=el("path",{class:"rail",d:t.d},g); t.g=g;
   g.addEventListener("click",()=>chooseTrack(t.id));
   g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();chooseTrack(t.id)}});
 });
+// Hurdle labels drawn above all tracks so they stay readable
+const labelsG=el("g",{},tracksG);
+TRACKS.forEach(t=>{t.label=el("text",{class:"hurdle-label",x:t.lx,y:t.ly+4,"text-anchor":"middle"},labelsG);t.label.textContent="🚧 "+t.name});
 Object.entries(CITIES).forEach(([id,c])=>{
   const g=el("g",{class:"city","data-city":id},citiesG);
-  el("circle",{class:"ring",cx:c.x,cy:c.y,r:12},g); el("circle",{cx:c.x,cy:c.y,r:10},g);
-  el("text",{x:c.x+c.lx,y:c.y+c.ly},g).textContent=c.n; c.g=g;
-  g.addEventListener("click",()=>{const t=options().find(t=>other(t,state.city)===id);if(t)chooseTrack(t.id)});
+  el("circle",{class:"ring",cx:c.x,cy:c.y,r:14},g); el("circle",{cx:c.x,cy:c.y,r:12},g);
+  const below=c.y>200;
+  el("text",{x:c.x,y:below?c.y+36:c.y-40,"text-anchor":"middle"},g).textContent=c.n;
+  el("text",{class:"sub",x:c.x,y:below?c.y+51:c.y-24,"text-anchor":"middle"},g).textContent=c.sub;
+  c.g=g;
 });
 
 /* ---------- Journey logic ---------- */
-const state={city:START,history:[],pending:null,revealed:false,alt:false};
+const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null};
 const other=(t,c)=>t.a===c?t.b:t.a;
-const touches=(t,c)=>t.a===c||t.b===c;
 const byId=id=>TRACKS.find(t=>t.id===id);
-// Can the journey still last `left` more rides from city c without reusing a track?
-function canContinue(c,used,left){
-  if(left===0)return true;
-  return TRACKS.some(t=>touches(t,c)&&!used.has(t.id)&&canContinue(other(t,c),new Set([...used,t.id]),left-1));
-}
-// Routes offered: start at the current city, unused, and never lead to a dead end before stop 5.
+// Tracks run forward only: every hurdle from the current milestone leads to the next milestone.
 function options(){
   if(state.history.length>=STOPS.length)return[];
-  const used=new Set(state.history.map(h=>h.id)), left=STOPS.length-state.history.length;
-  return TRACKS.filter(t=>touches(t,state.city)&&!used.has(t.id)&&canContinue(other(t,state.city),new Set([...used,t.id]),left-1));
+  return TRACKS.filter(t=>t.a===state.city);
 }
 
 /* ---------- Train ---------- */
 const train=document.getElementById("train"), reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
-let animToken=0, confettiToken=0;
+let animToken=0, confettiToken=0, freshTicket=false;
 function placeTrain(x,y,faceRight){train.setAttribute("transform",`translate(${x},${y-5})${faceRight?" scale(-1,1)":""}`);train.dataset.right=faceRight?1:""}
 function trainAtCity(c){const p=CITIES[c];placeTrain(p.x,p.y,!!train.dataset.right)}
 function rideTrain(track,fromCity,done){
@@ -231,21 +236,21 @@ function rideTrain(track,fromCity,done){
 function chooseTrack(id){
   if(!options().some(t=>t.id===id)||state.pending===id)return;
   state.pending=id; renderMap(); renderStage();
-  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;renderStage()}});
+  rideTrain(byId(id),state.city,()=>{if(state.pending===id){state.revealed=true;freshTicket=true;renderStage()}});
 }
 function nextStop(){
   const t=byId(state.pending);
   state.history.push({id:t.id,from:state.city,to:other(t,state.city)});
-  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false;
+  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null;
   animToken++; trainAtCity(state.city); render();
   if(state.history.length===STOPS.length)confetti();
 }
 function previousStop(){
   const h=state.history.pop(); animToken++;
-  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false;
+  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null;
   trainAtCity(h.to); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false});animToken++;trainAtCity(START);render()}
+function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null});animToken++;trainAtCity(START);render()}
 
 /* ---------- Rendering ---------- */
 function renderMap(){
@@ -258,6 +263,7 @@ function renderMap(){
     t.g.classList.toggle("completed",used.has(t.id));
     t.g.setAttribute("tabindex",avail?"0":"-1");
     t.g.setAttribute("aria-disabled",avail?"false":"true");
+    t.label.style.opacity=(avail||t.id===state.pending||used.has(t.id))?1:0;
   });
   const reachable=new Set(opts.map(t=>other(t,state.city)));
   const visited=new Set(state.history.flatMap(h=>[h.from,h.to]));
@@ -269,8 +275,8 @@ function renderMap(){
     c.g.classList.toggle("reachable",reachable.has(id));
   });
   document.getElementById("journeyStatus").innerHTML=finished
-    ?`Journey complete · Final station: <strong>${CITIES[state.city].n}</strong>`
-    :`Source: <strong>${CITIES[state.city].n}</strong> · Destination: <strong>${dest?CITIES[dest].n:"choose a connected city"}</strong>`;
+    ?`Journey complete · Final station: <strong>${CITIES[state.city].n}</strong> (today!)`
+    :`Source: <strong>${CITIES[state.city].n}</strong> · Destination: <strong>${CITIES[LINE[LINE.indexOf(state.city)+1]].n}</strong> · Hurdle: <strong>${state.pending?byId(state.pending).name:"choose one"}</strong>`;
 }
 
 function stubs(){return `<div class="stubs" aria-hidden="true">${STOPS.map((_,i)=>`<span class="stub ${i<state.history.length?"done":i===state.history.length?"now":""}"></span>`).join("")}</div>`}
@@ -281,31 +287,41 @@ function ticketBody(s){
   h+=`<p class="hint">${s.hint}</p>`;
   if(s.stations)h+=`<div class="answer" id="answer">${s.stations.map((x,i)=>`<span class="station"><small>Station ${i+1}</small>${x}</span>`).join('<span class="arrow" aria-hidden="true">→</span>')}</div><button class="button secondary" id="reveal" aria-expanded="false">Reveal answer</button>`;
   if(s.altPrompt)h+=` <button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`;
+  h+= state.dare===null
+    ? `<div class="dare-row"><button class="button dare-btn" id="dare">🎲 Draw a dare</button><span class="hint" style="margin:0">Answered? Now the room gets a say.</span></div>`
+    : `<div class="dare-card" id="dareCard"><div class="dare-label">Dare card ${state.dare+1} of ${s.dares.length}</div><p>${s.dares[state.dare]}</p><button class="link" id="dare">🎲 Shuffle for another dare</button></div>`;
   return h;
 }
 
 function renderStage(){
   const stage=document.getElementById("stage"), n=state.history.length;
   if(n>=STOPS.length){
-    const path=[START,...state.history.map(h=>h.to)].map(c=>CITIES[c].n).join(" → ");
-    stage.innerHTML=`${stubs()}<div class="finish"><div class="big" aria-hidden="true">🎉🚂🎓</div><div class="counter">Route complete</div><h2>Destination: Dr. Kiran!</h2><p>All aboard for the next adventure. Herzlichen Glückwunsch!</p><p class="recap">Your route: ${path}</p><div class="controls" style="justify-content:center"><button class="button secondary" id="back">← Last stop</button><button class="button secondary" id="restart">Ride again</button></div></div>`;
+    const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
+    stage.innerHTML=`${stubs()}<div class="finish"><div class="big" aria-hidden="true">♚🎓🎉</div><div class="counter">Checkmate</div><h2>${FINALE.heading}</h2><p>${FINALE.message}</p>
+      <div class="ticket fresh" style="text-align:left;max-width:680px;margin:16px auto"><div class="icon" aria-hidden="true">🏝️</div><div class="counter">After the game</div><h2>${FINALE.title}</h2><p class="prompt">${state.alt?FINALE.altPrompt:FINALE.prompt}</p><button class="link" id="alt">${state.alt?FINALE.mainLabel:FINALE.altLabel}</button>
+      <div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div></div>
+      <p class="recap">Your route: ${path}</p><div class="controls" style="justify-content:center"><button class="button secondary" id="back">← Last stop</button><button class="button secondary" id="restart">Ride again</button></div></div>`;
+    document.getElementById("alt").onclick=()=>{state.alt=!state.alt;renderStage()};
     document.getElementById("restart").onclick=restart;
     document.getElementById("back").onclick=previousStop;
     return;
   }
   const s=STOPS[n], opts=options(), from=CITIES[state.city].n;
-  const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">${from} → ${CITIES[other(t,state.city)].n}</button>`).join("");
+  const to=CITIES[LINE[n+1]].n;
+  const choices=opts.map(t=>`<button class="choice ${t.id===state.pending?"selected":""}" data-choice="${t.id}">🚧 ${t.name}</button>`).join("");
   let ticket;
-  if(state.revealed) ticket=`<div class="ticket">${ticketBody(s)}</div>`;
-  else if(state.pending) ticket=`<div class="ticket mystery">🚂 Next station: ${CITIES[other(byId(state.pending),state.city)].n}…</div>`;
-  else ticket=`<div class="ticket mystery">🎟️ Ticket ${n+1} is face down. Choose a route from <strong>${from}</strong> to reveal it.${n===0?"":"<br><small>Your ride leaves from where you last arrived.</small>"}</div>`;
-  stage.innerHTML=`${stubs()}<div class="counter">Stop ${n+1} of ${STOPS.length}</div>
-    <div class="route-choices" role="group" aria-label="Routes from ${from}">${choices}</div>
+  if(state.revealed){const h=byId(state.pending);ticket=`<div class="ticket${freshTicket?" fresh":""}"><div class="cleared">🚧 Hurdle cleared: <strong>${h.name}</strong> — ${h.story}</div>${ticketBody(s)}</div>`;freshTicket=false}
+  else if(state.pending) ticket=`<div class="ticket mystery">🚂 Fighting through “${byId(state.pending).name}” on the way to ${to}…</div>`;
+  else ticket=`<div class="ticket mystery">🎟️ The ${to} ticket is face down. Pick a hurdle track to ride there and reveal it.</div>`;
+  stage.innerHTML=`${stubs()}<div class="counter">Stop ${n+1} of ${STOPS.length}${state.revealed?` · ${s.phase}`:""}</div>
+    <p class="leg"><strong>${from}</strong> → <strong>${to}</strong>: which hurdle stands in your way?</p><div class="route-choices" role="group" aria-label="Hurdle tracks from ${from} to ${to}">${choices}</div>
     ${ticket}
     <div class="controls">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
   stage.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>chooseTrack(b.dataset.choice));
   const r=document.getElementById("reveal");
   if(r)r.onclick=()=>{const a=document.getElementById("answer"),show=a.classList.toggle("show");r.textContent=show?"Hide answer":"Reveal answer";r.setAttribute("aria-expanded",show)};
+  const dz=document.getElementById("dare");
+  if(dz)dz.onclick=()=>{const k=s.dares.length;let i;do{i=Math.random()*k|0}while(k>1&&i===state.dare);state.dare=i;renderStage()};
   const alt=document.getElementById("alt"); if(alt)alt.onclick=()=>{state.alt=!state.alt;renderStage()};
   const nx=document.getElementById("next"); if(nx)nx.onclick=nextStop;
   const bk=document.getElementById("back"); if(bk)bk.onclick=previousStop;
