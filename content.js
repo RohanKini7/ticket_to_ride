@@ -15,9 +15,9 @@
      path (straight track) and one "real" path (tangled track). The
      chosen track only changes the route and the little story line,
      never the question.
-   • Each stop: on arrival the official asks the "memory" question
-     (+10). Then the personal milestone appears and "prompt" is the
-     special task for the next ticket (+25). Leave "memory" out to skip it.
+   • Each stop: on arrival Kiran draws a ticket. It shows 1. "fact"
+     (what happened in his life in that phase) and 2. "prompt" (the
+     question / task he has to do to earn the next ticket).
    • Optional fields in a stop: talks, stations (with reveal button),
      altPrompt + altLabel + mainLabel (a switchable second version).
    • After editing, open index.html in a browser. If something is
@@ -30,24 +30,17 @@ window.TICKET_CONTENT = {
   railwayName: "THE PhD RAILWAY · LINE K-AXFLUX-H2",
 
   /* ---- The railway official who guides Kiran ----
-     intro: shown one page at a time when the train arrives in Augsburg.
-     {to} {via} {station} {next} {stamps} {points} are filled in automatically. */
+     He only appears at the start. Each intro page is one speech bubble;
+     fx: "invalid" shows the UNGÜLTIG ticket, fx: "freepass" the free pass. */
   conductor: {
     name: "DB official",
     intro: [
-      "Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your DB official for today. 🎩",
-      "The rules are simple. At every station you choose a track: the ✨ straight ideal line, or the 🚧 tangled one — what really happened.",
-      "When the train arrives, you tell us one funny memory from that phase of your PhD.",
-      "Then I give you a special task. Complete it and I stamp your ticket for the next train. Collect all the stamps to reach the terminus!",
-      "Points: +10 for every memory, +25 for every task, and a +5 honesty bonus whenever you admit what really happened. Bitte einsteigen! 🚂"
-    ],
-    pick: "Your train to {to} is waiting. Choose your track: ✨ ideal or 🚧 what really happened?",
-    rideIdeal: "Straight line to {to}… suspiciously smooth. 🤨",
-    rideReal: "Attention please: delays expected due to “{via}”. 🙈",
-    arrive: "Next station: {station}! 🎙️ Memory check:",
-    task: "To get your ticket for the next train, here is your special task:",
-    issued: "Ticket stamped! ✅ The next train leaves for {next}. Bitte einsteigen — the doors close automatically.",
-    finale: "Endstation: {station}! Please take all your degrees with you. 🎓 You collected {stamps} stamps and {points} points."
+      { text: "Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your DB official for today. 🎩" },
+      { text: "On this railway you need to earn a ticket to move from station to station. Let me check yours… 🔍" },
+      { text: "Deutschlandticket ist ungültig! 🚫", fx: "invalid" },
+      { text: "But wait… you are only in your Initial Days! Newcomers ride for free. Here is your free pass. 🎫", fx: "freepass" },
+      { text: "Choose your track from Augsburg to Initial Days. From then on, you earn every ticket at the station. Gute Fahrt! 🚂" }
+    ]
   },
 
   /* ---- Stations: each PhD milestone (name + sub) shares a stop with a
@@ -94,18 +87,19 @@ window.TICKET_CONTENT = {
   /* ---- One stop per arrival: memory (step 1) and prompt (step 2) ---- */
   stops: [
   { phase:"Initial Days", title:"Chess Club", icon:"♞",
-    memory:"Tell us one funny memory from your initial days.",
+    fact:"Kiran started chess streaming on YouTube.",
     prompt:"Pick a chess piece for who you were when you started — and one for who you are now, as Dr. Kiran."},
   { phase:"Results & Rings", title:"The Wedding", icon:"💍",
-    memory:"Tell us one memory from the phase when your first results came in.",
+    fact:"Kiran got married.",
     prompt:"Tell us something cute about the wedding."},
   { phase:"Firenze", title:"The Kamath Talks", icon:"🎙️",
-    memory:"Tell us one memory from Italy.",
+    fact:"Kiran started The Kamath Talks on YouTube.",
     prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style."},
   { phase:"Publication", title:"The Baby", icon:"👶",
-    memory:"Peer-reviewed and published! Tell us one memory from getting the paper out.",
+    fact:"Kiran became a father — the baby arrived.",
     prompt:"The PhD had already changed how you see life — and just then your baby arrived and turned the whole world around again. Tell us one good thing about your little one."},
   { phase:"Defense", title:"Parents Abroad", icon:"✈️",
+    fact:"Kiran’s parents travelled abroad for the first time — to see him defend his thesis.",
     prompt:"You did it, Dr. Kiran! And your parents travelled abroad for the very first time — to see you defend your thesis. How does that feel?"}
   ],
 
