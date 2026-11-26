@@ -1,6 +1,6 @@
 # Ticket to Kiran
 
-A 5–10 minute celebration game for Dr. Kiran Kamath. The train rides the PhD railway from Augsburg to the defense. At each milestone, Kiran picks the hurdle he fought through, answers the question on the ticket, and draws a dare.
+A 5–10 minute celebration game for Dr. Kiran Kamath. A DB official welcomes him in Augsburg and explains the rules. At each station Kiran picks a track (ideal or what really happened), tells one funny memory (+10), completes a special task to get his ticket stamped (+25, +5 honesty bonus for the real track), and collects all stamps to reach the terminus.
 
 ## Editing the questions, dares and hurdles
 
@@ -18,6 +18,7 @@ What you can change:
 | Section | What it is |
 |---|---|
 | `title`, `subtitle`, `railwayName` | Header texts and the label on the map |
+| `conductor` | The DB official: his name, the intro pages and every line he says (placeholders like `{station}` are filled in automatically) |
 | `stations` | Milestone stations: `name` + small `sub` (PhD side) and `life` (the personal milestone at the same stop). Always **one more** than `stops`. |
 | `hurdles` | One entry per leg: an `ideal` path (the straight track) and a `real` path (the tangled track: what actually happened), each with `name` + `story` |
 | `stops` | One per arrival: `phase`, `title`, `icon`, `memory` (step 1, optional), `prompt` (step 2). Optional: `hint`, `talks`, `altPrompt`/`altLabel`/`mainLabel` |

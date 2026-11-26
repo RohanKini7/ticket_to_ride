@@ -15,10 +15,9 @@
      path (straight track) and one "real" path (tangled track). The
      chosen track only changes the route and the little story line,
      never the question.
-   • Each stop runs in two steps: "memory" is asked first (how was this
-     PhD phase + one favourite memory). Then the personal milestone is
-     revealed on the map and "prompt" asks him to retell the phase in
-     that milestone's style. Leave "memory" out to skip step 1.
+   • Each stop: on arrival the official asks the "memory" question
+     (+10). Then the personal milestone appears and "prompt" is the
+     special task for the next ticket (+25). Leave "memory" out to skip it.
    • Optional fields in a stop: talks, stations (with reveal button),
      altPrompt + altLabel + mainLabel (a switchable second version).
    • After editing, open index.html in a browser. If something is
@@ -29,6 +28,27 @@ window.TICKET_CONTENT = {
 
   title: "Ticket to Kiran",
   railwayName: "THE PhD RAILWAY · LINE K-AXFLUX-H2",
+
+  /* ---- The railway official who guides Kiran ----
+     intro: shown one page at a time when the train arrives in Augsburg.
+     {to} {via} {station} {next} {stamps} {points} are filled in automatically. */
+  conductor: {
+    name: "DB official",
+    intro: [
+      "Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your DB official for today. 🎩",
+      "The rules are simple. At every station you choose a track: the ✨ straight ideal line, or the 🚧 tangled one — what really happened.",
+      "When the train arrives, you tell us one funny memory from that phase of your PhD.",
+      "Then I give you a special task. Complete it and I stamp your ticket for the next train. Collect all the stamps to reach the terminus!",
+      "Points: +10 for every memory, +25 for every task, and a +5 honesty bonus whenever you admit what really happened. Bitte einsteigen! 🚂"
+    ],
+    pick: "Your train to {to} is waiting. Choose your track: ✨ ideal or 🚧 what really happened?",
+    rideIdeal: "Straight line to {to}… suspiciously smooth. 🤨",
+    rideReal: "Attention please: delays expected due to “{via}”. 🙈",
+    arrive: "Next station: {station}! 🎙️ Memory check:",
+    task: "To get your ticket for the next train, here is your special task:",
+    issued: "Ticket stamped! ✅ The next train leaves for {next}. Bitte einsteigen — the doors close automatically.",
+    finale: "Endstation: {station}! Please take all your degrees with you. 🎓 You collected {stamps} stamps and {points} points."
+  },
 
   /* ---- Stations: each PhD milestone (name + sub) shares a stop with a
      life milestone (life). Keep "life" short — it is shown on the map. */
