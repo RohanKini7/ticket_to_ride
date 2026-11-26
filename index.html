@@ -103,6 +103,15 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 .factcheck{background:#eef3f6;border-radius:10px;padding:8px 12px;margin:-4px 0 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .factcheck.no{background:#fde8e6}
 .button.small{padding:6px 11px;font-size:.88rem;background:#fff;border:1px solid #cbd8d5;color:var(--navy)}
+.step-label{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--green);margin-bottom:2px}
+.step.two{margin-top:18px;padding-top:16px;border-top:2px dashed #ecd3df}
+.step.two .step-label{color:#a0436f}
+.step.two.fresh{animation:reveal .5s ease}
+.lifechip{display:inline-block;background:#fbe9f1;color:#a0436f;border-radius:999px;padding:2px 10px;letter-spacing:0;text-transform:none;font-size:.95rem}
+.city text.life{transition:opacity .4s}
+.city text.life.hidden{opacity:0}
+.city text.life.pop{animation:lifepop .7s ease}
+@keyframes lifepop{0%{opacity:0}40%{opacity:1;fill:#e0559a}100%{opacity:1}}
 /* Dares */
 .dare-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #e0d5b8}
 .dare-btn{background:var(--gold);color:var(--navy)}.dare-btn:hover{background:#eab83f}
@@ -145,7 +154,7 @@ h2{font-size:clamp(1.4rem,4vw,1.9rem);margin:5px 0 10px;color:var(--navy)}
 </div></div>
 
 <section class="content" id="stage" aria-live="polite"></section>
-<div class="footer"><span>Pick a hurdle → ride to the milestone → answer the ticket → draw a dare.</span><span>Augsburg → Initial Days → First Results → Firenze → Publication → Defense</span></div>
+<div class="footer"><span>Pick a path → tell the PhD phase → reveal the personal milestone → retell it in that style → draw a dare.</span><span id="lineFooter"></span></div>
 </main>
 
 <script src="content.js"></script>
@@ -168,6 +177,7 @@ const STOPS = C ? C.stops : [], FINALE = C ? C.finale : {};
   document.title=C.title; document.getElementById("title").textContent=C.title;
   document.getElementById("subtitle").textContent=C.subtitle||"";
   document.getElementById("railwayName").textContent=C.railwayName||"";
+  document.getElementById("lineFooter").textContent=C.stations.map(x=>x.name).join(" → ");
 })();
 
 /* ---------- Map data: built from content.js ---------- */
@@ -231,13 +241,14 @@ Object.entries(CITIES).forEach(([id,c])=>{
   rows.forEach(([cls,txt],r)=>{
     const y=below?c.y+36+r*15:c.y-24-(rows.length-1-r)*15-(r===0?4:0);
     const lifeEnd=cls==="life"&&c.last;   // keep the last life label inside the map
-    el("text",{class:cls,x:lifeEnd?c.x+42:c.x,y,"text-anchor":lifeEnd?"end":"middle"},g).textContent=txt;
+    const t=el("text",{class:cls,x:lifeEnd?c.x+42:c.x,y,"text-anchor":lifeEnd?"end":"middle"},g); t.textContent=txt;
+    if(cls==="life")c.lifeEl=t;
   });
   c.g=g;
 });
 
 /* ---------- Journey logic ---------- */
-const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null};
+const state={city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false};
 const other=(t,c)=>t.a===c?t.b:t.a;
 const byId=id=>TRACKS.find(t=>t.id===id);
 // Tracks run forward only: every hurdle from the current milestone leads to the next milestone.
@@ -248,7 +259,7 @@ function options(){
 
 /* ---------- Train ---------- */
 const train=document.getElementById("train"), reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
-let animToken=0, confettiToken=0, freshTicket=false;
+let animToken=0, confettiToken=0, freshTicket=false, freshStep=false;
 function placeTrain(x,y,faceRight){train.setAttribute("transform",`translate(${x},${y-5})${faceRight?" scale(-1,1)":""}`);train.dataset.right=faceRight?1:""}
 function trainAtCity(c){const p=CITIES[c];placeTrain(p.x,p.y,!!train.dataset.right)}
 function rideTrain(track,fromCity,done){
@@ -275,16 +286,16 @@ function chooseTrack(id){
 function nextStop(){
   const t=byId(state.pending);
   state.history.push({id:t.id,from:state.city,to:other(t,state.city)});
-  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null; state.fact=null;
+  state.city=other(t,state.city); state.pending=null; state.revealed=false; state.alt=false; state.dare=null; state.fact=null; state.life=false;
   animToken++; trainAtCity(state.city); render();
   if(state.history.length===STOPS.length)confetti();
 }
 function previousStop(){
   const h=state.history.pop(); animToken++;
-  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null; state.fact=null;
+  state.city=h.from; state.pending=h.id; state.revealed=true; state.alt=false; state.dare=null; state.fact=null; state.life=true;
   trainAtCity(h.to); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null});animToken++;trainAtCity(START);render()}
+function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,alt:false,dare:null,fact:null,life:false});animToken++;trainAtCity(START);render()}
 
 /* ---------- Rendering ---------- */
 function renderMap(){
@@ -302,6 +313,11 @@ function renderMap(){
   const reachable=new Set(opts.map(t=>other(t,state.city)));
   const visited=new Set(state.history.flatMap(h=>[h.from,h.to]));
   const finished=state.history.length>=STOPS.length;
+  // Life milestones stay hidden until revealed: start station, stations already passed, and the current one once revealed
+  LINE.forEach((id,k)=>{const c=CITIES[id];if(!c.lifeEl)return;
+    const shown=k===0||k<=state.history.length||(k===state.history.length+1&&state.revealed&&lifeShown());
+    if(shown&&c.lifeEl.classList.contains("hidden"))c.lifeEl.classList.add("pop");
+    c.lifeEl.classList.toggle("hidden",!shown);});
   Object.entries(CITIES).forEach(([id,c])=>{
     c.g.classList.toggle("current",id===state.city);
     c.g.classList.toggle("visited",visited.has(id)&&id!==state.city);
@@ -315,15 +331,25 @@ function renderMap(){
 
 function stubs(){return `<div class="stubs" aria-hidden="true">${STOPS.map((_,i)=>`<span class="stub ${i<state.history.length?"done":i===state.history.length?"now":""}"></span>`).join("")}</div>`}
 
+const lifeShown=()=>state.life||!(STOPS[state.history.length]||{}).memory;
 function ticketBody(s){
-  let h=`<div class="icon" aria-hidden="true">${s.icon}</div><h2>${s.title}</h2><p class="prompt">${state.alt&&s.altPrompt?s.altPrompt:s.prompt}</p>`;
+  const st=CITIES[LINE[state.history.length+1]];
+  let h="";
+  if(s.memory){
+    h+=`<div class="step"><div class="step-label">Step 1 · The PhD phase</div><h2>${st.n}</h2><p class="prompt">${s.memory}</p></div>`;
+    if(!state.life)return h+`<div class="dare-row"><button class="button dare-btn" id="lifeBtn">🎁 Reveal the personal milestone</button><span class="hint" style="margin:0">Told the story? Something else happened on this stop…</span></div>`;
+    h+=`<div class="step two${freshStep?" fresh":""}"><div class="step-label">Step 2 · Personal milestone unlocked${st.life?`: <span class="lifechip">${st.life}</span>`:""}</div>`;
+  }
+  h+=`<div class="icon" aria-hidden="true">${s.icon}</div><h2>${s.title}</h2><p class="prompt">${state.alt&&s.altPrompt?s.altPrompt:s.prompt}</p>`;
   if(s.talks)h+=`<div class="talks">${s.talks.map(t=>`<span class="talk">“${t}”</span>`).join("")}</div>`;
-  h+=`<p class="hint">${s.hint}</p>`;
+  if(s.hint)h+=`<p class="hint">${s.hint}</p>`;
   if(s.stations)h+=`<div class="answer" id="answer">${s.stations.map((x,i)=>`<span class="station"><small>Station ${i+1}</small>${x}</span>`).join('<span class="arrow" aria-hidden="true">→</span>')}</div><button class="button secondary" id="reveal" aria-expanded="false">Reveal answer</button>`;
   if(s.altPrompt)h+=` <button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`;
   h+= state.dare===null
     ? `<div class="dare-row"><button class="button dare-btn" id="dare">🎲 Draw a dare</button><span class="hint" style="margin:0">Answered? Now the room gets a say.</span></div>`
     : `<div class="dare-card" id="dareCard"><div class="dare-label">Dare card ${state.dare+1} of ${s.dares.length}</div><p>${s.dares[state.dare]}</p><button class="link" id="dare">🎲 Shuffle for another dare</button></div>`;
+  if(s.memory)h+=`</div>`;
+  freshStep=false;
   return h;
 }
 
@@ -353,12 +379,13 @@ function renderStage(){
   stage.innerHTML=`${stubs()}<div class="counter">Stop ${n+1} of ${STOPS.length}${state.revealed?` · ${s.phase}`:""}</div>
     <p class="leg"><strong>${from}</strong> → <strong>${to}</strong>: the straight <span class="ideal-txt">✨ ideal path</span>, or the 🚧 tangled track of what really happened?</p><div class="route-choices" role="group" aria-label="Hurdle tracks from ${from} to ${to}">${choices}</div>
     ${ticket}
-    <div class="controls">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
+    <div class="controls">${n?'<button class="button secondary" id="back">← Previous stop</button>':""}${state.revealed&&lifeShown()?`<button class="button primary" id="next">${n===STOPS.length-1?"Finish the journey 🎓":"Next stop →"}</button>`:""}</div>`;
   stage.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>chooseTrack(b.dataset.choice));
   const r=document.getElementById("reveal");
   if(r)r.onclick=()=>{const a=document.getElementById("answer"),show=a.classList.toggle("show");r.textContent=show?"Hide answer":"Reveal answer";r.setAttribute("aria-expanded",show)};
   const fy=document.getElementById("factYes"); if(fy)fy.onclick=()=>{state.fact=true;renderStage()};
-  const fn=document.getElementById("factNo"); if(fn)fn.onclick=()=>{state.fact=false;if(state.dare===null)state.dare=Math.random()*s.dares.length|0;renderStage()};
+  const fn=document.getElementById("factNo"); if(fn)fn.onclick=()=>{state.fact=false;state.life=true;if(state.dare===null)state.dare=Math.random()*s.dares.length|0;render()};
+  const lb=document.getElementById("lifeBtn"); if(lb)lb.onclick=()=>{state.life=true;freshStep=true;render()};
   const dz=document.getElementById("dare");
   if(dz)dz.onclick=()=>{const k=s.dares.length;let i;do{i=Math.random()*k|0}while(k>1&&i===state.dare);state.dare=i;renderStage()};
   const alt=document.getElementById("alt"); if(alt)alt.onclick=()=>{state.alt=!state.alt;renderStage()};
