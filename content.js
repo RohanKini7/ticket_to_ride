@@ -127,8 +127,6 @@ window.TICKET_CONTENT = {
 
   /* ---- Shown after the last stop ---- */
   finale: {
-    heading: "Dr. Kiran Kamath wins the game!",
-    message: "All aboard for the next adventure. Herzlichen Glückwunsch!",
-    dare: "Give a 10-second acceptance speech as <strong>Dr. Kiran Kamath</strong>. Thank at least one person, one test rig and one chess piece — and finish with your signature: <strong>„DA BES(CH)T“</strong>."
+    heading: "Congratulations Dr. Kiran Kamath!"
   }
 };
