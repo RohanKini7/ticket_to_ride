@@ -155,6 +155,30 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 .finale-only{padding:56px 36px;text-align:center;background:linear-gradient(180deg,var(--paper),#fff3d6);border-radius:14px}
 .card:has(.finale-only) .close{background:#e9e3d4;color:var(--ink)}
 .finale-only h2{margin:0;font-size:clamp(1.8rem,4.5vw,2.6rem);color:var(--sign)}
+
+/* Opening curtains */
+.curtain{position:fixed;inset:0;z-index:20;overflow:hidden;pointer-events:auto}
+.curtain.gone{display:none}
+.drape{position:absolute;top:0;bottom:0;width:51%;transition:transform 1.8s cubic-bezier(.7,0,.25,1);
+  background:repeating-linear-gradient(90deg,#7d0f1c 0,#b3192b 3.5%,#d42a3c 6%,#a3172a 8.5%,#6e0c18 11%),linear-gradient(180deg,rgba(0,0,0,.15),transparent 30%,rgba(0,0,0,.35));
+  background-blend-mode:multiply;box-shadow:inset 0 -26px 0 -14px #e6b54a}
+.drape:after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:repeating-linear-gradient(90deg,#f2c14e 0 4px,#c9952b 4px 8px)}
+.drape.left{left:0;box-shadow:inset -30px 0 40px rgba(0,0,0,.45)}
+.drape.right{right:0;box-shadow:inset 30px 0 40px rgba(0,0,0,.45)}
+.valance{position:absolute;top:0;left:0;right:0;height:70px;z-index:2;transition:transform 1.4s ease .4s;
+  background:radial-gradient(circle at 50% 0,#a3172a 0 38px,transparent 39px) 0 30px/80px 40px repeat-x,linear-gradient(180deg,#6e0c18,#9b1526);
+  box-shadow:0 8px 18px rgba(0,0,0,.4)}
+.valance:after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:12px;background:repeating-linear-gradient(90deg,#f2c14e 0 3px,transparent 3px 7px)}
+.curtain-center{position:absolute;inset:0;z-index:3;display:grid;place-content:center;justify-items:center;gap:14px;text-align:center;transition:opacity .5s ease}
+.curtain-center .eyebrow{color:#ffe1a8;opacity:.9}
+.curtain-title{font:800 clamp(2.4rem,7vw,4.6rem)/1 var(--ui);color:#fff6df;text-shadow:0 4px 0 #6e0c18,0 10px 30px rgba(0,0,0,.5);letter-spacing:-.01em}
+.start-btn{font-size:1.2rem;padding:15px 28px;border-radius:999px;background:linear-gradient(180deg,#ffd36b,#f2b632);color:#4a2a00;box-shadow:0 10px 30px rgba(0,0,0,.4),0 0 0 4px rgba(255,255,255,.25);animation:nudge 1.8s ease-out infinite}
+.start-btn:hover{background:linear-gradient(180deg,#ffe08f,#f5c04a)}
+.curtain.open .drape.left{transform:translateX(-100%)}
+.curtain.open .drape.right{transform:translateX(100%)}
+.curtain.open .valance{transform:translateY(-110%)}
+.curtain.open .curtain-center{opacity:0;pointer-events:none}
+.curtain.open{pointer-events:none}
 /* Baby challenge */
 .game-overlay{z-index:7}
 .game{position:relative;width:min(560px,100%);max-height:92vh;overflow:auto;background:linear-gradient(180deg,#fff7ec,#fffdf6);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);padding:18px 22px 20px;text-align:center;animation:cardin .45s ease}
@@ -277,6 +301,15 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 </head>
 <body>
 <canvas id="confetti" aria-hidden="true"></canvas>
+<div class="curtain" id="curtain">
+  <div class="drape left"></div><div class="drape right"></div>
+  <div class="valance" aria-hidden="true"></div>
+  <div class="curtain-center">
+    <div class="eyebrow">A celebratory mini-journey</div>
+    <div class="curtain-title" id="curtainTitle">Ticket to Kiran</div>
+    <button class="button primary start-btn" id="startBtn">🎟️ Start the journey</button>
+  </div>
+</div>
 <main>
 <header>
   <div class="brand">
@@ -598,7 +631,7 @@ const INTRO=CONDUCTOR.intro.map(x=>typeof x==="string"?{text:x}:x);
 const emojiOf=life=>{const t=(life||"").trim().split(/\s+/)[0]||"";return /\p{Extended_Pictographic}/u.test(t)?t:"✅"};
 
 // phase: intro → pick → ride → arrived (draw ticket) → next stop … → done
-const state={city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0};
+const state={city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"curtain",page:0};
 const other=(t,c)=>t.a===c?t.b:t.a;
 const byId=id=>TRACKS.find(t=>t.id===id);
 function options(){return (state.phase==="pick"||state.phase==="ride")&&state.history.length<STOPS.length?TRACKS.filter(t=>t.a===state.city):[]}
@@ -662,7 +695,7 @@ function renderStage(){
   const stage=document.getElementById("stage"), n=state.history.length, done=state.phase==="done";
   const from=CITIES[state.city].n, to=done?"—":CITIES[LINE[n+1]].n;
   const p=state.pending&&byId(state.pending);
-  const status={intro:["TICKET CHECK","blink"],pick:[n===0?"FREE PASS ✓":"TICKET VALID ✓","go"],ride:["EN ROUTE","go"],arrived:["ARRIVED",""],done:["TERMINUS","go"]}[state.phase];
+  const status={curtain:["BOARDING SOON","blink"],intro:["TICKET CHECK","blink"],pick:[n===0?"FREE PASS ✓":"TICKET VALID ✓","go"],ride:["EN ROUTE","go"],arrived:["ARRIVED",""],done:["TERMINUS","go"]}[state.phase];
   const via=p?(p.ideal?"✨ ":"🚧 ")+p.name:"—";
   const key=[n,from,to,via,status[0]].join("|"), fl=key!==lastBoard?" flip":""; lastBoard=key;
   let btns="";
@@ -827,8 +860,16 @@ document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderSta
 document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
 addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!G.el.hidden){closeGame();return}if(state.cardOpen){state.cardOpen=false;renderStage()}});
 document.getElementById("who").textContent=CONDUCTOR.name;
+// park the train just off the map until the show starts
+trail=[]; samples(SPUR,true).slice(0,90).forEach(p=>trailPush(p[0],p[1])); poseTrain();
 render();
-rollIn();
+document.getElementById("curtainTitle").textContent=C.title||"Ticket to Kiran";
+document.getElementById("startBtn").onclick=()=>{
+  const c=document.getElementById("curtain"); c.classList.add("open");
+  state.phase="intro"; state.page=0;
+  render(); setTimeout(rollIn,reduceMotion?0:700);
+  setTimeout(()=>c.classList.add("gone"),reduceMotion?0:2000);
+};
 </script>
 </body>
 </html>
