@@ -54,7 +54,7 @@ window.TICKET_CONTENT = {
     { name:"Augsburg",        sub:"MRM Day 0",             life:"Arrived single" },
     { name:"Initial Days",    sub:"Group: 404 Not Found", life:"♟️ The chess stream" },
     { name:"Results & Rings", sub:"First data",            life:"💍 The wedding" },
-    { name:"Firenze Conference", sub:"COMSOL 2024",           life:"🎙️ The Kamath Talks" },
+    { name:"Freiburg + Firenze", sub:"Conferences",           life:"🎙️ The Kamath Talks" },
     { name:"Publication",     sub:"Peer-reviewed!",        life:"👶 The baby" },
     { name:"Defense",         sub:"Today",                 life:"✈️ Parents’ first trip abroad" }
   ],
