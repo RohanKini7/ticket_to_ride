@@ -127,6 +127,7 @@ window.TICKET_CONTENT = {
 
   /* ---- Shown after the last stop ---- */
   finale: {
-    heading: "Congratulations Dr. Kiran Kamath!"
+    heading: "Congratulations Dr. Kiran Kamath!",
+    image: "kiran.webp"     // the dancing cut-out on the finale (file in the same folder)
   }
 };
