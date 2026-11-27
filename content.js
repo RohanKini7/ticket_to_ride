@@ -128,6 +128,10 @@ window.TICKET_CONTENT = {
   /* ---- Shown after the last stop ---- */
   finale: {
     heading: "Congratulations Dr. Kiran Kamath!",
-    image: "kiran.webp"     // the dancing cut-out on the finale (file in the same folder)
+    image: "kiran.webp",    // the dancing cut-out on the finale (file in the same folder)
+    // Music for the finale, played through YouTube's embedded player (needs internet).
+    // youtube: the video id (the part after watch?v=), start: second to start at,
+    // slowSeconds: how long Kiran dances at half speed before the fast groove.
+    music: { youtube: "m8PPmAZkNrc", start: 16, slowSeconds: 10 }
   }
 };
