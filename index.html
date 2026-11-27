@@ -485,8 +485,8 @@ function tree(g,x,y,r){
   el("circle",{cx:x-r*.3,cy:y-r*.3,r:r*.45,fill:"rgba(255,255,255,.18)"},g);
 }
 // A hill with two tunnel portals over a stretch of a curved track
-function curvedTunnel(pts,canopy){
-  const i1=Math.floor(pts.length*.72), i2=Math.floor(pts.length*.9), seg=pts.slice(i1,i2+1);
+function curvedTunnel(pts,canopy,from,to){
+  const i1=Math.floor(pts.length*from), i2=Math.floor(pts.length*to), seg=pts.slice(i1,i2+1);
   const [x1,y1]=pts[i1],[x2,y2]=pts[i2], ang=Math.atan2(y2-y1,x2-x1), c=Math.cos(-ang), sn=Math.sin(-ang);
   const mx=(x1+x2)/2, my=(y1+y2)/2;
   // extent of the track stretch in the chord's frame, so the hill covers all of it
@@ -506,11 +506,13 @@ function curvedTunnel(pts,canopy){
 (function scenery(){
   const canopy=document.getElementById("canopy");
   TRACKS.forEach(t=>{
-    if(!t.ideal){                                       // forest over the middle of every tangled track
-      const pts=sampleD(t.d,7), a=Math.floor(pts.length*.36), b=Math.floor(pts.length*.64);
-      const g=el("g",{class:"forest"},canopy);
-      for(let i=a;i<=b;i++){const[x,y]=pts[i];for(let j=0;j<2;j++)tree(g,x+(rnd()-.5)*30,y+(rnd()-.5)*30,8+rnd()*6)}
-      if(t.k%2===1)curvedTunnel(pts,canopy);           // …and a tunnel near the end, so both choices on this leg go underground
+    if(!t.ideal){
+      const pts=sampleD(t.d,7);
+      if(t.k===1){curvedTunnel(pts,canopy,.36,.64)}    // Initial Days → Results & Rings: a tunnel instead of a forest
+      else{                                             // forest over the middle of the other tangled tracks
+        const a=Math.floor(pts.length*.36), b=Math.floor(pts.length*.64), g=el("g",{class:"forest"},canopy);
+        for(let i=a;i<=b;i++){const[x,y]=pts[i];for(let j=0;j<2;j++)tree(g,x+(rnd()-.5)*30,y+(rnd()-.5)*30,8+rnd()*6)}
+      }
     }else if(t.k%2===1){                                // tunnel under a hill on every other ideal track
       const A=CITIES[t.a],B=CITIES[t.b],L=Math.hypot(B.x-A.x,B.y-A.y),ang=Math.atan2(B.y-A.y,B.x-A.x)*180/Math.PI;
       const mx=(A.x+B.x)/2,my=(A.y+B.y)/2,rx=L*.2;
