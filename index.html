@@ -193,6 +193,11 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 .game-acts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .game-acts .attempt{font:700 .75rem var(--mono);color:var(--muted);width:100%;letter-spacing:.12em;text-transform:uppercase}
 .game-btn{font-size:1.05rem;padding:13px 22px}
+.choice-card{flex:1 1 200px;max-width:240px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 12px;border-radius:16px;border:2px solid #e6dcc6;background:#fff;font:800 1rem var(--ui);color:var(--ink);cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.08);transition:transform .15s,border-color .15s,box-shadow .15s;animation:cardup .35s ease}
+.choice-card .ic{font-size:2.2rem;line-height:1}
+.choice-card:hover{transform:translateY(-3px);border-color:var(--red);box-shadow:0 10px 22px rgba(217,69,43,.18)}
+.choice-card[disabled]{opacity:.5;cursor:default;transform:none}
+@keyframes cardup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .challenge-btn{margin-top:4px}
 .button[disabled]{opacity:.5;cursor:not-allowed;transform:none}
 .solved{display:inline-block;margin-top:2px;font-weight:800;color:#2e9a57}
@@ -726,33 +731,39 @@ function render(){renderMap();renderStage()}
 /* ---------- The crying-baby challenge ---------- */
 const G={el:document.getElementById("gameOverlay"),step:0,steps:[],cfg:null,muted:false,ac:null,cryTimer:null,level:1};
 function openGame(stop){
-  G.cfg=stop.game; G.steps=stop.game.steps||[]; G.step=0; G.level=1;
+  G.cfg=stop.game; G.steps=stop.game.steps||[]; G.level=1; G.round=1;
+  if(!G.steps.some(x=>x.win)&&G.steps.length)G.steps[G.steps.length-1].win=true;   // last one wins by default
+  G.visible=G.steps.slice(0,2); G.next=2;
   document.getElementById("gameTitle").textContent=stop.game.title||"Challenge";
-  G.el.hidden=false; setCry(72); document.getElementById("reaction").textContent="The baby is crying. What will Dr. Kiran try first?";
+  G.el.hidden=false; setCry(72); document.getElementById("reaction").textContent="The baby is crying. Two options — what will Dr. Kiran try?";
   babyMood("cry"); drawGameActs(); startCry();
 }
 function closeGame(){G.el.hidden=true;stopCry();renderStage()}
 function babyMood(m){const b=document.getElementById("stageBaby");b.classList.toggle("crying",m==="cry");b.classList.toggle("calm",m==="calm");b.classList.toggle("lvl2",G.level===2);b.classList.toggle("lvl3",G.level>=3)}
 function setCry(v){document.getElementById("cryBar").style.width=Math.min(100,v)+"%";document.getElementById("cryVal").textContent=v>100?"MAX!!":v+"%";document.querySelector(".meter").classList.toggle("calm",v===0)}
 function drawGameActs(){
-  const a=document.getElementById("gameActs"), st=G.steps[G.step];
-  if(!st){a.innerHTML=`<button class="button primary game-btn" id="gameDone">🎟️ Back to the ticket</button>`;document.getElementById("gameDone").onclick=closeGame;return}
-  a.innerHTML=`<div class="attempt">Attempt ${G.step+1}</div><button class="button primary game-btn" id="gameTry">${st.icon} ${st.label}</button>`;
-  document.getElementById("gameTry").onclick=tryStep;
+  const a=document.getElementById("gameActs");
+  if(state.gameWon){a.innerHTML=`<button class="button primary game-btn" id="gameDone">🎟️ Back to the ticket</button>`;document.getElementById("gameDone").onclick=closeGame;return}
+  a.innerHTML=`<div class="attempt">Round ${G.round} · pick one</div>`+G.visible.map((st,i)=>`<button class="choice-card" data-i="${i}"><span class="ic">${st.icon}</span><span>${st.label}</span></button>`).join("");
+  a.querySelectorAll(".choice-card").forEach(b=>b.onclick=()=>tryStep(G.visible[+b.dataset.i]));
 }
-function tryStep(){
-  const st=G.steps[G.step], last=G.step===G.steps.length-1, th=document.getElementById("thrown");
-  document.getElementById("gameActs").innerHTML="";
-  th.textContent=st.icon; th.className="thrown"; void th.offsetWidth; th.classList.add(last?"win":"go");
+function tryStep(st){
+  const win=!!st.win, th=document.getElementById("thrown");
+  document.getElementById("gameActs").querySelectorAll("button").forEach(b=>b.disabled=true);
+  th.textContent=st.icon; th.className="thrown"; void th.offsetWidth; th.classList.add(win?"win":"go");
   setTimeout(()=>{
     document.getElementById("reaction").textContent=st.reaction;
-    if(last){
+    if(win){
       stopCry(); babyMood("calm"); setCry(0); state.gameWon=true;
       const h=document.getElementById("hearts");h.innerHTML="";
       for(let i=0;i<9;i++){const sp=document.createElement("span");sp.textContent=["💕","✨","💖"][i%3];sp.style.left=(15+Math.random()*70)+"%";sp.style.top=(40+Math.random()*30)+"%";sp.style.animationDelay=(i*.12)+"s";h.appendChild(sp)}
-      setTimeout(()=>{document.getElementById("reaction").innerHTML=`${st.reaction}<br><span class="solved">${G.cfg.win||"Solved!"}</span>`},900);
-    }else{G.level++;babyMood("cry");setCry([72,72,85,95,120][Math.min(G.level,4)]);waah(3+G.level)}
-    G.step++; setTimeout(drawGameActs,last?1200:500);
+      setTimeout(()=>{document.getElementById("reaction").innerHTML=`${st.reaction}<br><span class="solved">${G.cfg.win||"Solved!"}</span>`;drawGameActs()},1100);
+      return;
+    }
+    // wrong choice: drop it, bring in the next option, cry harder
+    G.visible=G.visible.filter(x=>x!==st); if(G.next<G.steps.length)G.visible.push(G.steps[G.next++]);
+    G.level++; G.round++; babyMood("cry"); setCry([72,72,82,90,97,120][Math.min(G.level,5)]); waah(3+G.level);
+    setTimeout(drawGameActs,500);
   },650);
 }
 function waah(k){const w=document.getElementById("waah");for(let i=0;i<k;i++){const sp=document.createElement("span");sp.textContent=["WAAAH!","WAAAAAH!!","😭","WAH!"][i%4];sp.style.left=(10+Math.random()*70)+"%";sp.style.top=(5+Math.random()*50)+"%";sp.style.animationDelay=(i*.15)+"s";w.appendChild(sp);setTimeout(()=>sp.remove(),1600+i*150)}}
