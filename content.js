@@ -19,7 +19,8 @@
      (what happened in his life, as a Friends-style episode title:
      "The One Where…") and 2. "prompt" (the
      question / task he has to do to earn the next ticket).
-   • Optional on a stop: ticketType (e.g. "Ticket for 2", default
+   • Optional on a stop: ticketClass (e.g. "Kamath Family", default
+     "Doctoral"), game (the crying-baby challenge), ticketType (e.g. "Ticket for 2", default
      "Single ticket"), passengers (shown instead of the class) and
      destination (the "to" name on the ticket, e.g. "Firenze Conference").
    • Optional fields in a stop: talks, stations (with reveal button),
@@ -103,7 +104,20 @@ window.TICKET_CONTENT = {
     prompt:"Around this time you started <em>The Kamath Talks</em> on YouTube. Introduce Markus as today’s guest — in true Kamath Talks style."},
   { phase:"Publication", title:"The Baby", icon:"👶",
     fact:"The One Where Dr. Kiran Became a Dad",
-    prompt:"The PhD had already changed how you see life — and just then your baby arrived and turned the whole world around again. Tell us one good thing about your little one."},
+    ticketClass:"Kamath Family",
+    prompt:"The PhD had already changed how you see life — and just then the baby arrived and turned the whole world around again. Final exam in parenting: the baby is crying. Can Dr. Kiran solve the problem?",
+    game: {
+      title: "Mission: Stop the Crying",
+      button: "👶 Start the challenge",
+      // tried one by one; only the last one works
+      steps: [
+        { icon:"🧸", label:"Give a toy",                reaction:"🧸 …thrown straight back. WAAAAH!" },
+        { icon:"🍼", label:"Give milk",                 reaction:"🍼 Not hungry. Not even a little. WAAAAAAAH!" },
+        { icon:"🎶", label:"Rock and sing a lullaby",   reaction:"🎶 A lullaby about axial flux motors? LOUDER NOW! 📢" },
+        { icon:"🧷", label:"Change the diaper",         reaction:"🧷 …silence. 😊 Problem solved!" }
+      ],
+      win: "Diaper diagnosed! Dr. Kiran, PhD in Parenting. 🏆"
+    }},
   { phase:"Defense", title:"Parents Abroad", icon:"✈️",
     fact:"The One Where Dr. Kiran’s Parents Flew In for the Defense",
     prompt:"You did it, Dr. Kiran! And your parents travelled abroad for the very first time — to see you defend your thesis. How does that feel?"}
