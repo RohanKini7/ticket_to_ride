@@ -109,12 +109,14 @@ window.TICKET_CONTENT = {
     game: {
       title: "Mission: Stop the Crying",
       button: "👶 Start the challenge",
-      // tried one by one; only the last one works
+      // Two options at a time: the first two are offered, the picked one is
+      // dropped and the next one in this list joins. Only "win: true" stops the crying.
       steps: [
-        { icon:"🧸", label:"Give a toy",                reaction:"🧸 …thrown straight back. WAAAAH!" },
-        { icon:"🍼", label:"Give milk",                 reaction:"🍼 Not hungry. Not even a little. WAAAAAAAH!" },
-        { icon:"🎶", label:"Rock and sing a lullaby",   reaction:"🎶 A lullaby about axial flux motors? LOUDER NOW! 📢" },
-        { icon:"🧷", label:"Change the diaper",         reaction:"🧷 …silence. 😊 Problem solved!" }
+        { icon:"🧸", label:"Give a toy",                    reaction:"🧸 …thrown straight back. WAAAAH!" },
+        { icon:"🍼", label:"Give milk",                     reaction:"🍼 Not hungry. Not even a little. WAAAAAAAH!" },
+        { icon:"🎶", label:"Rock and sing a lullaby",       reaction:"🎶 A lullaby about axial flux motors? LOUDER NOW! 📢" },
+        { icon:"♟️", label:"Show the baby a chess stream",  reaction:"♟️ Sicilian Defense? The baby resigns… into louder crying. 😭" },
+        { icon:"🧷", label:"Change the diaper",             reaction:"🧷 …silence. 😊 Problem solved!", win:true }
       ],
       win: "Diaper diagnosed! Dr. Kiran, PhD in Parenting. 🏆"
     }},
