@@ -213,6 +213,17 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
   75%{transform:translate(14px,-6px) rotate(8deg) skewX(-5deg)}
   87.5%{transform:translateY(-22px) rotate(0) scale(1.04)}
   100%{transform:translateY(0) rotate(0)}}
+
+/* Finale music tile (YouTube player must stay visible while it plays) */
+.music-tile{position:fixed;right:16px;bottom:16px;z-index:9;width:216px;background:#141719;border-radius:14px;padding:8px;box-shadow:0 14px 40px rgba(0,0,0,.45);transform:translateY(calc(100% + 40px));transition:transform .5s ease;pointer-events:none}
+.music-tile.on{transform:none;pointer-events:auto}
+.mt-head{display:flex;justify-content:space-between;align-items:center;color:#ffb627;font:700 .78rem var(--mono);margin:0 2px 6px}
+.mt-head button{border:0;background:#2a2f33;color:#fff;border-radius:8px;width:30px;height:26px;cursor:pointer}
+.mt-player{width:200px;height:200px;border-radius:10px;overflow:hidden;background:#000}
+.mt-player iframe{width:200px;height:200px;display:block}
+.dance-stage.slow .dancer{animation-duration:4s}
+.dance-stage.slow .shadow{animation-duration:4s}
+.dance-stage.slow .floor{animation-duration:1s}
 /* Baby challenge */
 .game-overlay{z-index:7}
 .game{position:relative;width:min(560px,100%);max-height:92vh;overflow:auto;background:linear-gradient(180deg,#fff7ec,#fffdf6);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);padding:18px 22px 20px;text-align:center;animation:cardin .45s ease}
@@ -452,6 +463,10 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
   <div class="reaction" id="reaction" aria-live="polite"></div>
   <div class="game-acts" id="gameActs"></div>
 </div></div>
+<div class="music-tile" id="musicTile" aria-label="Now playing">
+  <div class="mt-head"><span>🎵 Now playing</span><button id="musicMute" aria-label="Sound on or off">🔊</button></div>
+  <div class="mt-player"><div id="ytPlayer"></div></div>
+</div>
 <script src="content.js"></script>
 <script>
 /* ---------- Content ---------- */
@@ -684,14 +699,15 @@ function nextStop(){
   const done=state.history.length>=STOPS.length;
   Object.assign(state,{city:t.b,pending:null,revealed:false,life:false,cardOpen:false,phase:done?"done":"pick"});
   animToken++; render();
-  if(done){confetti();setTimeout(()=>{state.cardOpen=true;render()},1300)}
+  if(done){confetti();playMusic(true);setTimeout(()=>{state.cardOpen=true;render()},1300)}
 }
 function previousStop(){
+  if(state.phase==="done")stopMusic();
   const h=state.history.pop(); animToken++;
   Object.assign(state,{city:h.from,pending:h.id,revealed:true,life:true,cardOpen:true,phase:"arrived"});
   parkAfter(byId(h.id)); render();
 }
-function restart(){state.gameWon=false;confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0});animToken++;render();rollIn()}
+function restart(){stopMusic();state.gameWon=false;confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0});animToken++;render();rollIn()}
 function stampFx(e){const fx=document.getElementById("stampFx");fx.querySelector(".em").textContent=e;fx.classList.remove("go");void fx.offsetWidth;fx.classList.add("go")}
 
 /* ---------- Rendering ---------- */
@@ -770,14 +786,14 @@ function renderStage(){
   if(show){
     const k=done?"f":String(n), same=overlay.dataset.key===k;
     body.innerHTML=done?finaleHTML():ticketHTML(STOPS[n],n); overlay.dataset.key=k;
-    if(!same){body.scrollTop=0;const c=document.querySelector(".card");c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop")}
+    if(!same){body.scrollTop=0;const c=document.querySelector(".card");c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop");if(done)applyDanceTempo()}
   }else overlay.dataset.key="";
 
   const on=(id,f)=>{const e=document.getElementById(id);if(e)e.onclick=f};
   on("nextPage",()=>{if(state.page<INTRO.length-1)state.page++;else state.phase="pick";render()});
   on("skip",()=>{state.phase="pick";render()});
   on("next",nextStop); on("back",previousStop);
-  on("open",()=>{state.cardOpen=true;state.life=true;render()});
+  on("open",()=>{state.cardOpen=true;state.life=true;if(done)playMusic(false);render()});
   on("alt",()=>{state.alt=!state.alt;renderStage()});
   on("restart",restart);
   on("startGame",()=>openGame(STOPS[n]));
@@ -874,6 +890,40 @@ function startCry(){
 function stopCry(){clearTimeout(G.cryTimer);G.cryTimer=null}
 document.getElementById("gameClose").onclick=closeGame;
 document.getElementById("gameMute").onclick=()=>{G.muted=!G.muted;document.getElementById("gameMute").textContent=G.muted?"🔇":"🔊";if(G.muted)stopCry();else if(!state.gameWon)startCry()};
+
+/* ---------- Finale music (YouTube embedded player) ---------- */
+const MUSIC=(FINALE&&FINALE.music)||null;
+const M={player:null,ready:false,failed:false,startedAt:0,slowTimer:null,muted:false};
+function loadMusic(){                                   // called on the Start click; does nothing offline
+  if(!MUSIC||!MUSIC.youtube||M.player||M.failed)return;
+  window.onYouTubeIframeAPIReady=()=>{
+    try{
+      M.player=new YT.Player("ytPlayer",{width:200,height:200,videoId:MUSIC.youtube,
+        playerVars:{start:MUSIC.start||0,controls:0,disablekb:1,modestbranding:1,rel:0,playsinline:1,fs:0,iv_load_policy:3},
+        events:{onReady:()=>{M.ready=true},onError:()=>{M.failed=true;hideMusic()}}});
+    }catch(e){M.failed=true}
+  };
+  const sc=document.createElement("script"); sc.src="https://www.youtube.com/iframe_api"; sc.onerror=()=>{M.failed=true}; document.head.appendChild(sc);
+}
+function playMusic(fromStart){
+  if(!MUSIC)return;
+  M.startedAt=performance.now();
+  if(M.ready&&!M.failed){
+    try{ if(fromStart)M.player.seekTo(MUSIC.start||0,true); if(M.muted)M.player.mute();else M.player.unMute(); M.player.playVideo();
+         document.getElementById("musicTile").classList.add("on"); }catch(e){}
+  }
+}
+function pauseMusic(){try{if(M.ready)M.player.pauseVideo()}catch(e){} hideMusic()}
+function stopMusic(){try{if(M.ready){M.player.pauseVideo();M.player.seekTo(MUSIC.start||0,true)}}catch(e){} M.startedAt=0; hideMusic()}
+function hideMusic(){document.getElementById("musicTile").classList.remove("on")}
+// half-speed dance for the first slowSeconds of the song, then the fast groove
+function applyDanceTempo(){
+  const st=document.querySelector(".dance-stage"); if(!st)return;
+  clearTimeout(M.slowTimer);
+  const slowMs=((MUSIC&&MUSIC.slowSeconds)||0)*1000, left=M.startedAt?slowMs-(performance.now()-M.startedAt):0;
+  if(left>0){st.classList.add("slow");M.slowTimer=setTimeout(()=>st.classList.remove("slow"),left)}else st.classList.remove("slow");
+}
+document.getElementById("musicMute").onclick=()=>{M.muted=!M.muted;document.getElementById("musicMute").textContent=M.muted?"🔇":"🔊";try{M.muted?M.player.mute():M.player.unMute()}catch(e){}};
 /* ---------- Clock + confetti ---------- */
 function tick(){const d=new Date();document.getElementById("clock").textContent=d.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})}
 tick(); setInterval(tick,15000);
@@ -897,16 +947,16 @@ function confetti(){
     if(!b.classList.contains("confirm")){b.classList.add("confirm");b.textContent="↺?";b.title="Click again to start over";timer=setTimeout(()=>{b.classList.remove("confirm");b.textContent="↺";b.title="Start over"},3000);return}
     clearTimeout(timer);b.classList.remove("confirm");b.textContent="↺";b.title="Start over";restart();
   };})();
-document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderStage()};
-document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
-addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!G.el.hidden){closeGame();return}if(state.cardOpen){state.cardOpen=false;renderStage()}});
+document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;if(state.phase==="done")pauseMusic();renderStage()};
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;if(state.phase==="done")pauseMusic();renderStage()}});
+addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!G.el.hidden){closeGame();return}if(state.cardOpen){state.cardOpen=false;if(state.phase==="done")pauseMusic();renderStage()}});
 document.getElementById("who").textContent=CONDUCTOR.name;
 // park the train just off the map until the show starts
 trail=[]; samples(SPUR,true).slice(0,90).forEach(p=>trailPush(p[0],p[1])); poseTrain();
 render();
 document.getElementById("curtainTitle").textContent=C.title||"Ticket to Kiran";
 document.getElementById("startBtn").onclick=()=>{
-  const c=document.getElementById("curtain"); c.classList.add("open");
+  const c=document.getElementById("curtain"); c.classList.add("open"); loadMusic();
   state.phase="intro"; state.page=0;
   render(); setTimeout(()=>{if(!state.pending&&state.history.length===0)rollIn()},reduceMotion?0:700);   // skip the roll-in if he already picked a track
   setTimeout(()=>c.classList.add("gone"),reduceMotion?0:2000);

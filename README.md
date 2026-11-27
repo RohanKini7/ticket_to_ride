@@ -22,7 +22,7 @@ What you can change:
 | `stations` | Milestone stations: `name` + small `sub` (PhD side) and `life` (the personal milestone at the same stop). Always **one more** than `stops`. |
 | `hurdles` | One entry per leg: an `ideal` path (the straight track) and a `real` path (the tangled track: what actually happened), each with `name` + `story` |
 | `stops` | One per arrival: `fact` (the episode title on the ticket), `prompt` (the task). Optional: `ticketType`, `passengers`, `ticketClass`, `game` (the crying-baby challenge: title, button, steps, win). Optional: `hint`, `talks`, `altPrompt`/`altLabel`/`mainLabel` |
-| `finale` | The last screen: `heading` and `image` (the dancing cut-out, `kiran.webp`) |
+| `finale` | The last screen: `heading`, `image` (the dancing cut-out, `kiran.webp`) and `music` (YouTube video id, start second, slow-dance seconds) |
 
 Tips:
 - Keep the commas between items and the quotes around text.
