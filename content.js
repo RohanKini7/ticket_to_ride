@@ -38,9 +38,9 @@ window.TICKET_CONTENT = {
      He only appears at the start. Each intro page is one speech bubble;
      fx: "invalid" shows the UNGÜLTIG ticket, fx: "freepass" the free pass. */
   conductor: {
-    name: "DB official",
+    name: "PhD Bahn Official",
     intro: [
-      { text: "Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your DB official for today. 🎩" },
+      { text: "Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your Kontrolleur for today. 🎩" },
       { text: "On this railway you need to earn a ticket to move from station to station. Let me check yours… 🔍" },
       { text: "Deutschlandticket ist ungültig! 🚫", fx: "invalid" },
       { text: "But wait… you are only in your Initial Days! Newcomers ride for free. Here is your free pass. 🎫", fx: "freepass" },
@@ -51,8 +51,8 @@ window.TICKET_CONTENT = {
   /* ---- Stations: each PhD milestone (name + sub) shares a stop with a
      life milestone (life). Keep "life" short — it is shown on the map. */
   stations: [
-    { name:"Augsburg",        sub:"Day 0",                 life:"Arrived single" },
-    { name:"Initial Days",    sub:"Joining 404 Not Found", life:"♟️ The chess stream" },
+    { name:"Augsburg",        sub:"MRM Day 0",             life:"Arrived single" },
+    { name:"Initial Days",    sub:"Group: 404 Not Found", life:"♟️ The chess stream" },
     { name:"Results & Rings", sub:"First data",            life:"💍 The wedding" },
     { name:"Firenze Conference", sub:"COMSOL 2024",           life:"🎙️ The Kamath Talks" },
     { name:"Publication",     sub:"Peer-reviewed!",        life:"👶 The baby" },

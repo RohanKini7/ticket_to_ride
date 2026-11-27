@@ -619,9 +619,9 @@ function parkAfter(track){                             // place the whole train 
   trail=[]; samples(track.path,true).forEach(p=>trailPush(p[0],p[1])); poseTrain();
 }
 
-/* ---------- Game: intro with the DB official, then earn a ticket at every station ---------- */
-const CONDUCTOR=Object.assign({name:"DB official",intro:[
-  {text:"Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your DB official for today. 🎩"},
+/* ---------- Game: intro with the PhD Bahn Official, then earn a ticket at every station ---------- */
+const CONDUCTOR=Object.assign({name:"PhD Bahn Official",intro:[
+  {text:"Guten Tag, Kiran! Welcome aboard the PhD Railway. I am your Kontrolleur for today. 🎩"},
   {text:"On this railway you need to earn a ticket to move from station to station. Let me check yours… 🔍"},
   {text:"Deutschlandticket ist ungültig! 🚫",fx:"invalid"},
   {text:"But wait… you are only in your Initial Days! Newcomers ride for free. Here is your free pass. 🎫",fx:"freepass"},
@@ -713,7 +713,7 @@ function renderStage(){
     ${stampSlots()}
   </div>`;
 
-  // ---- the DB official: only during the intro ----
+  // ---- the PhD Bahn Official: only during the intro ----
   const dlg=document.getElementById("dialog");
   dlg.hidden=state.phase!=="intro";
   const fx=document.getElementById("fxTicket");
