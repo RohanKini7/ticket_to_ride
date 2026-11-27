@@ -867,7 +867,7 @@ document.getElementById("curtainTitle").textContent=C.title||"Ticket to Kiran";
 document.getElementById("startBtn").onclick=()=>{
   const c=document.getElementById("curtain"); c.classList.add("open");
   state.phase="intro"; state.page=0;
-  render(); setTimeout(rollIn,reduceMotion?0:700);
+  render(); setTimeout(()=>{if(!state.pending&&state.history.length===0)rollIn()},reduceMotion?0:700);   // skip the roll-in if he already picked a track
   setTimeout(()=>c.classList.add("gone"),reduceMotion?0:2000);
 };
 </script>
