@@ -21,7 +21,7 @@ What you can change:
 | `conductor` | The DB official at the start: his name and intro pages. A page with `fx: "invalid"` shows the UNGÜLTIG ticket, `fx: "freepass"` the free pass |
 | `stations` | Milestone stations: `name` + small `sub` (PhD side) and `life` (the personal milestone at the same stop). Always **one more** than `stops`. |
 | `hurdles` | One entry per leg: an `ideal` path (the straight track) and a `real` path (the tangled track: what actually happened), each with `name` + `story` |
-| `stops` | One per arrival: `phase`, `title`, `icon`, `fact` (item 1 on the ticket), `prompt` (item 2: the question). Optional: `hint`, `talks`, `altPrompt`/`altLabel`/`mainLabel` |
+| `stops` | One per arrival: `fact` (the episode title on the ticket), `prompt` (the task). Optional: `ticketType`, `passengers`, `ticketClass`, `game` (the crying-baby challenge: title, button, steps, win). Optional: `hint`, `talks`, `altPrompt`/`altLabel`/`mainLabel` |
 | `finale` | The last screen: heading, message, Game Night question and final dare |
 
 Tips:

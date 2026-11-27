@@ -151,6 +151,51 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 .dare-label{font:800 .7rem var(--ui);letter-spacing:.16em;text-transform:uppercase;color:#b07d00}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
 
+
+/* Baby challenge */
+.game-overlay{z-index:7}
+.game{position:relative;width:min(560px,100%);max-height:92vh;overflow:auto;background:linear-gradient(180deg,#fff7ec,#fffdf6);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);padding:18px 22px 20px;text-align:center;animation:cardin .45s ease}
+.game .close{background:#e9e3d4;color:var(--ink)}
+.mute{position:absolute;top:10px;left:12px;border:0;background:#e9e3d4;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem}
+.game-head .eyebrow{color:var(--red);opacity:1}
+.game-head h2{margin:2px 0 6px}
+.stage-baby{position:relative;height:210px;display:grid;place-items:center}
+#babySvg{width:230px;height:210px}
+.crying #babyHead{animation:wail .28s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 90%}
+.crying .mouth{animation:mouth .28s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.crying.lvl2 #babyHead{animation-duration:.2s}.crying.lvl3 #babyHead{animation-duration:.14s}
+@keyframes wail{50%{transform:rotate(-4deg) translateY(-2px)}}
+@keyframes mouth{50%{transform:scaleY(1.25)}}
+.tear{animation:tear 0.9s ease-in infinite}.t2{animation-delay:.45s}
+@keyframes tear{0%{transform:translateY(0);opacity:1}100%{transform:translateY(50px);opacity:0}}
+.happy-face{display:none}
+.calm .cry-face{display:none}.calm .happy-face{display:block}
+.calm #babyHead{animation:coo 2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 90%}
+@keyframes coo{50%{transform:rotate(3deg)}}
+.waah{position:absolute;inset:0;pointer-events:none}
+.waah span{position:absolute;font:800 1.1rem var(--ui);color:#d9452b;animation:waah 1.2s ease-out forwards;white-space:nowrap}
+@keyframes waah{from{opacity:1;transform:scale(.6)}to{opacity:0;transform:translateY(-40px) scale(1.4)}}
+.thrown{position:absolute;font-size:3rem;opacity:0;pointer-events:none}
+.thrown.go{animation:toss 1.1s ease forwards}
+@keyframes toss{0%{opacity:0;transform:translate(-160px,40px) scale(.6)}35%{opacity:1;transform:translate(-10px,10px) scale(1)}55%{transform:translate(10px,0) rotate(20deg)}100%{opacity:0;transform:translate(220px,-120px) rotate(400deg)}}
+.thrown.win{animation:pop 1s ease forwards}
+@keyframes pop{0%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:scale(1) translateY(-30px)}}
+.hearts{position:absolute;inset:0;pointer-events:none}
+.hearts span{position:absolute;font-size:1.4rem;animation:heart 2.2s ease-out forwards}
+@keyframes heart{from{opacity:1;transform:translateY(0) scale(.6)}to{opacity:0;transform:translateY(-110px) scale(1.3)}}
+.meter{display:flex;align-items:center;gap:10px;margin:6px 0 2px}
+.meter .k{font:800 .68rem var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.meter .bar{flex:1;height:14px;border-radius:99px;background:#efe8d8;overflow:hidden}
+.meter .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd166,#ff8a3d,#d9452b);transition:width .6s ease}
+.meter .val{font:800 .85rem var(--mono);min-width:52px;text-align:right;color:var(--red)}
+.meter.calm .bar i{background:linear-gradient(90deg,#7fdc9b,#3bb36b)}.meter.calm .val{color:#2e9a57}
+.reaction{min-height:3em;margin:10px 0 6px;font-size:1.05rem;font-weight:700}
+.game-acts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.game-acts .attempt{font:700 .75rem var(--mono);color:var(--muted);width:100%;letter-spacing:.12em;text-transform:uppercase}
+.game-btn{font-size:1.05rem;padding:13px 22px}
+.challenge-btn{margin-top:4px}
+.button[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.solved{display:inline-block;margin-top:2px;font-weight:800;color:#2e9a57}
 /* Official: badge + ticket check animations */
 .who{display:flex;align-items:center;gap:8px}
 .badge{display:inline-grid;place-items:center;width:34px;height:24px;border-radius:5px;background:var(--red);color:#fff;font:800 .5rem/1.05 var(--ui);letter-spacing:.02em;text-align:center;text-transform:none;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)}
@@ -299,6 +344,39 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 </main>
 <div class="overlay" id="overlay" hidden><div class="card" role="dialog" aria-modal="true" aria-label="Ticket"><button class="close" id="closeCard" aria-label="Close the ticket and look at the map">×</button><div id="cardBody"></div></div></div>
 
+<div class="overlay game-overlay" id="gameOverlay" hidden><div class="game" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
+  <button class="close" id="gameClose" aria-label="Back to the ticket">×</button>
+  <button class="mute" id="gameMute" aria-label="Sound on or off">🔊</button>
+  <div class="game-head"><div class="eyebrow">Parenting final exam</div><h2 id="gameTitle"></h2></div>
+  <div class="stage-baby" id="stageBaby"><div class="waah" id="waah"></div><svg id="babySvg" viewBox="0 0 220 200" aria-hidden="true">
+  <ellipse cx="110" cy="188" rx="78" ry="8" fill="rgba(0,0,0,.12)"/>
+  <path d="M40 186c0-44 32-66 70-66s70 22 70 66z" fill="#bfe1f5" stroke="#8cc3e6" stroke-width="3"/>
+  <path d="M58 150c18 10 86 10 104 0" stroke="#8cc3e6" stroke-width="3" fill="none"/>
+  <g id="babyHead">
+    <circle cx="110" cy="84" r="58" fill="#ffd9bd" stroke="#efb894" stroke-width="3"/>
+    <circle cx="52" cy="88" r="11" fill="#ffd0ad" stroke="#efb894" stroke-width="3"/><circle cx="168" cy="88" r="11" fill="#ffd0ad" stroke="#efb894" stroke-width="3"/>
+    <path d="M100 30q10-16 22-6q-12 0-10 12" fill="#8a5a3b"/>
+    <circle cx="78" cy="104" r="10" fill="#ff9fb0" opacity=".55"/><circle cx="142" cy="104" r="10" fill="#ff9fb0" opacity=".55"/>
+    <g class="cry-face">
+      <path d="M76 80q12 8 24 0" stroke="#5a3a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M120 80q12 8 24 0" stroke="#5a3a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M78 70l16 4M142 70l-16 4" stroke="#8a5a3b" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse class="mouth" cx="110" cy="114" rx="17" ry="14" fill="#a3343b"/>
+      <ellipse cx="110" cy="121" rx="9" ry="5" fill="#ff7e8a"/>
+      <path class="tear t1" d="M86 88q-4 8 0 12q4-4 0-12z" fill="#7cc8ff"/>
+      <path class="tear t2" d="M134 88q-4 8 0 12q4-4 0-12z" fill="#7cc8ff"/>
+    </g>
+    <g class="happy-face">
+      <path d="M76 84q12-10 24 0" stroke="#5a3a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M120 84q12-10 24 0" stroke="#5a3a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M94 106q16 16 32 0" stroke="#a3343b" stroke-width="5" fill="#ff7e8a" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg><div class="thrown" id="thrown"></div><div class="hearts" id="hearts"></div></div>
+  <div class="meter"><span class="k">Cry-o-meter</span><div class="bar"><i id="cryBar"></i></div><span class="val" id="cryVal"></span></div>
+  <div class="reaction" id="reaction" aria-live="polite"></div>
+  <div class="game-acts" id="gameActs"></div>
+</div></div>
 <script src="content.js"></script>
 <script>
 /* ---------- Content ---------- */
@@ -516,7 +594,7 @@ function previousStop(){
   Object.assign(state,{city:h.from,pending:h.id,revealed:true,life:true,cardOpen:true,phase:"arrived"});
   parkAfter(byId(h.id)); render();
 }
-function restart(){confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0});animToken++;render();rollIn()}
+function restart(){state.gameWon=false;confettiToken++;Object.assign(state,{city:START,history:[],pending:null,revealed:false,life:false,cardOpen:false,phase:"intro",page:0});animToken++;render();rollIn()}
 function stampFx(e){const fx=document.getElementById("stampFx");fx.querySelector(".em").textContent=e;fx.classList.remove("go");void fx.offsetWidth;fx.classList.add("go")}
 
 /* ---------- Rendering ---------- */
@@ -605,6 +683,7 @@ function renderStage(){
   on("open",()=>{state.cardOpen=true;state.life=true;render()});
   on("alt",()=>{state.alt=!state.alt;renderStage()});
   on("restart",restart);
+  on("startGame",()=>openGame(STOPS[n]));
 }
 let typeTok=0;
 function typeText(elm,text){
@@ -619,12 +698,13 @@ function ticketHTML(s,n){
   return `<div class="tk-head"><div class="eyebrow">${C.railwayName||"PhD Railway"} · ${s.ticketType||"Single ticket"}</div>
       <div class="tk-route"><span>${fromN}</span><span class="arrow">→</span><span>${s.destination||st.n}</span></div></div>
     <div class="tk-body">
-      <div class="tk-meta"><span>Stop<b>${n+1} of ${STOPS.length}</b></span><span>Via<b>${p?p.name:"—"}</b></span>${s.passengers?`<span>Passengers<b>${s.passengers}</b></span>`:"<span>Class<b>Doctoral</b></span>"}</div>
+      <div class="tk-meta"><span>Stop<b>${n+1} of ${STOPS.length}</b></span><span>Via<b>${p?p.name:"—"}</b></span>${s.passengers?`<span>Passengers<b>${s.passengers}</b></span>`:`<span>Class<b>${s.ticketClass||"Doctoral"}</b></span>`}</div>
       ${st.life?`<div class="stamp">${st.life}</div>`:""}
       <h2 class="episode">${s.fact||s.title}</h2>
       <p class="prompt">${state.alt&&s.altPrompt?s.altPrompt:s.prompt}</p>
+      ${s.game?(state.gameWon?`<div class="solved">✅ ${s.game.win||"Solved!"}</div>`:`<button class="button primary challenge-btn" id="startGame">${s.game.button||"Start the challenge"}</button>`):""}
       ${s.altPrompt?`<button class="link" id="alt">${state.alt?s.mainLabel:s.altLabel}</button>`:""}
-      <div class="controls"><button class="button primary" id="next">${n===STOPS.length-1?"✅ Ticket earned — arrive at the terminus 🎓":"✅ Ticket earned — next stop →"}</button></div>
+      <div class="controls"><button class="button ${s.game&&!state.gameWon?"secondary":"primary"}" id="next" ${s.game&&!state.gameWon?"disabled title=\"Solve the challenge first\"":""}>${n===STOPS.length-1?"✅ Ticket earned — arrive at the terminus 🎓":"✅ Ticket earned — next stop →"}</button></div>
     </div>
     <div class="tk-foot"><span>VALID FOR ONE PhD · NON-REFUNDABLE</span><span class="barcode" aria-hidden="true"></span></div>`;
 }
@@ -642,6 +722,57 @@ function finaleHTML(){
 }
 function render(){renderMap();renderStage()}
 
+
+/* ---------- The crying-baby challenge ---------- */
+const G={el:document.getElementById("gameOverlay"),step:0,steps:[],cfg:null,muted:false,ac:null,cryTimer:null,level:1};
+function openGame(stop){
+  G.cfg=stop.game; G.steps=stop.game.steps||[]; G.step=0; G.level=1;
+  document.getElementById("gameTitle").textContent=stop.game.title||"Challenge";
+  G.el.hidden=false; setCry(72); document.getElementById("reaction").textContent="The baby is crying. What will Dr. Kiran try first?";
+  babyMood("cry"); drawGameActs(); startCry();
+}
+function closeGame(){G.el.hidden=true;stopCry();renderStage()}
+function babyMood(m){const b=document.getElementById("stageBaby");b.classList.toggle("crying",m==="cry");b.classList.toggle("calm",m==="calm");b.classList.toggle("lvl2",G.level===2);b.classList.toggle("lvl3",G.level>=3)}
+function setCry(v){document.getElementById("cryBar").style.width=Math.min(100,v)+"%";document.getElementById("cryVal").textContent=v>100?"MAX!!":v+"%";document.querySelector(".meter").classList.toggle("calm",v===0)}
+function drawGameActs(){
+  const a=document.getElementById("gameActs"), st=G.steps[G.step];
+  if(!st){a.innerHTML=`<button class="button primary game-btn" id="gameDone">🎟️ Back to the ticket</button>`;document.getElementById("gameDone").onclick=closeGame;return}
+  a.innerHTML=`<div class="attempt">Attempt ${G.step+1}</div><button class="button primary game-btn" id="gameTry">${st.icon} ${st.label}</button>`;
+  document.getElementById("gameTry").onclick=tryStep;
+}
+function tryStep(){
+  const st=G.steps[G.step], last=G.step===G.steps.length-1, th=document.getElementById("thrown");
+  document.getElementById("gameActs").innerHTML="";
+  th.textContent=st.icon; th.className="thrown"; void th.offsetWidth; th.classList.add(last?"win":"go");
+  setTimeout(()=>{
+    document.getElementById("reaction").textContent=st.reaction;
+    if(last){
+      stopCry(); babyMood("calm"); setCry(0); state.gameWon=true;
+      const h=document.getElementById("hearts");h.innerHTML="";
+      for(let i=0;i<9;i++){const sp=document.createElement("span");sp.textContent=["💕","✨","💖"][i%3];sp.style.left=(15+Math.random()*70)+"%";sp.style.top=(40+Math.random()*30)+"%";sp.style.animationDelay=(i*.12)+"s";h.appendChild(sp)}
+      setTimeout(()=>{document.getElementById("reaction").innerHTML=`${st.reaction}<br><span class="solved">${G.cfg.win||"Solved!"}</span>`},900);
+    }else{G.level++;babyMood("cry");setCry([72,72,85,95,120][Math.min(G.level,4)]);waah(3+G.level)}
+    G.step++; setTimeout(drawGameActs,last?1200:500);
+  },650);
+}
+function waah(k){const w=document.getElementById("waah");for(let i=0;i<k;i++){const sp=document.createElement("span");sp.textContent=["WAAAH!","WAAAAAH!!","😭","WAH!"][i%4];sp.style.left=(10+Math.random()*70)+"%";sp.style.top=(5+Math.random()*50)+"%";sp.style.animationDelay=(i*.15)+"s";w.appendChild(sp);setTimeout(()=>sp.remove(),1600+i*150)}}
+// synthesised crying: short "waah" glides, louder and faster with each failed attempt
+function startCry(){
+  stopCry(); if(G.muted)return;
+  try{G.ac=G.ac||new (window.AudioContext||window.webkitAudioContext)();}catch(e){return}
+  const ac=G.ac; if(ac.state==="suspended")ac.resume();
+  const one=()=>{const t=ac.currentTime,o=ac.createOscillator(),f=ac.createBiquadFilter(),g=ac.createGain(),base=430+G.level*40;
+    o.type="sawtooth";f.type="bandpass";f.frequency.value=1200;f.Q.value=1.2;
+    o.frequency.setValueAtTime(base,t);o.frequency.linearRampToValueAtTime(base*1.45,t+.18);o.frequency.linearRampToValueAtTime(base*1.1,t+.6);o.frequency.linearRampToValueAtTime(base*.8,t+.75);
+    const vol=Math.min(.09,.035+G.level*.015);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.06);g.gain.setValueAtTime(vol,t+.55);g.gain.linearRampToValueAtTime(0,t+.78);
+    o.connect(f);f.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.8);
+    G.cryTimer=setTimeout(one,Math.max(650,1150-G.level*120));};
+  one();
+}
+function stopCry(){clearTimeout(G.cryTimer);G.cryTimer=null}
+document.getElementById("gameClose").onclick=closeGame;
+document.getElementById("gameMute").onclick=()=>{G.muted=!G.muted;document.getElementById("gameMute").textContent=G.muted?"🔇":"🔊";if(G.muted)stopCry();else if(!state.gameWon)startCry()};
 /* ---------- Clock + confetti ---------- */
 function tick(){const d=new Date();document.getElementById("clock").textContent=d.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})}
 tick(); setInterval(tick,15000);
@@ -667,7 +798,7 @@ function confetti(){
   };})();
 document.getElementById("closeCard").onclick=()=>{state.cardOpen=false;renderStage()};
 document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay"){state.cardOpen=false;renderStage()}});
-addEventListener("keydown",e=>{if(e.key==="Escape"&&state.cardOpen){state.cardOpen=false;renderStage()}});
+addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!G.el.hidden){closeGame();return}if(state.cardOpen){state.cardOpen=false;renderStage()}});
 document.getElementById("who").textContent=CONDUCTOR.name;
 render();
 rollIn();
