@@ -152,6 +152,9 @@ h2{font:800 clamp(1.35rem,3.4vw,1.8rem)/1.15 var(--ui);margin:6px 0 8px}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
 
 
+.finale-only{padding:56px 36px;text-align:center;background:linear-gradient(180deg,var(--paper),#fff3d6);border-radius:14px}
+.card:has(.finale-only) .close{background:#e9e3d4;color:var(--ink)}
+.finale-only h2{margin:0;font-size:clamp(1.8rem,4.5vw,2.6rem);color:var(--sign)}
 /* Baby challenge */
 .game-overlay{z-index:7}
 .game{position:relative;width:min(560px,100%);max-height:92vh;overflow:auto;background:linear-gradient(180deg,#fff7ec,#fffdf6);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);padding:18px 22px 20px;text-align:center;animation:cardin .45s ease}
@@ -736,16 +739,7 @@ function ticketHTML(s,n){
     <div class="tk-foot"><span>VALID FOR ONE PhD · NON-REFUNDABLE</span><span class="barcode" aria-hidden="true"></span></div>`;
 }
 function finaleHTML(){
-  const path=CITIES[START].n+state.history.map(h=>` → <em>${byId(h.id).ideal?"✨ ":""}${byId(h.id).name}</em> → ${CITIES[h.to].n}`).join("");
-  return `<div class="tk-head"><div class="eyebrow">Terminus · ${state.history.length}/${STOPS.length} tickets earned</div><div class="tk-route"><span>${CITIES[START].n}</span><span class="arrow">→</span><span>${CITIES[state.city].n}</span></div></div>
-    <div class="tk-body finish"><div class="big" aria-hidden="true">🏁🎓🎉</div>
-      <h2>${FINALE.heading||""}</h2><p>${FINALE.message||""}</p>
-      ${C.stations.some(x=>x.life)?`<div class="double"><span class="h" style="text-align:right">PhD</span><span></span><span class="h">Life</span>${C.stations.map(x=>`<span class="phd">${x.name}</span><span class="dot">●</span><span class="life">${x.life||""}</span>`).join("")}</div>`:""}
-      ${FINALE.dare?`<div class="dare-card"><div class="dare-label">🎤 Final dare</div><p>${FINALE.dare}</p></div>`:""}
-      <p class="recap">Your route: ${path}</p>
-      <div class="controls" style="justify-content:center"><button class="button secondary" id="restart">Ride again</button></div>
-    </div>
-    <div class="tk-foot"><span>JOURNEY COMPLETE · DR. ON BOARD</span><span class="barcode" aria-hidden="true"></span></div>`;
+  return `<div class="finale-only"><h2>${FINALE.heading||"Congratulations!"}</h2></div>`;
 }
 function render(){renderMap();renderStage()}
 
